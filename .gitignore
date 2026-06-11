@@ -1,23 +1,20 @@
-# Python
-__pycache__/
-*.py[cod]
-*.pyo
-*.pyd
-.Python
-*.egg
-*.egg-info/
-dist/
-build/
-.eggs/
-*.whl
-pip-log.txt
-pip-delete-this-directory.txt
+# Dependencies
+node_modules/
 
-# Virtual environments
-venv/
-env/
-ENV/
-.venv/
+# Next.js
+.next/
+out/
+build/
+next-env.d.ts
+
+# Env files (real Firebase keys stay local)
+.env
+.env.local
+.env.*.local
+
+# Misc
+*.log
+*.tsbuildinfo
 
 # IDE / editors
 .vscode/

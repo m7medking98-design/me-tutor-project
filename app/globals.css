@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Miyar design tokens — deep teal + warm gold.
+  Stored as raw RGB triplets so Tailwind alpha modifiers work.
+*/
+:root {
+  --bg: 247 249 249;          /* #F7F9F9 */
+  --surface: 255 255 255;     /* #FFFFFF */
+  --surface-2: 238 243 243;   /* #EEF3F3 */
+  --primary: 13 92 99;        /* #0D5C63 */
+  --primary-strong: 9 68 74;  /* #09444A */
+  --accent: 200 146 46;       /* #C8922E */
+  --ink: 14 35 37;            /* #0E2325 */
+  --muted: 92 115 118;        /* #5C7376 */
+  --line: 13 92 99;           /* teal, used at low opacity */
+  --success: 22 142 92;       /* #168E5C */
+  --danger: 190 58 58;        /* #BE3A3A */
+}
+
+.dark {
+  --bg: 10 26 28;             /* #0A1A1C */
+  --surface: 16 42 45;        /* #102A2D */
+  --surface-2: 22 54 58;      /* #16363A */
+  --primary: 26 127 140;      /* #1A7F8C */
+  --primary-strong: 45 168 183; /* lighter for hover/text on dark */
+  --accent: 232 177 78;       /* #E8B14E */
+  --ink: 232 241 241;         /* #E8F1F1 */
+  --muted: 143 168 170;       /* #8FA8AA */
+  --line: 143 200 205;
+  --success: 52 199 138;
+  --danger: 235 100 100;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-bg text-ink antialiased;
+  font-feature-settings: "kern";
+}
+
+/* Arabic-friendly typography: roomier line height by default */
+body {
+  line-height: 1.75;
+}
+
+::selection {
+  background: rgb(var(--accent) / 0.35);
+}
+
+/* Thin themed scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--muted) / 0.4) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgb(var(--muted) / 0.35);
+  border-radius: 9999px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Soft teal ambient glow used on hero/sections */
+.glow-teal {
+  background:
+    radial-gradient(60rem 30rem at 80% -10%, rgb(var(--primary) / 0.18), transparent 60%),
+    radial-gradient(40rem 20rem at 10% 10%, rgb(var(--accent) / 0.07), transparent 60%);
+}
+
+.card-line {
+  border: 1px solid rgb(var(--line) / 0.14);
+}
+
+/* Gold gradient text for highlight words */
+.text-gold-gradient {
+  background: linear-gradient(120deg, rgb(var(--accent)), rgb(var(--accent) / 0.7));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
