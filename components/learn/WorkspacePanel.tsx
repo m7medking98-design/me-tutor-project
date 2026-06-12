@@ -17,6 +17,13 @@ const CodeEditor = dynamic(() => import("@/components/learn/CodeEditor"), {
 
 type Status = "idle" | "loading" | "running";
 
+export interface RunReport {
+  code: string;
+  /** stdout/stderr lines (empty for HTML lessons) */
+  output: string[];
+  hasError: boolean;
+}
+
 /**
  * Code workspace with real execution: Python runs in-browser via Pyodide,
  * HTML renders live in a sandboxed preview. Editing happens in CodeMirror
@@ -25,9 +32,12 @@ type Status = "idle" | "loading" | "running";
 export function WorkspacePanel({
   lesson,
   onCodeChange,
+  onRun,
 }: {
   lesson: Lesson;
   onCodeChange?: (code: string) => void;
+  /** fired after each Run with the code + output, for checkpoint auto-verification */
+  onRun?: (report: RunReport) => void;
 }) {
   const { t } = useLanguage();
   const starter = lesson.starterCode ?? "";
@@ -43,6 +53,7 @@ export function WorkspacePanel({
   async function run() {
     if (language === "html") {
       setHtml(code);
+      onRun?.({ code, output: [], hasError: false });
       return;
     }
     setStatus(loadedOnce ? "running" : "loading");
@@ -50,15 +61,15 @@ export function WorkspacePanel({
       const res = await runPython(code);
       setLoadedOnce(true);
       setResult(res);
-    } catch (err) {
-      setResult({
-        lines: [
-          {
-            text: err instanceof Error ? err.message : String(err),
-            isError: true,
-          },
-        ],
+      onRun?.({
+        code,
+        output: res.lines.map((l) => l.text),
+        hasError: res.lines.some((l) => l.isError),
       });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      setResult({ lines: [{ text: message, isError: true }] });
+      onRun?.({ code, output: [message], hasError: true });
     } finally {
       setStatus("idle");
     }

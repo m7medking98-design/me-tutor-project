@@ -87,13 +87,13 @@ export const courses: Course[] = [
             },
             checkpoints: [
               { id: "cp1", text: { ar: "شغّل الكود الموجود بزر Run وشاهد النتيجة", en: "Run the existing code and see the output", fr: "Exécutez le code existant et observez le résultat" } },
-              { id: "cp2", text: { ar: "أضف سطر print() جديداً يطبع اسمك", en: "Add a new print() line that prints your name", fr: "Ajoutez une nouvelle ligne print() avec votre nom" } },
+              { id: "cp2", text: { ar: "أضف سطر `print()` جديداً يطبع اسمك", en: "Add a new `print()` line that prints your name", fr: "Ajoutez une nouvelle ligne `print()` avec votre nom" } },
               { id: "cp3", text: { ar: "شغّل مرة أخرى وتأكد من ظهور السطرين معاً", en: "Run again and confirm both lines appear", fr: "Réexécutez et vérifiez les deux lignes" } },
             ],
             hint: {
-              ar: "كل استدعاء print() يطبع سطراً مستقلاً. اكتب في سطر جديد: print(\"اسمك هنا\")",
-              en: "Each print() call outputs its own line. On a new line write: print(\"your name here\")",
-              fr: "Chaque print() affiche sa propre ligne. Sur une nouvelle ligne : print(\"votre nom\")",
+              ar: "كل استدعاء `print()` يطبع سطراً مستقلاً. اكتب في سطر جديد: `print(\"اسمك هنا\")`",
+              en: "Each `print()` call outputs its own line. On a new line write: `print(\"your name here\")`",
+              fr: "Chaque `print()` affiche sa propre ligne. Sur une nouvelle ligne : `print(\"votre nom\")`",
             },
             starterCode: `# اكتب برنامجك الأول هنا — الكود يعمل فعلياً!
 # Your first program — this really runs!
@@ -129,14 +129,14 @@ print("مرحباً يا معيار!")
               fr: "Créez deux variables et utilisez-les ensemble dans une phrase affichée.",
             },
             checkpoints: [
-              { id: "cp1", text: { ar: "أنشئ متغير age يحمل عمرك", en: "Create an age variable holding your age", fr: "Créez une variable age avec votre âge" } },
-              { id: "cp2", text: { ar: "أنشئ متغير name يحمل اسمك", en: "Create a name variable holding your name", fr: "Créez une variable name avec votre nom" } },
+              { id: "cp1", text: { ar: "أنشئ متغير `age` يحمل عمرك", en: "Create an `age` variable holding your age", fr: "Créez une variable `age` avec votre âge" } },
+              { id: "cp2", text: { ar: "أنشئ متغير `name` يحمل اسمك", en: "Create a `name` variable holding your name", fr: "Créez une variable `name` avec votre nom" } },
               { id: "cp3", text: { ar: "اطبع جملة تعريف تجمع المتغيرين معاً", en: "Print one sentence combining both variables", fr: "Affichez une phrase combinant les deux" } },
             ],
             hint: {
-              ar: "أسهل طريقة هي f-string: print(f\"أنا {name} وعمري {age}\")",
-              en: "The easiest way is an f-string: print(f\"I am {name} and I am {age}\")",
-              fr: "Le plus simple est une f-string : print(f\"Je suis {name}, j'ai {age} ans\")",
+              ar: "أسهل طريقة هي f-string: `print(f\"أنا {name} وعمري {age}\")`",
+              en: "The easiest way is an f-string: `print(f\"I am {name} and I am {age}\")`",
+              fr: "Le plus simple est une f-string : `print(f\"Je suis {name}, j'ai {age} ans\")`",
             },
             starterCode: `# تمرين الـ Variables
 # 1) أنشئ متغيراً باسم age يحمل عمرك
@@ -176,14 +176,14 @@ print("مرحباً يا معيار!")
               fr: "Écrivez une condition if/else pour que le programme décide selon la valeur de age.",
             },
             checkpoints: [
-              { id: "cp1", text: { ar: "اكتب if يتحقق هل age يساوي 18 أو أكثر", en: "Write an if checking whether age is 18 or more", fr: "Écrivez un if vérifiant si age ≥ 18" } },
-              { id: "cp2", text: { ar: "أضف فرع else للحالة الأخرى", en: "Add an else branch for the other case", fr: "Ajoutez une branche else" } },
+              { id: "cp1", text: { ar: "اكتب `if` يتحقق هل `age` يساوي 18 أو أكثر", en: "Write an `if` checking whether `age` is 18 or more", fr: "Écrivez un `if` vérifiant si `age` ≥ 18" } },
+              { id: "cp2", text: { ar: "أضف فرع `else` للحالة الأخرى", en: "Add an `else` branch for the other case", fr: "Ajoutez une branche `else`" } },
               { id: "cp3", text: { ar: "جرّب بقيمتين: 16 ثم 20 وتأكد من اختلاف النتيجة", en: "Test with 16 then 20 and confirm different outputs", fr: "Testez avec 16 puis 20" } },
             ],
             hint: {
-              ar: "الصيغة: if age >= 18: ثم سطر مزاح (indented) — لا تنسَ النقطتين :",
-              en: "Syntax: if age >= 18: then an indented line — don't forget the colon :",
-              fr: "Syntaxe : if age >= 18: puis une ligne indentée — n'oubliez pas le deux-points :",
+              ar: "الصيغة: `if age >= 18:` ثم سطر مزاح (indented) — لا تنسَ النقطتين `:`",
+              en: "Syntax: `if age >= 18:` then an indented line — don't forget the colon `:`",
+              fr: "Syntaxe : `if age >= 18:` puis une ligne indentée — n'oubliez pas le deux-points `:`",
             },
             starterCode: `# تمرين: بوابة العمر
 # اكتب برنامجاً يتحقق من متغير age:
@@ -219,14 +219,14 @@ age = 16
               fr: "Utilisez une boucle for avec range() pour afficher la table de 7 — dix lignes avec une seule ligne dans la boucle.",
             },
             checkpoints: [
-              { id: "cp1", text: { ar: "اكتب حلقة for تمر على الأرقام من 1 إلى 10", en: "Write a for loop over the numbers 1 to 10", fr: "Écrivez une boucle for de 1 à 10" } },
-              { id: "cp2", text: { ar: "اطبع داخل الحلقة سطراً بصيغة: 7 x 1 = 7", en: "Inside the loop print lines like: 7 x 1 = 7", fr: "Affichez des lignes comme : 7 x 1 = 7" } },
+              { id: "cp1", text: { ar: "اكتب حلقة `for` تمر على الأرقام من 1 إلى 10", en: "Write a `for` loop over the numbers 1 to 10", fr: "Écrivez une boucle `for` de 1 à 10" } },
+              { id: "cp2", text: { ar: "اطبع داخل الحلقة سطراً بصيغة: `7 x 1 = 7`", en: "Inside the loop print lines like: `7 x 1 = 7`", fr: "Affichez des lignes comme : `7 x 1 = 7`" } },
               { id: "cp3", text: { ar: "شغّل وتأكد من ظهور 10 أسطر صحيحة", en: "Run and confirm 10 correct lines appear", fr: "Vérifiez les 10 lignes correctes" } },
             ],
             hint: {
-              ar: "range(1, 11) يعطيك الأرقام من 1 إلى 10. داخل الحلقة: print(f\"7 x {i} = {7*i}\")",
-              en: "range(1, 11) gives you 1 through 10. Inside the loop: print(f\"7 x {i} = {7*i}\")",
-              fr: "range(1, 11) donne 1 à 10. Dans la boucle : print(f\"7 x {i} = {7*i}\")",
+              ar: "`range(1, 11)` يعطيك الأرقام من 1 إلى 10. داخل الحلقة: `print(f\"7 x {i} = {7*i}\")`",
+              en: "`range(1, 11)` gives you 1 through 10. Inside the loop: `print(f\"7 x {i} = {7*i}\")`",
+              fr: "`range(1, 11)` donne 1 à 10. Dans la boucle : `print(f\"7 x {i} = {7*i}\")`",
             },
             starterCode: `# تمرين: جدول الضرب — استخدم حلقة for
 # اطبع جدول ضرب الرقم 7 من 1 إلى 10
@@ -276,14 +276,14 @@ age = 16
               fr: "Créez une fonction calculate(a, b, op) gérant les quatre opérations et la division par zéro.",
             },
             checkpoints: [
-              { id: "cp1", text: { ar: "ادعم العمليات الأربع: + و - و * و /", en: "Support all four operations: + - * /", fr: "Gérez les quatre opérations : + - * /" } },
+              { id: "cp1", text: { ar: "ادعم العمليات الأربع: `+` و `-` و `*` و `/`", en: "Support all four operations: `+` `-` `*` `/`", fr: "Gérez les quatre opérations : `+` `-` `*` `/`" } },
               { id: "cp2", text: { ar: "عالج حالة القسمة على صفر دون انهيار البرنامج", en: "Handle division by zero without crashing", fr: "Gérez la division par zéro sans plantage" } },
               { id: "cp3", text: { ar: "استدعِ الدالة عدة مرات واطبع النتائج للتأكد", en: "Call the function several times and print results to verify", fr: "Appelez la fonction plusieurs fois et affichez les résultats" } },
             ],
             hint: {
-              ar: "استخدم if/elif على قيمة op. وقبل القسمة تحقق: if b == 0: ثم أعد رسالة بدل القسمة.",
-              en: "Use if/elif on the op value. Before dividing check: if b == 0: and return a message instead.",
-              fr: "Utilisez if/elif sur op. Avant de diviser : if b == 0: et retournez un message.",
+              ar: "استخدم `if`/`elif` على قيمة `op`. وقبل القسمة تحقق: `if b == 0:` ثم أعد رسالة بدل القسمة.",
+              en: "Use `if`/`elif` on the `op` value. Before dividing check: `if b == 0:` and return a message instead.",
+              fr: "Utilisez `if`/`elif` sur `op`. Avant de diviser : `if b == 0:` et retournez un message.",
             },
             starterCode: `# المشروع الختامي: حاسبة ذكية
 # اكتب دالة calculate(a, b, op) تدعم: + - * /
@@ -343,14 +343,14 @@ print(calculate(6, 7, "*"))
               fr: "Créez votre première vraie page HTML : un titre (h1) et un paragraphe (p), visibles dans l'aperçu.",
             },
             checkpoints: [
-              { id: "cp1", text: { ar: "أضف وسم <h1> بعنوان من اختيارك داخل body", en: "Add an <h1> tag with your own title inside body", fr: "Ajoutez un <h1> dans body" } },
-              { id: "cp2", text: { ar: "أضف وسم <p> بفقرة قصيرة تحته", en: "Add a <p> tag with a short paragraph below it", fr: "Ajoutez un <p> avec un court paragraphe" } },
+              { id: "cp1", text: { ar: "أضف وسم `<h1>` بعنوان من اختيارك داخل `body`", en: "Add an `<h1>` tag with your own title inside `body`", fr: "Ajoutez un `<h1>` dans `body`" } },
+              { id: "cp2", text: { ar: "أضف وسم `<p>` بفقرة قصيرة تحته", en: "Add a `<p>` tag with a short paragraph below it", fr: "Ajoutez un `<p>` avec un court paragraphe" } },
               { id: "cp3", text: { ar: "اضغط Run وشاهد صفحتك تظهر في المعاينة", en: "Press Run and watch your page render in the preview", fr: "Cliquez Run et observez l'aperçu" } },
             ],
             hint: {
-              ar: "داخل <body> اكتب: <h1>عنواني الأول</h1> ثم <p>هذه فقرتي الأولى.</p>",
-              en: "Inside <body> write: <h1>My first title</h1> then <p>This is my first paragraph.</p>",
-              fr: "Dans <body> : <h1>Mon titre</h1> puis <p>Mon premier paragraphe.</p>",
+              ar: "داخل `<body>` اكتب: `<h1>عنواني الأول</h1>` ثم `<p>هذه فقرتي الأولى.</p>`",
+              en: "Inside `<body>` write: `<h1>My first title</h1>` then `<p>This is my first paragraph.</p>`",
+              fr: "Dans `<body>` : `<h1>Mon titre</h1>` puis `<p>Mon premier paragraphe.</p>`",
             },
             starterCode: `<!-- اكتب صفحتك الأولى -->\n<!DOCTYPE html>\n<html dir="rtl" lang="ar">\n  <head>\n    <title>صفحتي</title>\n  </head>\n  <body>\n    <!-- أضف عنواناً وفقرة هنا -->\n  </body>\n</html>\n`,
           },
@@ -583,14 +583,14 @@ print(calculate(6, 7, "*"))
               fr: "Calculez la moyenne (mean) et la médiane (median) d'une liste de notes avec Python.",
             },
             checkpoints: [
-              { id: "cp1", text: { ar: "احسب الـ mean باستخدام sum() و len()", en: "Compute the mean using sum() and len()", fr: "Calculez la mean avec sum() et len()" } },
-              { id: "cp2", text: { ar: "احسب الـ median بعد ترتيب القائمة بـ sorted()", en: "Compute the median after sorting with sorted()", fr: "Calculez la median après sorted()" } },
+              { id: "cp1", text: { ar: "احسب الـ mean باستخدام `sum()` و `len()`", en: "Compute the mean using `sum()` and `len()`", fr: "Calculez la mean avec `sum()` et `len()`" } },
+              { id: "cp2", text: { ar: "احسب الـ median بعد ترتيب القائمة بـ `sorted()`", en: "Compute the median after sorting with `sorted()`", fr: "Calculez la median après `sorted()`" } },
               { id: "cp3", text: { ar: "اطبع القيمتين وقارن: أيهما يمثل البيانات أفضل؟", en: "Print both values and compare: which represents the data better?", fr: "Affichez les deux et comparez" } },
             ],
             hint: {
-              ar: "المتوسط: sum(scores) / len(scores). الوسيط: sorted(scores)[len(scores) // 2] لقائمة فردية الطول.",
-              en: "Mean: sum(scores) / len(scores). Median: sorted(scores)[len(scores) // 2] for an odd-length list.",
-              fr: "Mean : sum(scores) / len(scores). Median : sorted(scores)[len(scores) // 2] pour une liste impaire.",
+              ar: "المتوسط: `sum(scores) / len(scores)`. الوسيط: `sorted(scores)[len(scores) // 2]` لقائمة فردية الطول.",
+              en: "Mean: `sum(scores) / len(scores)`. Median: `sorted(scores)[len(scores) // 2]` for an odd-length list.",
+              fr: "Mean : `sum(scores) / len(scores)`. Median : `sorted(scores)[len(scores) // 2]` pour une liste impaire.",
             },
             starterCode: `# تمرين: حساب الـ mean والـ median\nscores = [78, 92, 65, 88, 95, 71, 84]\n\n# 1) احسب المتوسط الحسابي (mean)\n# 2) احسب الوسيط (median)\n# 3) أيهما يمثل البيانات أفضل؟ ولماذا؟\n\n`,
           },

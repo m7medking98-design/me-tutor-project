@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
 import {
@@ -18,10 +18,10 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { VideoPanel } from "@/components/learn/VideoPanel";
-import { WorkspacePanel } from "@/components/learn/WorkspacePanel";
+import { WorkspacePanel, type RunReport } from "@/components/learn/WorkspacePanel";
 import { ReferencePanel } from "@/components/learn/ReferencePanel";
 import { MentorChat } from "@/components/learn/MentorChat";
-import { TaskPanel } from "@/components/learn/TaskPanel";
+import { TaskPanel, type CheckStatus } from "@/components/learn/TaskPanel";
 import { useAuth } from "@/lib/auth-context";
 import { useLanguage } from "@/lib/language-context";
 import { findLesson, getEnrollment, getLessonSequence } from "@/lib/data";
@@ -35,15 +35,69 @@ const lessonIcons: Record<LessonType, typeof Play> = {
 
 export default function LearnPage() {
   const params = useParams<{ subject: string; topic: string }>();
-  const { t, loc, dir } = useLanguage();
+  const { t, loc, dir, locale } = useLanguage();
   const { user } = useAuth();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
   const [code, setCode] = useState<string | undefined>(undefined);
+  const [checkStatuses, setCheckStatuses] = useState<Record<string, CheckStatus>>({});
+  const [verifying, setVerifying] = useState(false);
+
+  // Fresh checklist when navigating between lessons
+  useEffect(() => {
+    setCheckStatuses({});
+    setVerifying(false);
+  }, [params.subject, params.topic]);
 
   const hit = findLesson(params.subject, params.topic);
   if (!hit) notFound();
   const { course, module, lesson, index, total } = hit;
+
+  // Auto-verify checkpoints on every Run: error → orange warnings,
+  // clean run → ask the AI grader which checkpoints are achieved.
+  async function handleRun(report: RunReport) {
+    const checkpoints = lesson.checkpoints ?? [];
+    if (checkpoints.length === 0) return;
+
+    if (report.hasError) {
+      setCheckStatuses(
+        Object.fromEntries(checkpoints.map((cp) => [cp.id, "warning" as CheckStatus])),
+      );
+      return;
+    }
+
+    setVerifying(true);
+    try {
+      const res = await fetch("/api/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          lesson: {
+            objective: lesson.objective?.[locale],
+            language: lesson.language,
+            checkpoints: checkpoints.map((cp) => ({ id: cp.id, text: cp.text[locale] })),
+          },
+          code: report.code,
+          output: report.output,
+          hasError: report.hasError,
+        }),
+      });
+      // 503 = demo mode (no API key) — leave the checklist manual
+      if (!res.ok) return;
+      const data: { results?: { id: string; passed: boolean }[] } = await res.json();
+      const next: Record<string, CheckStatus> = Object.fromEntries(
+        checkpoints.map((cp) => [cp.id, "pending" as CheckStatus]),
+      );
+      for (const r of data.results ?? []) {
+        if (r.id in next) next[r.id] = r.passed ? "passed" : "pending";
+      }
+      setCheckStatuses(next);
+    } catch {
+      // Network hiccup — keep previous statuses; next Run retries
+    } finally {
+      setVerifying(false);
+    }
+  }
 
   const enrollment = user ? getEnrollment(user.uid, course.id) : undefined;
   const seq = getLessonSequence(course);
@@ -113,10 +167,17 @@ export default function LearnPage() {
       <div className="mx-auto grid w-full max-w-[1700px] flex-1 lg:grid-cols-[1fr_400px]">
         {/* main panel */}
         <main className="min-w-0 space-y-5 px-4 py-6 sm:px-6 lg:border-e lg:border-line/10">
-          {lesson.type === "workspace" && <TaskPanel lesson={lesson} />}
+          {lesson.type === "workspace" && (
+            <TaskPanel lesson={lesson} statuses={checkStatuses} verifying={verifying} />
+          )}
           {lesson.type === "video" && <VideoPanel lesson={lesson} />}
           {lesson.type === "workspace" && (
-            <WorkspacePanel key={lesson.id} lesson={lesson} onCodeChange={setCode} />
+            <WorkspacePanel
+              key={lesson.id}
+              lesson={lesson}
+              onCodeChange={setCode}
+              onRun={handleRun}
+            />
           )}
           {lesson.type === "reference" && <ReferencePanel lesson={lesson} />}
         </main>

@@ -1,4 +1,4 @@
-{
+﻿{
   "common": {
     "appName": "Miyar",
     "continue": "Continuer",
@@ -139,6 +139,9 @@
     "output": "Résultat",
     "taskTitle": "Votre tâche dans cette leçon",
     "checkpoints": "Étapes",
+    "verifying": "Le mentor vérifie vos étapes…",
+    "checkpointsAuto": "Vérifiées automatiquement à l'exécution",
+    "fixErrorFirst": "Votre code contient une erreur — corrigez-la et réexécutez",
     "showHint": "Montrer un indice",
     "hideHint": "Masquer l'indice",
     "loadingRuntime": "Chargement de l'environnement Python réel… (une seule fois)",

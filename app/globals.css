@@ -17,6 +17,7 @@
   --muted: 92 115 118;        /* #5C7376 */
   --line: 13 92 99;           /* teal, used at low opacity */
   --success: 22 142 92;       /* #168E5C */
+  --warning: 196 125 22;      /* #C47D16 */
   --danger: 190 58 58;        /* #BE3A3A */
 }
 
@@ -31,6 +32,7 @@
   --muted: 143 168 170;       /* #8FA8AA */
   --line: 143 200 205;
   --success: 52 199 138;
+  --warning: 240 173 78;
   --danger: 235 100 100;
 }
 

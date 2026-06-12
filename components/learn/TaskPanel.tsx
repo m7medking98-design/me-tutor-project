@@ -1,30 +1,52 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Check, Lightbulb, Target } from "lucide-react";
+import { AlertTriangle, Check, Lightbulb, Loader2, Target } from "lucide-react";
 import { Card } from "@/components/ui/Card";
+import { RichMarkdown } from "@/components/learn/Markdown";
 import { useLanguage } from "@/lib/language-context";
 import type { Lesson } from "@/lib/types";
 
+export type CheckStatus = "passed" | "warning" | "pending";
+
 /**
- * Lesson task panel: objective + self-check checkpoints + hint.
- * In phase 2 the AI mentor verifies these checkpoints against the
- * student's actual code instead of relying on self-checking.
+ * Lesson task panel: objective + checkpoints + hint.
+ * Checkpoints are verified automatically by the AI when the student hits
+ * Run (statuses come from the learn page via /api/verify): green check =
+ * achieved, orange warning = the run had an error, empty = not yet done.
+ * In demo mode (no statuses ever arrive) checkpoints stay manually
+ * clickable.
  */
-export function TaskPanel({ lesson }: { lesson: Lesson }) {
+export function TaskPanel({
+  lesson,
+  statuses,
+  verifying,
+}: {
+  lesson: Lesson;
+  /** auto-verification result per checkpoint id; undefined until the first Run */
+  statuses?: Record<string, CheckStatus>;
+  verifying?: boolean;
+}) {
   const { t, loc } = useLanguage();
-  const [done, setDone] = useState<Record<string, boolean>>({});
+  const [manualDone, setManualDone] = useState<Record<string, boolean>>({});
   const [showHint, setShowHint] = useState(false);
 
   // Reset state when navigating between lessons
   useEffect(() => {
-    setDone({});
+    setManualDone({});
     setShowHint(false);
   }, [lesson.id]);
 
   if (!lesson.objective) return null;
   const checkpoints = lesson.checkpoints ?? [];
-  const completed = checkpoints.filter((c) => done[c.id]).length;
+  const autoMode = Boolean(statuses && Object.keys(statuses).length > 0);
+
+  const statusOf = (id: string): CheckStatus => {
+    if (autoMode) return statuses?.[id] ?? "pending";
+    return manualDone[id] ? "passed" : "pending";
+  };
+  const completed = checkpoints.filter((c) => statusOf(c.id) === "passed").length;
+  const hasWarning = checkpoints.some((c) => statusOf(c.id) === "warning");
 
   return (
     <Card className="border-accent/25 p-5">
@@ -34,48 +56,81 @@ export function TaskPanel({ lesson }: { lesson: Lesson }) {
         </span>
         <div className="min-w-0">
           <h3 className="text-sm font-bold text-ink">{t("learn.taskTitle")}</h3>
-          <p className="mt-1 text-sm leading-relaxed text-muted">{loc(lesson.objective)}</p>
+          <div className="mt-1 text-sm leading-relaxed text-muted">
+            <RichMarkdown text={loc(lesson.objective)} />
+          </div>
         </div>
       </div>
 
       {checkpoints.length > 0 && (
         <div className="mt-4">
           <p className="flex items-center justify-between text-xs font-semibold uppercase tracking-wide text-muted">
-            {t("learn.checkpoints")}
+            <span className="flex items-center gap-2">
+              {t("learn.checkpoints")}
+              {verifying && (
+                <span className="flex items-center gap-1 font-normal normal-case tracking-normal text-primary dark:text-primary-strong">
+                  <Loader2 className="h-3 w-3 animate-spin" />
+                  {t("learn.verifying")}
+                </span>
+              )}
+            </span>
             <span className="font-mono">
               {completed}/{checkpoints.length}
             </span>
           </p>
           <ul className="mt-2.5 space-y-1.5">
             {checkpoints.map((cp, i) => {
-              const checked = Boolean(done[cp.id]);
+              const status = statusOf(cp.id);
               return (
                 <li key={cp.id}>
                   <button
-                    onClick={() => setDone((d) => ({ ...d, [cp.id]: !checked }))}
-                    className="flex w-full items-start gap-2.5 rounded-lg px-2 py-1.5 text-start transition-colors hover:bg-surface-2"
+                    onClick={() =>
+                      !autoMode &&
+                      setManualDone((d) => ({ ...d, [cp.id]: !d[cp.id] }))
+                    }
+                    className={`flex w-full items-start gap-2.5 rounded-lg px-2 py-1.5 text-start transition-colors ${
+                      autoMode ? "cursor-default" : "hover:bg-surface-2"
+                    }`}
                   >
                     <span
                       className={`mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-md border transition-all ${
-                        checked
-                          ? "border-accent bg-accent text-[#1a1205]"
-                          : "border-line/30 text-transparent"
+                        status === "passed"
+                          ? "border-success bg-success text-white"
+                          : status === "warning"
+                            ? "border-warning bg-warning/15 text-warning"
+                            : "border-line/30 text-transparent"
                       }`}
                     >
-                      <Check className="h-3.5 w-3.5" strokeWidth={3} />
+                      {status === "warning" ? (
+                        <AlertTriangle className="h-3 w-3" strokeWidth={2.5} />
+                      ) : (
+                        <Check className="h-3.5 w-3.5" strokeWidth={3} />
+                      )}
                     </span>
                     <span
                       className={`text-sm leading-relaxed ${
-                        checked ? "text-muted line-through decoration-accent/50" : "text-ink"
+                        status === "passed"
+                          ? "text-muted line-through decoration-success/50"
+                          : "text-ink"
                       }`}
                     >
-                      {i + 1}. {loc(cp.text)}
+                      <span className="me-1">{i + 1}.</span>
+                      <span className="[&>p]:inline">
+                        <RichMarkdown text={loc(cp.text)} />
+                      </span>
                     </span>
                   </button>
                 </li>
               );
             })}
           </ul>
+          <p className="mt-2 px-2 text-[11px] text-muted">
+            {hasWarning ? (
+              <span className="text-warning">{t("learn.fixErrorFirst")}</span>
+            ) : (
+              t("learn.checkpointsAuto")
+            )}
+          </p>
         </div>
       )}
 
@@ -89,9 +144,9 @@ export function TaskPanel({ lesson }: { lesson: Lesson }) {
             {showHint ? t("learn.hideHint") : t("learn.showHint")}
           </button>
           {showHint && (
-            <p className="mt-2 rounded-xl bg-accent/10 px-4 py-3 text-sm leading-relaxed text-ink">
-              {loc(lesson.hint)}
-            </p>
+            <div className="mt-2 rounded-xl bg-accent/10 px-4 py-3 text-sm leading-relaxed text-ink">
+              <RichMarkdown text={loc(lesson.hint)} />
+            </div>
           )}
         </div>
       )}

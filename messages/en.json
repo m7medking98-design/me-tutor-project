@@ -1,4 +1,4 @@
-{
+﻿{
   "common": {
     "appName": "Miyar",
     "continue": "Continue",
@@ -139,6 +139,9 @@
     "output": "Output",
     "taskTitle": "Your task in this lesson",
     "checkpoints": "Checkpoints",
+    "verifying": "The mentor is checking your steps…",
+    "checkpointsAuto": "Checked automatically when you Run",
+    "fixErrorFirst": "Your code has an error — fix it and run again",
     "showHint": "Show me a hint",
     "hideHint": "Hide hint",
     "loadingRuntime": "Loading the real Python runtime… (one time only)",

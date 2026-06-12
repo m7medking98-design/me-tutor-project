@@ -64,7 +64,9 @@ export default function CodeEditor({
           foldGutter: false,
           highlightActiveLine: true,
           highlightActiveLineGutter: true,
-          autocompletion: true,
+          // No autocomplete popup — learners should type print/for/if
+          // themselves instead of picking from a confusing suggestion list.
+          autocompletion: false,
           bracketMatching: true,
           closeBrackets: true,
           indentOnInput: true,
