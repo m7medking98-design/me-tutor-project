@@ -1,18 +1,20 @@
 /**
- * AI mentor — mock implementation.
+ * AI mentor — client side of the single integration point.
  *
- * THIS IS THE SINGLE INTEGRATION POINT for the real AI supervision phase.
- * Replace the body of `getMentorReply` with a call to the AI backend
- * (passing lesson context + student code + conversation history) and the
- * entire learning experience upgrades — nothing else changes.
+ * `getMentorReply` calls the real AI backend (app/api/mentor/route.ts) and
+ * streams the reply. When the server has no ANTHROPIC_API_KEY (demo mode)
+ * or the request fails, it falls back to the canned demo replies below —
+ * the chat keeps working either way.
  */
-import type { Lesson, Locale } from "@/lib/types";
+import type { Lesson, Locale, MentorMessage } from "@/lib/types";
 
 interface MentorContext {
   lesson: Lesson;
   locale: Locale;
   /** student's current code, when in a workspace lesson */
   code?: string;
+  /** prior chat turns, oldest first (greeting included) */
+  history?: MentorMessage[];
   userMessage: string;
 }
 
@@ -53,12 +55,62 @@ export function getMentorGreeting(lessonTitle: string, locale: Locale): string {
   return greetings[locale](lessonTitle);
 }
 
-/** Mock reply with a small delay to feel like real thinking. */
-export async function getMentorReply(ctx: MentorContext): Promise<string> {
+/** Demo-mode reply with a small delay to feel like real thinking. */
+async function getDemoReply(ctx: MentorContext): Promise<string> {
   await new Promise((r) => setTimeout(r, 900 + Math.random() * 800));
   const pool = cannedReplies[ctx.locale];
   // Deterministic-ish pick so the same question doesn't repeat the same answer
   const idx =
     (ctx.userMessage.length + ctx.lesson.id.length + Date.now()) % pool.length;
   return pool[idx];
+}
+
+/**
+ * Ask the AI mentor. Streams the reply through `onDelta` (called with the
+ * accumulated text so far) and resolves with the full text. Falls back to
+ * demo replies when the backend is not configured or unreachable.
+ */
+export async function getMentorReply(
+  ctx: MentorContext,
+  onDelta?: (textSoFar: string) => void,
+): Promise<string> {
+  const { lesson, locale } = ctx;
+  try {
+    const res = await fetch("/api/mentor", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        locale,
+        lesson: {
+          title: lesson.title[locale],
+          type: lesson.type,
+          language: lesson.language,
+          objective: lesson.objective?.[locale],
+          checkpoints: lesson.checkpoints?.map((c) => c.text[locale]),
+          hint: lesson.hint?.[locale],
+          starterCode: lesson.starterCode,
+        },
+        code: ctx.code,
+        history: ctx.history?.map((m) => ({ role: m.role, text: m.text })),
+        message: ctx.userMessage,
+      }),
+    });
+
+    // 503 = no API key on the server → demo mode, by design
+    if (res.status === 503) return getDemoReply(ctx);
+    if (!res.ok || !res.body) throw new Error(`mentor api ${res.status}`);
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let full = "";
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      full += decoder.decode(value, { stream: true });
+      if (full) onDelta?.(full);
+    }
+    return full || getDemoReply(ctx);
+  } catch {
+    return getDemoReply(ctx);
+  }
 }

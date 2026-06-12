@@ -40,17 +40,45 @@ export function MentorChat({
     const trimmed = text.trim();
     if (!trimmed || thinking) return;
     setInput("");
+    const history = messages; // turns before this question (greeting included)
     setMessages((prev) => [
       ...prev,
       { id: `u-${Date.now()}`, role: "user", text: trimmed, at: Date.now() },
     ]);
     setThinking(true);
-    const reply = await getMentorReply({ lesson, locale, code, userMessage: trimmed });
+
+    // Stream the reply into a single mentor bubble as tokens arrive
+    const replyId = `m-${Date.now()}`;
+    let streaming = false;
+    const reply = await getMentorReply(
+      { lesson, locale, code, history, userMessage: trimmed },
+      (textSoFar) => {
+        if (!streaming) {
+          streaming = true;
+          setThinking(false);
+          setMessages((prev) => [
+            ...prev,
+            { id: replyId, role: "mentor", text: textSoFar, at: Date.now() },
+          ]);
+        } else {
+          setMessages((prev) =>
+            prev.map((m) => (m.id === replyId ? { ...m, text: textSoFar } : m)),
+          );
+        }
+      },
+    );
     setThinking(false);
-    setMessages((prev) => [
-      ...prev,
-      { id: `m-${Date.now()}`, role: "mentor", text: reply, at: Date.now() },
-    ]);
+    if (streaming) {
+      setMessages((prev) =>
+        prev.map((m) => (m.id === replyId ? { ...m, text: reply } : m)),
+      );
+    } else {
+      // Demo mode / non-streamed fallback arrives in one piece
+      setMessages((prev) => [
+        ...prev,
+        { id: replyId, role: "mentor", text: reply, at: Date.now() },
+      ]);
+    }
   }
 
   const suggestions = [
