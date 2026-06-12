@@ -1,17 +1,26 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
+import dynamic from "next/dynamic";
 import { Loader2, Play, RotateCcw, Zap } from "lucide-react";
 import { useLanguage } from "@/lib/language-context";
 import { runPython, type RunResult } from "@/lib/runtime";
 import type { Lesson } from "@/lib/types";
 
+// CodeMirror is heavy — load it only on workspace lessons, client-side.
+const CodeEditor = dynamic(() => import("@/components/learn/CodeEditor"), {
+  ssr: false,
+  loading: () => (
+    <div className="min-h-[290px] flex-1 animate-pulse bg-white/[0.02]" dir="ltr" />
+  ),
+});
+
 type Status = "idle" | "loading" | "running";
 
 /**
  * Code workspace with real execution: Python runs in-browser via Pyodide,
- * HTML renders live in a sandboxed preview. The editor stays deliberately
- * simple for this phase — a CodeMirror upgrade can come with phase 2.
+ * HTML renders live in a sandboxed preview. Editing happens in CodeMirror
+ * with syntax highlighting (components/learn/CodeEditor.tsx).
  */
 export function WorkspacePanel({
   lesson,
@@ -29,7 +38,6 @@ export function WorkspacePanel({
   const [html, setHtml] = useState<string | null>(null);
   const [loadedOnce, setLoadedOnce] = useState(false);
 
-  const lineCount = useMemo(() => Math.max(code.split("\n").length, 12), [code]);
   const fileName = language === "html" ? "index.html" : "main.py";
 
   async function run() {
@@ -104,20 +112,13 @@ export function WorkspacePanel({
 
         {/* editor body */}
         <div className="flex" dir="ltr">
-          <div className="select-none border-e border-white/5 px-3 py-4 text-end font-mono text-xs leading-6 text-white/25">
-            {Array.from({ length: lineCount }).map((_, i) => (
-              <div key={i}>{i + 1}</div>
-            ))}
-          </div>
-          <textarea
+          <CodeEditor
             value={code}
-            onChange={(e) => {
-              setCode(e.target.value);
-              onCodeChange?.(e.target.value);
+            language={language}
+            onChange={(next) => {
+              setCode(next);
+              onCodeChange?.(next);
             }}
-            spellCheck={false}
-            className="min-h-[290px] flex-1 resize-y bg-transparent p-4 pt-4 font-mono text-[13px] leading-6 text-[#d6e7e9] outline-none"
-            style={{ direction: "ltr", unicodeBidi: "plaintext" }}
           />
         </div>
       </div>
