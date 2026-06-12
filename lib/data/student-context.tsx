@@ -19,6 +19,10 @@ import { collection, onSnapshot } from "firebase/firestore";
 import { db, isFirebaseEnabled } from "@/lib/firebase";
 import { useAuth } from "@/lib/auth-context";
 import { getEnrollments } from "@/lib/data";
+import {
+  subscribeLessonState,
+  type LessonState,
+} from "@/lib/data/student-store";
 import type { Enrollment } from "@/lib/types";
 
 interface StudentDataValue {
@@ -83,6 +87,35 @@ export function useEnrollments(): StudentDataValue {
   if (!ctx)
     throw new Error("useEnrollments must be used within StudentDataProvider");
   return ctx;
+}
+
+/**
+ * Saved state for one lesson (checkpoints, code draft, completion).
+ * Demo mode: `{ state: null, loading: false }` — nothing is persisted.
+ */
+export function useLessonState(lessonId: string | undefined): {
+  state: LessonState | null;
+  loading: boolean;
+} {
+  const { user } = useAuth();
+  const uid = user?.uid;
+  const [res, setRes] = useState<{ state: LessonState | null; ready: boolean }>(
+    { state: null, ready: false }
+  );
+
+  useEffect(() => {
+    setRes({ state: null, ready: false });
+    if (!isFirebaseEnabled || !uid || !lessonId) return;
+    return subscribeLessonState(uid, lessonId, (state) =>
+      setRes({ state, ready: true })
+    );
+  }, [uid, lessonId]);
+
+  if (!isFirebaseEnabled) return { state: null, loading: false };
+  return {
+    state: res.state,
+    loading: Boolean(uid && lessonId) && !res.ready,
+  };
 }
 
 export function useEnrollment(courseId: string | undefined): {

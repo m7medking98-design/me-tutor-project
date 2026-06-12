@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import type { ButtonHTMLAttributes, MouseEventHandler, ReactNode } from "react";
 
 type Variant = "primary" | "gold" | "outline" | "ghost" | "danger";
 type Size = "sm" | "md" | "lg";
@@ -39,7 +39,11 @@ export function Button({
   const cls = `inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none ${variants[variant]} ${sizes[size]} ${className}`;
   if (href) {
     return (
-      <Link href={href} className={cls}>
+      <Link
+        href={href}
+        className={cls}
+        onClick={rest.onClick as MouseEventHandler<HTMLAnchorElement> | undefined}
+      >
         {children}
       </Link>
     );

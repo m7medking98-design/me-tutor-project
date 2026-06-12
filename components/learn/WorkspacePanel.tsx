@@ -31,10 +31,13 @@ export interface RunReport {
  */
 export function WorkspacePanel({
   lesson,
+  initialCode,
   onCodeChange,
   onRun,
 }: {
   lesson: Lesson;
+  /** saved draft to restore instead of the starter code (read once on mount) */
+  initialCode?: string;
   onCodeChange?: (code: string) => void;
   /** fired after each Run with the code + output, for checkpoint auto-verification */
   onRun?: (report: RunReport) => void;
@@ -42,7 +45,7 @@ export function WorkspacePanel({
   const { t } = useLanguage();
   const starter = lesson.starterCode ?? "";
   const language = lesson.language ?? "python";
-  const [code, setCode] = useState(starter);
+  const [code, setCode] = useState(initialCode ?? starter);
   const [status, setStatus] = useState<Status>("idle");
   const [result, setResult] = useState<RunResult | null>(null);
   const [html, setHtml] = useState<string | null>(null);

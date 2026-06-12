@@ -25,8 +25,14 @@ import { TaskPanel, type CheckStatus } from "@/components/learn/TaskPanel";
 import { useAuth } from "@/lib/auth-context";
 import { useLanguage } from "@/lib/language-context";
 import { findLesson, getLessonSequence } from "@/lib/data";
-import { useEnrollment } from "@/lib/data/student-context";
-import { enrollInCourse, updateLastPosition } from "@/lib/data/student-store";
+import { useEnrollment, useLessonState } from "@/lib/data/student-context";
+import {
+  enrollInCourse,
+  markLessonComplete,
+  saveCheckpointResults,
+  saveCodeDraft,
+  updateLastPosition,
+} from "@/lib/data/student-store";
 import type { LessonType } from "@/lib/types";
 
 const lessonIcons: Record<LessonType, typeof Play> = {
@@ -47,12 +53,36 @@ export default function LearnPage() {
 
   const hit = findLesson(params.subject, params.topic);
   const { enrollment, loading: enrollmentLoading } = useEnrollment(hit?.course.id);
+  const { state: lessonState, loading: lessonStateLoading } = useLessonState(
+    hit?.lesson.id
+  );
 
   // Fresh checklist when navigating between lessons
+  const hydratedRef = useRef<string | null>(null);
   useEffect(() => {
     setCheckStatuses({});
     setVerifying(false);
+    hydratedRef.current = null;
   }, [params.subject, params.topic]);
+
+  // Restore saved checkpoint results once per lesson (snapshot echoes from
+  // our own writes must not clobber fresher local state).
+  useEffect(() => {
+    if (!hit || lessonStateLoading || !lessonState) return;
+    if (hydratedRef.current === hit.lesson.id) return;
+    hydratedRef.current = hit.lesson.id;
+    if (Object.keys(lessonState.checkpointResults).length > 0) {
+      setCheckStatuses(lessonState.checkpointResults);
+    }
+  }, [hit, lessonState, lessonStateLoading]);
+
+  // Flush guard for the code-draft debounce timer
+  const draftTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => {
+    return () => {
+      if (draftTimer.current) clearTimeout(draftTimer.current);
+    };
+  }, []);
 
   // Opening a lesson enrolls (first visit) and saves the student's position.
   // The ref makes this once-per-lesson: enrollment snapshots re-fire the
@@ -102,13 +132,20 @@ export default function LearnPage() {
       // 503 = demo mode (no API key) — leave the checklist manual
       if (!res.ok) return;
       const data: { results?: { id: string; passed: boolean }[] } = await res.json();
-      const next: Record<string, CheckStatus> = Object.fromEntries(
-        checkpoints.map((cp) => [cp.id, "pending" as CheckStatus]),
+      const next: Record<string, "passed" | "pending"> = Object.fromEntries(
+        checkpoints.map((cp) => [cp.id, "pending" as const]),
       );
       for (const r of data.results ?? []) {
         if (r.id in next) next[r.id] = r.passed ? "passed" : "pending";
       }
       setCheckStatuses(next);
+      if (user) {
+        void saveCheckpointResults(user.uid, course.id, lesson.id, next);
+        // All green = the lesson is done — progress, XP and streak update
+        if (checkpoints.every((cp) => next[cp.id] === "passed")) {
+          void markLessonComplete(user.uid, course, lesson.id);
+        }
+      }
     } catch {
       // Network hiccup — keep previous statuses; next Run retries
     } finally {
@@ -119,6 +156,22 @@ export default function LearnPage() {
   const seq = getLessonSequence(course);
   const prev = index > 0 ? seq[index - 1].lesson : null;
   const next = index < total - 1 ? seq[index + 1].lesson : null;
+
+  function handleCodeChange(nextCode: string) {
+    setCode(nextCode);
+    if (!user) return;
+    if (draftTimer.current) clearTimeout(draftTimer.current);
+    draftTimer.current = setTimeout(() => {
+      void saveCodeDraft(user.uid, course.id, lesson.id, nextCode);
+    }, 1500);
+  }
+
+  // Video/reference lessons have no checkpoints — moving on completes them.
+  function completePassiveLesson() {
+    if (user && lesson.type !== "workspace") {
+      void markLessonComplete(user.uid, course, lesson.id);
+    }
+  }
 
   // Module progress = completed lessons within this module
   const moduleDone = module.lessons.filter((l) =>
@@ -166,12 +219,21 @@ export default function LearnPage() {
               </Button>
             )}
             {next ? (
-              <Button href={`/learn/${course.slug}/${next.slug}`} size="sm">
+              <Button
+                href={`/learn/${course.slug}/${next.slug}`}
+                size="sm"
+                onClick={completePassiveLesson}
+              >
                 <span className="hidden sm:inline">{t("common.next")}</span>
                 <NextIcon className="h-4 w-4" />
               </Button>
             ) : (
-              <Button href={`/courses/${course.slug}`} variant="gold" size="sm">
+              <Button
+                href={`/courses/${course.slug}`}
+                variant="gold"
+                size="sm"
+                onClick={completePassiveLesson}
+              >
                 {t("learn.markComplete")}
               </Button>
             )}
@@ -187,11 +249,12 @@ export default function LearnPage() {
             <TaskPanel lesson={lesson} statuses={checkStatuses} verifying={verifying} />
           )}
           {lesson.type === "video" && <VideoPanel lesson={lesson} />}
-          {lesson.type === "workspace" && (
+          {lesson.type === "workspace" && !lessonStateLoading && (
             <WorkspacePanel
               key={lesson.id}
               lesson={lesson}
-              onCodeChange={setCode}
+              initialCode={lessonState?.codeDraft ?? undefined}
+              onCodeChange={handleCodeChange}
               onRun={handleRun}
             />
           )}

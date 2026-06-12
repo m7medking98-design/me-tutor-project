@@ -11,8 +11,10 @@
  */
 import type { User as FirebaseUser } from "firebase/auth";
 import {
+  arrayUnion,
   doc,
   getDoc,
+  increment,
   onSnapshot,
   serverTimestamp,
   setDoc,
@@ -29,6 +31,18 @@ function userDoc(uid: string) {
 function enrollmentDoc(uid: string, courseId: string) {
   if (!db) throw new Error("Firestore is not initialized");
   return doc(db, "users", uid, "enrollments", courseId);
+}
+
+function lessonStateDoc(uid: string, lessonId: string) {
+  if (!db) throw new Error("Firestore is not initialized");
+  return doc(db, "users", uid, "lessonState", lessonId);
+}
+
+/** What a student did inside one lesson — survives refresh. */
+export interface LessonState {
+  checkpointResults: Record<string, "passed" | "pending">;
+  codeDraft: string | null;
+  completedAt: string | null;
 }
 
 /** Today as a local YYYY-MM-DD string (streaks are calendar-day based). */
@@ -152,6 +166,96 @@ export async function enrollInCourse(
     },
     { merge: true }
   );
+  void touchStreak(uid);
+}
+
+/** Live subscription to one lesson's saved state (null until the doc exists). */
+export function subscribeLessonState(
+  uid: string,
+  lessonId: string,
+  cb: (state: LessonState) => void
+): () => void {
+  if (!isFirebaseEnabled || !db) return () => {};
+  return onSnapshot(lessonStateDoc(uid, lessonId), (snap) => {
+    const data = snap.data();
+    cb({
+      checkpointResults: data?.checkpointResults ?? {},
+      codeDraft: data?.codeDraft ?? null,
+      completedAt: data?.completedAt ?? null,
+    });
+  });
+}
+
+/** Persist the auto-grader's verdict for this lesson's checkpoints. */
+export async function saveCheckpointResults(
+  uid: string,
+  courseId: string,
+  lessonId: string,
+  results: Record<string, "passed" | "pending">
+): Promise<void> {
+  if (!isFirebaseEnabled || !db) return;
+  await setDoc(
+    lessonStateDoc(uid, lessonId),
+    { courseId, checkpointResults: results, updatedAt: serverTimestamp() },
+    { merge: true }
+  );
+}
+
+/** Persist the student's editor content (call sites debounce). */
+export async function saveCodeDraft(
+  uid: string,
+  courseId: string,
+  lessonId: string,
+  code: string
+): Promise<void> {
+  if (!isFirebaseEnabled || !db) return;
+  await setDoc(
+    lessonStateDoc(uid, lessonId),
+    { courseId, codeDraft: code, updatedAt: serverTimestamp() },
+    { merge: true }
+  );
+}
+
+/**
+ * Mark a lesson complete: completedLessonIds + course progress % + XP +
+ * streak. Idempotent — re-passing an already-completed lesson changes
+ * nothing, so XP can't be farmed by re-running the same code.
+ */
+export async function markLessonComplete(
+  uid: string,
+  course: Course,
+  lessonId: string
+): Promise<void> {
+  if (!isFirebaseEnabled || !db) return;
+  const enrRef = enrollmentDoc(uid, course.id);
+  const snap = await getDoc(enrRef);
+  const already: string[] = snap.exists()
+    ? (snap.data().completedLessonIds ?? [])
+    : [];
+  if (already.includes(lessonId)) return;
+
+  const total = getLessonSequence(course).length;
+  const completedCount = already.length + 1;
+  const progress = Math.min(100, Math.round((completedCount / total) * 100));
+
+  await Promise.all([
+    setDoc(
+      enrRef,
+      {
+        courseId: course.id,
+        completedLessonIds: arrayUnion(lessonId),
+        progress,
+        lastActivityAt: new Date().toISOString(),
+      },
+      { merge: true }
+    ),
+    setDoc(userDoc(uid), { xp: increment(50) }, { merge: true }),
+    setDoc(
+      lessonStateDoc(uid, lessonId),
+      { courseId: course.id, completedAt: new Date().toISOString() },
+      { merge: true }
+    ),
+  ]);
   void touchStreak(uid);
 }
 
