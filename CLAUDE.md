@@ -14,7 +14,7 @@ Miyar (معيار) — a premium Arab EdTech platform: structured learning (vide
 
 **Lesson template is defined by the AI phase** (objective + plain-language checkpoints → auto-graded on Run): all future course content just needs checkpoints written this way and grading comes free. The 5 Python workspace lessons are the reference examples.
 
-**NEXT STEP: remove fabricated testimonials/stats from the landing page** (also the "+18K students" line on the AuthScreen brand panel and the seeded `enrolledCount`/`rating` shown on course cards — decide with the user what honest alternatives look like pre-beta). Then: about/privacy/terms pages.
+**NEXT STEP (user confirmed): build the flagship Python curriculum — phase 3 has started.** Proposed 8-module outline (PCEP-mapped) is awaiting the user's adjustments: 1 البداية الصحيحة, 2 المتغيرات وأنواع البيانات, 3 اتخاذ القرار, 4 الحلقات, 5 هياكل البيانات (new), 6 الدوال, 7 الأخطاء والتعامل معها (new), 8 المشاريع الختامية. Per module: 1–2 videos (user records, Claude writes script outlines) + 3–4 auto-graded workspace lessons + 1 reference (Claude writes; user reviews Arabic). ~40 lessons total. Deferred by user until later: landing-page fabricated testimonials/stats cleanup (must happen before public sharing) and Vercel deployment (pointless before content exists).
 
 **Launch blockers table (path to charging money):**
 
@@ -22,8 +22,8 @@ Miyar (معيار) — a premium Arab EdTech platform: structured learning (vide
 |---|---|---|
 | Real AI mentor + checkpoint auto-grading | Claude | ✅ done 2026-06-12 |
 | Real persistence (Firebase: accounts, saved progress) | Claude + user | ✅ done & verified 2026-06-13 |
-| Remove fabricated testimonials/stats from landing page | Claude | ⏳ NEXT (quick) |
-| Real about/privacy/terms pages | Claude | after that |
+| Remove fabricated testimonials/stats from landing page | Claude | deferred by user (do before public sharing) |
+| Real about/privacy/terms pages | Claude | ✅ done 2026-06-13 (`/about`, `/privacy`, `/terms` via shared `components/layout/InfoPage.tsx`; footer wired; contact email is the user's gmail — swap when a real domain exists) |
 | Certificate verification page `/verify/[credentialId]` | Claude | after that |
 | Real content for flagship Python course (videos + lessons) | user | user's homework — script/record against existing lesson template |
 | Payments + plan gating + per-user token budgets | Claude | after free beta validates retention |
