@@ -20,16 +20,16 @@ export function Footer() {
     {
       title: t("footer.company"),
       links: [
-        { label: t("footer.about"), href: "#" },
-        { label: t("footer.careers"), href: "#" },
-        { label: t("footer.contact"), href: "#" },
+        { label: t("footer.about"), href: "/about" },
+        { label: t("footer.careers"), href: "/about" },
+        { label: t("footer.contact"), href: "mailto:m7medking98@gmail.com" },
       ],
     },
     {
       title: t("footer.legal"),
       links: [
-        { label: t("footer.privacy"), href: "#" },
-        { label: t("footer.terms"), href: "#" },
+        { label: t("footer.privacy"), href: "/privacy" },
+        { label: t("footer.terms"), href: "/terms" },
       ],
     },
   ];

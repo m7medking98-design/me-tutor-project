@@ -237,6 +237,9 @@
     "errNetwork": "Connection problem — check your internet and try again",
     "errGeneric": "Something went wrong — please try again"
   },
+  "info": {
+    "lastUpdated": "Last updated"
+  },
   "footer": {
     "tagline": "An Arab learning platform built to global standards — learn under real AI supervision.",
     "product": "Product",

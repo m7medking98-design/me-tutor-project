@@ -237,6 +237,9 @@
     "errNetwork": "Problème de connexion — vérifiez votre Internet et réessayez",
     "errGeneric": "Une erreur est survenue — veuillez réessayer"
   },
+  "info": {
+    "lastUpdated": "Dernière mise à jour"
+  },
   "footer": {
     "tagline": "Une plateforme arabe aux standards mondiaux — apprenez sous vraie supervision IA.",
     "product": "Produit",
