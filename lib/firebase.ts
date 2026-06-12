@@ -7,7 +7,13 @@
  */
 import { getApps, initializeApp, type FirebaseApp } from "firebase/app";
 import { getAuth, type Auth } from "firebase/auth";
-import { getFirestore, type Firestore } from "firebase/firestore";
+import {
+  getFirestore,
+  initializeFirestore,
+  persistentLocalCache,
+  persistentMultipleTabManager,
+  type Firestore,
+} from "firebase/firestore";
 
 export const isFirebaseEnabled = Boolean(
   process.env.NEXT_PUBLIC_FIREBASE_API_KEY
@@ -28,7 +34,18 @@ if (isFirebaseEnabled) {
   };
   app = getApps().length ? getApps()[0] : initializeApp(config);
   auth = getAuth(app);
-  db = getFirestore(app);
+  // Persistent cache: progress writes queued offline (or mid-refresh) survive
+  // and sync when the connection returns.
+  try {
+    db = initializeFirestore(app, {
+      localCache: persistentLocalCache({
+        tabManager: persistentMultipleTabManager(),
+      }),
+    });
+  } catch {
+    // Already initialized (hot reload) — reuse the existing instance
+    db = getFirestore(app);
+  }
 }
 
 export { app, auth, db };

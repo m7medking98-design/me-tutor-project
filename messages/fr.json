@@ -218,7 +218,15 @@
     "brandLine1": "Une plateforme,",
     "brandLine2": "un standard mondial",
     "brandQuote": "L'éducation que méritent nos étudiants : profonde, supervisée et fiable.",
-    "demoNote": "Mode démo actif — Firebase non configuré"
+    "demoNote": "Mode démo actif — Firebase non configuré",
+    "errInvalidCredential": "E-mail ou mot de passe incorrect",
+    "errEmailInUse": "Un compte existe déjà avec cet e-mail — essayez de vous connecter",
+    "errWeakPassword": "Mot de passe trop faible — utilisez au moins 6 caractères",
+    "errInvalidEmail": "Cette adresse e-mail ne semble pas valide",
+    "errTooManyRequests": "Trop de tentatives — patientez un instant puis réessayez",
+    "errPopupClosed": "La fenêtre de connexion Google a été fermée avant la fin",
+    "errNetwork": "Problème de connexion — vérifiez votre Internet et réessayez",
+    "errGeneric": "Une erreur est survenue — veuillez réessayer"
   },
   "footer": {
     "tagline": "Une plateforme arabe aux standards mondiaux — apprenez sous vraie supervision IA.",

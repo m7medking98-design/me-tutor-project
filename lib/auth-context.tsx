@@ -18,6 +18,7 @@ import {
 } from "firebase/auth";
 import { auth, isFirebaseEnabled } from "@/lib/firebase";
 import { getDemoUser } from "@/lib/data";
+import { ensureUserProfile, subscribeProfile } from "@/lib/data/student-store";
 import type { UserProfile } from "@/lib/types";
 
 const DEMO_SESSION_KEY = "miyar-demo-session";
@@ -42,23 +43,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (isFirebaseEnabled && auth) {
-      return onAuthStateChanged(auth, (fbUser) => {
-        if (fbUser) {
-          // Real profile data (xp, streak…) will come from Firestore later;
-          // until then the seeded stats keep the UI complete.
-          const seed = getDemoUser();
-          setUser({
-            ...seed,
-            uid: fbUser.uid,
-            displayName: fbUser.displayName ?? seed.displayName,
-            email: fbUser.email ?? seed.email,
-            photoURL: fbUser.photoURL,
-          });
-        } else {
+      // Real mode: the profile doc in Firestore is the source of truth.
+      // `loading` stays true until that doc resolves so guarded pages never
+      // flash with missing stats.
+      let unsubProfile: (() => void) | null = null;
+      const unsubAuth = onAuthStateChanged(auth, (fbUser) => {
+        unsubProfile?.();
+        unsubProfile = null;
+        if (!fbUser) {
           setUser(null);
+          setLoading(false);
+          return;
         }
-        setLoading(false);
+        // Idempotent: creates the doc on first Google sign-in; signUpEmail
+        // already wrote it (with the typed name) for email signups.
+        void ensureUserProfile(fbUser);
+        unsubProfile = subscribeProfile(fbUser.uid, (profile) => {
+          if (profile) {
+            setUser(profile);
+            setLoading(false);
+          }
+          // profile === null → doc not created yet; keep loading until it is
+        });
       });
+      return () => {
+        unsubAuth();
+        unsubProfile?.();
+      };
     }
     // Demo mode: restore session from localStorage
     const hasSession = localStorage.getItem(DEMO_SESSION_KEY) === "1";
@@ -80,6 +91,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     async (name: string, email: string, password: string) => {
       if (!isFirebaseEnabled || !auth) throw new Error("demo-mode");
       const cred = await createUserWithEmailAndPassword(auth, email, password);
+      // Write the profile doc with the typed name BEFORE updateProfile —
+      // onAuthStateChanged fires immediately and must find the right name.
+      await ensureUserProfile(cred.user, name);
       await updateProfile(cred.user, { displayName: name });
     },
     []

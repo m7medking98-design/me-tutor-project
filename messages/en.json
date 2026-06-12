@@ -218,7 +218,15 @@
     "brandLine1": "One platform,",
     "brandLine2": "a global standard",
     "brandQuote": "The education our students deserve: deep, supervised, and trusted.",
-    "demoNote": "Demo mode active — Firebase not configured yet"
+    "demoNote": "Demo mode active — Firebase not configured yet",
+    "errInvalidCredential": "Incorrect email or password",
+    "errEmailInUse": "An account with this email already exists — try logging in",
+    "errWeakPassword": "Password is too weak — use at least 6 characters",
+    "errInvalidEmail": "That email address doesn't look right",
+    "errTooManyRequests": "Too many attempts — please wait a moment and try again",
+    "errPopupClosed": "Google sign-in window was closed before finishing",
+    "errNetwork": "Connection problem — check your internet and try again",
+    "errGeneric": "Something went wrong — please try again"
   },
   "footer": {
     "tagline": "An Arab learning platform built to global standards — learn under real AI supervision.",
