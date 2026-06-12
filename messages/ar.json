@@ -123,7 +123,10 @@
     "upcomingMilestones": "محطات قادمة",
     "lastActivity": "آخر نشاط",
     "minutesStudied": "دقيقة",
-    "mentorSummary": "ملخص المشرف"
+    "mentorSummary": "ملخص المشرف",
+    "emptyCourses": "لم تلتحق بأي مسار بعد",
+    "browseCourses": "تصفّح المسارات",
+    "emptySessions": "سيظهر سجل جلساتك هنا بمجرد أن تبدأ التعلم"
   },
   "learn": {
     "lessonList": "قائمة الدروس",
@@ -173,7 +176,9 @@
     "credentialId": "رقم الاعتماد",
     "totalHours": "إجمالي ساعات التعلم",
     "mastered": "موضوع متقن",
-    "inProgress": "قيد التعلم"
+    "inProgress": "قيد التعلم",
+    "emptyMastery": "يبني المشرف خريطة إتقانك مع إكمالك للدروس — ابدأ درسك الأول",
+    "emptySessions": "لا توجد جلسات مسجلة بعد"
   },
   "profile": {
     "title": "حسابك وإعداداتك",

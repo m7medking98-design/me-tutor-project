@@ -123,7 +123,10 @@
     "upcomingMilestones": "Upcoming milestones",
     "lastActivity": "Last activity",
     "minutesStudied": "min",
-    "mentorSummary": "Mentor summary"
+    "mentorSummary": "Mentor summary",
+    "emptyCourses": "You haven't enrolled in any track yet",
+    "browseCourses": "Browse tracks",
+    "emptySessions": "Your session history will appear here once you start learning"
   },
   "learn": {
     "lessonList": "Lesson list",
@@ -173,7 +176,9 @@
     "credentialId": "Credential ID",
     "totalHours": "Total learning hours",
     "mastered": "topics mastered",
-    "inProgress": "in progress"
+    "inProgress": "in progress",
+    "emptyMastery": "The mentor builds your mastery map as you complete lessons — start your first lesson",
+    "emptySessions": "No recorded sessions yet"
   },
   "profile": {
     "title": "Your account & settings",

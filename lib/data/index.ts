@@ -1,10 +1,18 @@
 /**
  * Data access layer.
  *
- * Currently backed by mock data so the entire product works without a
- * backend. When Firebase goes live, these functions keep the exact same
- * signatures and read from Firestore instead — no page needs to change.
+ * Course/curriculum content is authored locally and always comes from mock.ts.
+ * User data is live: enrollments/lesson state stream from Firestore through
+ * lib/data/student-context.tsx hooks, and the seeded demo records below serve
+ * demo mode only. Features not yet built for real users (sessions, mastery,
+ * certificates, milestones) return empty in Firebase mode rather than showing
+ * fabricated data to real students.
  */
+// Same check as lib/firebase.ts isFirebaseEnabled — duplicated here on purpose:
+// importing lib/firebase would pull the whole Firebase SDK into every page
+// that only reads course content (e.g. the public landing page).
+const isFirebaseEnabled = Boolean(process.env.NEXT_PUBLIC_FIREBASE_API_KEY);
+
 import {
   certificates,
   courses,
@@ -51,19 +59,19 @@ export function getEnrollment(_uid: string, courseId: string): Enrollment | unde
 }
 
 export function getSessions(_uid: string): SessionRecord[] {
-  return sessions;
+  return isFirebaseEnabled ? [] : sessions;
 }
 
 export function getMastery(_uid: string): MasteryRecord[] {
-  return mastery;
+  return isFirebaseEnabled ? [] : mastery;
 }
 
 export function getCertificates(_uid: string): Certificate[] {
-  return certificates;
+  return isFirebaseEnabled ? [] : certificates;
 }
 
 export function getMilestones(_uid: string): Milestone[] {
-  return milestones;
+  return isFirebaseEnabled ? [] : milestones;
 }
 
 /** Flattened, ordered list of all lessons in a course. */

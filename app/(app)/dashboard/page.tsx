@@ -153,6 +153,14 @@ export default function DashboardPage() {
           <section>
             <h2 className="text-lg font-bold text-ink">{t("dashboard.activeCourses")}</h2>
             <div className="mt-4 space-y-4">
+              {enrollments.length === 0 && (
+                <Card className="flex flex-col items-center gap-4 p-8 text-center">
+                  <p className="text-sm text-muted">{t("dashboard.emptyCourses")}</p>
+                  <Button href="/courses" variant="gold">
+                    {t("dashboard.browseCourses")}
+                  </Button>
+                </Card>
+              )}
               {enrollments.map((enr) => {
                 const course = getCourseById(enr.courseId);
                 if (!course) return null;
@@ -197,6 +205,11 @@ export default function DashboardPage() {
               </Link>
             </div>
             <div className="mt-4 space-y-4">
+              {sessions.length === 0 && (
+                <Card className="p-6 text-center">
+                  <p className="text-sm text-muted">{t("dashboard.emptySessions")}</p>
+                </Card>
+              )}
               {sessions.map((s) => {
                 const course = getCourseById(s.courseId);
                 return (
@@ -225,7 +238,8 @@ export default function DashboardPage() {
         </div>
 
         <div className="space-y-10">
-          {/* Weak areas */}
+          {/* Weak areas — hidden until the mentor has analysis to show */}
+          {weakAreas.length > 0 && (
           <section>
             <h2 className="flex items-center gap-2 text-lg font-bold text-ink">
               <AlertTriangle className="h-4 w-4 text-accent" />
@@ -256,8 +270,10 @@ export default function DashboardPage() {
               })}
             </div>
           </section>
+          )}
 
-          {/* Milestones */}
+          {/* Milestones — hidden until real assessments exist */}
+          {milestones.length > 0 && (
           <section>
             <h2 className="flex items-center gap-2 text-lg font-bold text-ink">
               <CalendarClock className="h-4 w-4 text-primary dark:text-primary-strong" />
@@ -277,6 +293,7 @@ export default function DashboardPage() {
               })}
             </div>
           </section>
+          )}
         </div>
       </div>
     </main>

@@ -123,7 +123,10 @@
     "upcomingMilestones": "Étapes à venir",
     "lastActivity": "Dernière activité",
     "minutesStudied": "min",
-    "mentorSummary": "Résumé du mentor"
+    "mentorSummary": "Résumé du mentor",
+    "emptyCourses": "Vous n'êtes inscrit à aucun parcours pour le moment",
+    "browseCourses": "Parcourir les parcours",
+    "emptySessions": "Votre historique de sessions apparaîtra ici dès que vous commencerez"
   },
   "learn": {
     "lessonList": "Liste des leçons",
@@ -173,7 +176,9 @@
     "credentialId": "ID du certificat",
     "totalHours": "Heures totales d'apprentissage",
     "mastered": "sujets maîtrisés",
-    "inProgress": "en cours"
+    "inProgress": "en cours",
+    "emptyMastery": "Le mentor construit votre carte de maîtrise au fil des leçons — commencez votre première leçon",
+    "emptySessions": "Aucune session enregistrée pour le moment"
   },
   "profile": {
     "title": "Votre compte et réglages",

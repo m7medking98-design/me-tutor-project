@@ -98,6 +98,11 @@ export default function ProgressPage() {
         <h2 className="text-xl font-bold text-ink">{t("progressPage.masteryMap")}</h2>
         <p className="mt-1 text-sm text-muted">{t("progressPage.masteryMapDesc")}</p>
         <Card className="mt-5 space-y-6 p-6">
+          {byCourse.size === 0 && (
+            <p className="py-6 text-center text-sm text-muted">
+              {t("progressPage.emptyMastery")}
+            </p>
+          )}
           {Array.from(byCourse.entries()).map(([courseId, records]) => {
             const course = getCourseById(courseId);
             return (
@@ -124,7 +129,8 @@ export default function ProgressPage() {
         </Card>
       </section>
 
-      {/* Strong vs weak */}
+      {/* Strong vs weak — shown once the mentor has analysis */}
+      {mastery.length > 0 && (
       <div className="mt-12 grid gap-6 lg:grid-cols-2">
         <section>
           <h2 className="flex items-center gap-2 text-xl font-bold text-ink">
@@ -160,8 +166,10 @@ export default function ProgressPage() {
           </div>
         </section>
       </div>
+      )}
 
-      {/* Time per course */}
+      {/* Time per course — needs recorded sessions */}
+      {totalMinutes > 0 && (
       <section className="mt-12">
         <h2 className="text-xl font-bold text-ink">{t("progressPage.timeSpent")}</h2>
         <Card className="mt-5 space-y-5 p-6">
@@ -183,11 +191,17 @@ export default function ProgressPage() {
           ))}
         </Card>
       </section>
+      )}
 
       {/* Session history */}
       <section className="mt-12">
         <h2 className="text-xl font-bold text-ink">{t("progressPage.sessionHistory")}</h2>
         <div className="mt-5 space-y-4">
+          {sessions.length === 0 && (
+            <Card className="p-6 text-center">
+              <p className="text-sm text-muted">{t("progressPage.emptySessions")}</p>
+            </Card>
+          )}
           {sessions.map((s) => {
             const course = getCourseById(s.courseId);
             return (
@@ -214,7 +228,8 @@ export default function ProgressPage() {
         </div>
       </section>
 
-      {/* Certificates */}
+      {/* Certificates — hidden until real certificates can be earned */}
+      {certificates.length > 0 && (
       <section className="mt-12">
         <h2 className="flex items-center gap-2 text-xl font-bold text-ink">
           <Award className="h-5 w-5 text-accent" /> {t("progressPage.certificates")}
@@ -264,6 +279,7 @@ export default function ProgressPage() {
           })}
         </div>
       </section>
+      )}
     </main>
   );
 }
