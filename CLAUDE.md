@@ -6,21 +6,23 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Miyar (معيار) — a premium Arab EdTech platform: structured learning (videos, code workspaces, references) supervised by an AI mentor. Arabic-first with RTL by default. Built in phases: **1) the site (done), 2) AI supervision (next), 3) curriculum content.** Phases 2–3 have deliberate integration points (see below) — preserve them.
 
-## Current status & next steps (updated 2026-06-12, end of session)
+## Current status & next steps (updated 2026-06-13)
 
-**Done — AI phase is LIVE and user-tested:** Full site (8 pages); task panels; real Python via Pyodide (`lib/runtime.ts`); live HTML preview. `app/api/mentor/route.ts` streams Claude replies (Arabic-first teach-don't-solve prompt, prompt caching, lesson context + live code + history; model via `MENTOR_MODEL` env var — user runs `claude-haiku-4-5` for testing, funded API key in `.env.local`, $5 credit / $10 monthly cap). `app/api/verify/route.ts` auto-grades checkpoints on every Run (structured outputs guarantee the JSON; green check / orange warning on error / empty = not yet). CodeMirror editor with syntax highlighting (`components/learn/CodeEditor.tsx`; autocomplete deliberately OFF for learners). Mentor replies + hints/checkpoints render via shared `components/learn/Markdown.tsx` (inline code stays LTR inside Arabic). User is very satisfied with the teaching behavior and auto-checklist.
+**Done — AI phase LIVE and user-tested (2026-06-12):** Full site (8 pages); task panels; real Python via Pyodide (`lib/runtime.ts`); live HTML preview. `app/api/mentor/route.ts` streams Claude replies (Arabic-first teach-don't-solve prompt, prompt caching, lesson context + live code + history; model via `MENTOR_MODEL` env var — user runs `claude-haiku-4-5` for testing, funded API key in `.env.local`, $5 credit / $10 monthly cap). `app/api/verify/route.ts` auto-grades checkpoints on every Run. CodeMirror editor (`components/learn/CodeEditor.tsx`; autocomplete deliberately OFF). Mentor replies + hints/checkpoints render via shared `components/learn/Markdown.tsx`.
 
-**Lesson template is now defined by the AI phase** (objective + plain-language checkpoints → auto-graded on Run): all future course content just needs checkpoints written this way and grading comes free. The 5 Python workspace lessons are the reference examples.
+**Done — Firebase persistence CODE complete (2026-06-13):** Real Auth profiles + Firestore persistence are fully wired (see "Persistence layer" under Architecture). All that remains is the user creating the Firebase project in the console and pasting the 6 config values into `.env.local` — the walkthrough is in the session notes; rules to paste are committed as `firestore.rules`. **Until then the app stays in demo mode; first Firebase-mode end-to-end test (signup → enroll → pass checkpoints → refresh) still pending.**
 
-**AGREED NEXT STEP (user confirmed — resume here): Firebase persistence.** User creates a Firebase project at console.firebase.google.com (walk them through it step-by-step like the API-key flow); then wire real Auth + Firestore. The data layer is already Firestore-ready — only `lib/data/index.ts` changes; no page should import `mock.ts` directly. Without persistence beta students lose all progress on refresh, so this blocks the free beta.
+**Lesson template is defined by the AI phase** (objective + plain-language checkpoints → auto-graded on Run): all future course content just needs checkpoints written this way and grading comes free. The 5 Python workspace lessons are the reference examples.
+
+**NEXT STEPS:** 1) User does the Firebase Console setup (guide them step-by-step), then verify Firebase mode end-to-end. 2) Remove fabricated testimonials/stats from the landing page (also the "+18K students" line on the auth brand panel). 3) about/privacy/terms pages.
 
 **Launch blockers table (path to charging money):**
 
 | Blocker | Whose work | Status |
 |---|---|---|
 | Real AI mentor + checkpoint auto-grading | Claude | ✅ done 2026-06-12 |
-| Real persistence (Firebase: accounts, saved progress) | Claude | ⏳ NEXT |
-| Remove fabricated testimonials/stats from landing page | Claude | quick, after Firebase |
+| Real persistence (Firebase: accounts, saved progress) | Claude + user | ✅ code done 2026-06-13 — user must create the Firebase project + paste keys |
+| Remove fabricated testimonials/stats from landing page | Claude | ⏳ NEXT (quick) |
 | Real about/privacy/terms pages | Claude | after that |
 | Certificate verification page `/verify/[credentialId]` | Claude | after that |
 | Real content for flagship Python course (videos + lessons) | user | user's homework — script/record against existing lesson template |
@@ -51,11 +53,19 @@ After every meaningful change: create a clean commit (imperative subject + short
 
 Next.js 14 App Router + TypeScript + Tailwind. All pages are client components reading synchronously from a mock data layer.
 
-**Data flow:** pages call functions in `lib/data/index.ts` (e.g. `getCourses()`, `getEnrollments(uid)`), which read from `lib/data/mock.ts`. These signatures are Firestore-ready — when Firebase goes live, only `lib/data/index.ts` changes; no page should ever import from `mock.ts` directly. Domain types live in `lib/types.ts`; every user-facing content string is an `L10n` object (`{ar, en, fr}`).
+**Data flow:** course/curriculum CONTENT is local and synchronous forever — pages call `getCourses()`, `getCourseBySlug()`, `findLesson()`, `getLessonSequence()` in `lib/data/index.ts`, which read `lib/data/mock.ts`. No page imports `mock.ts` directly. Domain types live in `lib/types.ts`; every user-facing content string is an `L10n` object (`{ar, en, fr}`).
+
+**Persistence layer (USER data — Firestore in Firebase mode, mock in demo mode):**
+- Model: `users/{uid}` (profile, xp, streakDays, lastActiveDate) · `users/{uid}/enrollments/{courseId}` · `users/{uid}/lessonState/{lessonId}` (checkpointResults, codeDraft, completedAt). Rules in `firestore.rules` (each student reads/writes only their own subtree).
+- Reads: hooks in `lib/data/student-context.tsx` — `useEnrollments()`, `useEnrollment(courseId)`, `useLessonState(lessonId)` — backed by `onSnapshot`; in demo mode they return seeded mock data synchronously. `StudentDataProvider` is mounted in `components/layout/Providers.tsx`.
+- Writes: ONLY in `lib/data/student-store.ts` (`enrollInCourse`, `updateLastPosition`, `saveCheckpointResults`, `saveCodeDraft` — debounced 1.5s at the call site, `markLessonComplete` — idempotent, +50 XP, recomputes progress %, touches streak). Every write is a silent no-op in demo mode, so **pages never branch on the mode and never import firebase directly** — keep it that way.
+- Completion rule: workspace lesson = all checkpoints passed on a Run; video/reference = clicking Next / mark-complete. Level is always derived `floor(xp/500)+1`, never stored.
+- `getSessions/getMastery/getCertificates/getMilestones` return `[]` in Firebase mode (those features aren't built for real users yet — never show seeded demo stats to real students). The check reads `process.env.NEXT_PUBLIC_FIREBASE_API_KEY` directly, NOT `lib/firebase`, to keep the Firebase SDK out of public-page bundles.
+- Known accepted risk for free beta: XP/progress are client-trusted. Certificate issuance MUST move server-side before building `/verify/[credentialId]`.
 
 **AI mentor (phase-2 integration point):** `lib/mentor.ts → getMentorReply()` is the *single* function to replace with the real AI backend. It already receives lesson context, the student's live workspace code, and the user message. The chat UI (`components/learn/MentorChat.tsx`), greeting, and typing states are finished — don't add AI logic anywhere else.
 
-**Auth:** `lib/auth-context.tsx` provides `useAuth()`. Dual-mode: real Firebase when `NEXT_PUBLIC_FIREBASE_API_KEY` exists (checked in `lib/firebase.ts` via `isFirebaseEnabled`), otherwise demo mode backed by localStorage. Routes under `app/(app)/` (dashboard, learn, progress, profile) are guarded by `components/layout/AuthGuard.tsx` in the group layout; `app/courses/` is intentionally public.
+**Auth:** `lib/auth-context.tsx` provides `useAuth()`. Dual-mode: real Firebase when `NEXT_PUBLIC_FIREBASE_API_KEY` exists (checked in `lib/firebase.ts` via `isFirebaseEnabled`), otherwise demo mode backed by localStorage. In Firebase mode the `users/{uid}` Firestore doc is the profile source of truth: created idempotently by `ensureUserProfile()` on first sign-in (signup writes it with the typed name to beat the displayName race), streamed via `subscribeProfile()`; `loading` stays true until the doc resolves. Auth errors are localized in `components/auth/AuthScreen.tsx` (`auth.err*` message keys). Routes under `app/(app)/` (dashboard, learn, progress, profile) are guarded by `components/layout/AuthGuard.tsx` in the group layout; `app/courses/` is intentionally public.
 
 **i18n:** custom provider in `lib/language-context.tsx` — no URL locale prefixes. `useLanguage()` gives `t("section.key")` for UI strings (dictionaries in `messages/{ar,en,fr}.json`), `loc(l10nObject)` for content, plus `locale` and `dir`. Locale persists in the `miyar-locale` cookie, read server-side in `app/layout.tsx` to set `<html lang dir>` without a flash. Arabic (`ar`) is the default and is RTL.
 
