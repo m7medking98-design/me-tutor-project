@@ -3,6 +3,7 @@
 import { ThemeProvider } from "next-themes";
 import { LanguageProvider } from "@/lib/language-context";
 import { AuthProvider } from "@/lib/auth-context";
+import { StudentDataProvider } from "@/lib/data/student-context";
 import type { Locale } from "@/lib/types";
 
 export function Providers({
@@ -15,7 +16,9 @@ export function Providers({
   return (
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
       <LanguageProvider initialLocale={initialLocale}>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <StudentDataProvider>{children}</StudentDataProvider>
+        </AuthProvider>
       </LanguageProvider>
     </ThemeProvider>
   );

@@ -4,9 +4,9 @@ import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import { CourseCard } from "@/components/courses/CourseCard";
 import { Footer } from "@/components/layout/Footer";
-import { useAuth } from "@/lib/auth-context";
 import { useLanguage } from "@/lib/language-context";
-import { getCourses, getEnrollments } from "@/lib/data";
+import { getCourses } from "@/lib/data";
+import { useEnrollments } from "@/lib/data/student-context";
 import { localeMeta } from "@/lib/language-context";
 import type { CourseLevel, Locale, SubjectCategory } from "@/lib/types";
 
@@ -39,14 +39,12 @@ function FilterChip({
 
 export default function CoursesPage() {
   const { t, loc } = useLanguage();
-  const { user } = useAuth();
+  const { enrollments } = useEnrollments();
 
   const [category, setCategory] = useState<SubjectCategory | null>(null);
   const [level, setLevel] = useState<CourseLevel | null>(null);
   const [lang, setLang] = useState<Locale | null>(null);
   const [query, setQuery] = useState("");
-
-  const enrollments = user ? getEnrollments(user.uid) : [];
 
   const filtered = useMemo(() => {
     return getCourses().filter((c) => {

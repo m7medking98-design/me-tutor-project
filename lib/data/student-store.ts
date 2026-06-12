@@ -18,11 +18,17 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { db, isFirebaseEnabled } from "@/lib/firebase";
-import type { UserProfile } from "@/lib/types";
+import { getLessonSequence } from "@/lib/data";
+import type { Course, UserProfile } from "@/lib/types";
 
 function userDoc(uid: string) {
   if (!db) throw new Error("Firestore is not initialized");
   return doc(db, "users", uid);
+}
+
+function enrollmentDoc(uid: string, courseId: string) {
+  if (!db) throw new Error("Firestore is not initialized");
+  return doc(db, "users", uid, "enrollments", courseId);
 }
 
 /** Today as a local YYYY-MM-DD string (streaks are calendar-day based). */
@@ -102,4 +108,69 @@ export function subscribeProfile(
       level: Math.floor(xp / 500) + 1,
     });
   });
+}
+
+/**
+ * Keep the calendar-day streak honest: first activity today extends a streak
+ * that was alive yesterday, otherwise restarts it at 1. No write when the
+ * student was already active today.
+ */
+export async function touchStreak(uid: string): Promise<void> {
+  if (!isFirebaseEnabled || !db) return;
+  const snap = await getDoc(userDoc(uid));
+  if (!snap.exists()) return;
+  const today = localDateKey();
+  const last = (snap.data().lastActiveDate as string | undefined) ?? "";
+  if (last === today) return;
+  const yesterday = localDateKey(new Date(Date.now() - 24 * 60 * 60 * 1000));
+  const streakDays =
+    last === yesterday ? ((snap.data().streakDays as number) ?? 0) + 1 : 1;
+  await setDoc(
+    userDoc(uid),
+    { lastActiveDate: today, streakDays },
+    { merge: true }
+  );
+}
+
+/** Enroll the student in a course, positioned at its first lesson. */
+export async function enrollInCourse(
+  uid: string,
+  course: Course
+): Promise<void> {
+  if (!isFirebaseEnabled || !db) return;
+  const first = getLessonSequence(course)[0];
+  await setDoc(
+    enrollmentDoc(uid, course.id),
+    {
+      courseId: course.id,
+      progress: 0,
+      completedLessonIds: [],
+      lastLessonSlug: first?.lesson.slug ?? "",
+      lastModuleId: first?.module.id ?? "",
+      lastActivityAt: new Date().toISOString(),
+      enrolledAt: serverTimestamp(),
+    },
+    { merge: true }
+  );
+  void touchStreak(uid);
+}
+
+/** Remember where the student is in a course (called when a lesson opens). */
+export async function updateLastPosition(
+  uid: string,
+  courseId: string,
+  lessonSlug: string,
+  moduleId: string
+): Promise<void> {
+  if (!isFirebaseEnabled || !db) return;
+  await setDoc(
+    enrollmentDoc(uid, courseId),
+    {
+      lastLessonSlug: lessonSlug,
+      lastModuleId: moduleId,
+      lastActivityAt: new Date().toISOString(),
+    },
+    { merge: true }
+  );
+  void touchStreak(uid);
 }

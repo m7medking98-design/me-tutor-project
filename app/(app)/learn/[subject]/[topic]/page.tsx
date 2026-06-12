@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
 import {
@@ -24,7 +24,9 @@ import { MentorChat } from "@/components/learn/MentorChat";
 import { TaskPanel, type CheckStatus } from "@/components/learn/TaskPanel";
 import { useAuth } from "@/lib/auth-context";
 import { useLanguage } from "@/lib/language-context";
-import { findLesson, getEnrollment, getLessonSequence } from "@/lib/data";
+import { findLesson, getLessonSequence } from "@/lib/data";
+import { useEnrollment } from "@/lib/data/student-context";
+import { enrollInCourse, updateLastPosition } from "@/lib/data/student-store";
 import type { LessonType } from "@/lib/types";
 
 const lessonIcons: Record<LessonType, typeof Play> = {
@@ -43,13 +45,28 @@ export default function LearnPage() {
   const [checkStatuses, setCheckStatuses] = useState<Record<string, CheckStatus>>({});
   const [verifying, setVerifying] = useState(false);
 
+  const hit = findLesson(params.subject, params.topic);
+  const { enrollment, loading: enrollmentLoading } = useEnrollment(hit?.course.id);
+
   // Fresh checklist when navigating between lessons
   useEffect(() => {
     setCheckStatuses({});
     setVerifying(false);
   }, [params.subject, params.topic]);
 
-  const hit = findLesson(params.subject, params.topic);
+  // Opening a lesson enrolls (first visit) and saves the student's position.
+  // The ref makes this once-per-lesson: enrollment snapshots re-fire the
+  // effect, and without it every write would loop through the listener.
+  const positionedRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (!user || !hit || enrollmentLoading) return;
+    const key = `${user.uid}:${hit.course.id}/${hit.lesson.slug}`;
+    if (positionedRef.current === key) return;
+    positionedRef.current = key;
+    if (!enrollment) void enrollInCourse(user.uid, hit.course);
+    void updateLastPosition(user.uid, hit.course.id, hit.lesson.slug, hit.module.id);
+  }, [user, hit, enrollment, enrollmentLoading]);
+
   if (!hit) notFound();
   const { course, module, lesson, index, total } = hit;
 
@@ -99,7 +116,6 @@ export default function LearnPage() {
     }
   }
 
-  const enrollment = user ? getEnrollment(user.uid, course.id) : undefined;
   const seq = getLessonSequence(course);
   const prev = index > 0 ? seq[index - 1].lesson : null;
   const next = index < total - 1 ? seq[index + 1].lesson : null;

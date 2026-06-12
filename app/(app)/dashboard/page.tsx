@@ -20,11 +20,11 @@ import { useAuth } from "@/lib/auth-context";
 import { useLanguage } from "@/lib/language-context";
 import {
   getCourseById,
-  getEnrollments,
   getMastery,
   getMilestones,
   getSessions,
 } from "@/lib/data";
+import { useEnrollments } from "@/lib/data/student-context";
 
 const WEEKDAYS = {
   ar: ["س", "ح", "ن", "ث", "ر", "خ", "ج"],
@@ -35,9 +35,9 @@ const WEEKDAYS = {
 export default function DashboardPage() {
   const { t, loc, locale, dir } = useLanguage();
   const { user } = useAuth();
+  const { enrollments } = useEnrollments();
   if (!user) return null; // AuthGuard handles redirect
 
-  const enrollments = getEnrollments(user.uid);
   const sessions = getSessions(user.uid).slice(0, 3);
   const weakAreas = getMastery(user.uid)
     .filter((m) => m.mastery > 0 && m.mastery < 65)

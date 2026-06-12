@@ -1,6 +1,7 @@
 "use client";
 
-import { notFound, useParams } from "next/navigation";
+import { useState } from "react";
+import { notFound, useParams, useRouter } from "next/navigation";
 import {
   BookOpen,
   Bot,
@@ -20,7 +21,9 @@ import { ProgressBar } from "@/components/ui/ProgressBar";
 import { Footer } from "@/components/layout/Footer";
 import { useAuth } from "@/lib/auth-context";
 import { useLanguage } from "@/lib/language-context";
-import { getCourseBySlug, getEnrollment, getLessonSequence } from "@/lib/data";
+import { getCourseBySlug, getLessonSequence } from "@/lib/data";
+import { useEnrollment } from "@/lib/data/student-context";
+import { enrollInCourse } from "@/lib/data/student-store";
 import type { LessonType } from "@/lib/types";
 
 const lessonIcons: Record<LessonType, typeof Play> = {
@@ -31,16 +34,32 @@ const lessonIcons: Record<LessonType, typeof Play> = {
 
 export default function CourseDetailPage() {
   const params = useParams<{ slug: string }>();
+  const router = useRouter();
   const { t, loc } = useLanguage();
   const { user } = useAuth();
+  const [enrolling, setEnrolling] = useState(false);
 
   const course = getCourseBySlug(params.slug);
+  const { enrollment, loading } = useEnrollment(course?.id);
   if (!course) notFound();
 
-  const enrollment = user ? getEnrollment(user.uid, course.id) : undefined;
   const lessonCount = getLessonSequence(course).length;
   const firstLesson = getLessonSequence(course)[0]?.lesson;
-  const continueSlug = enrollment?.lastLessonSlug ?? firstLesson?.slug;
+  const continueSlug = enrollment?.lastLessonSlug || firstLesson?.slug;
+
+  async function handleEnroll() {
+    if (!user) {
+      router.push("/signup");
+      return;
+    }
+    setEnrolling(true);
+    try {
+      await enrollInCourse(user.uid, course!);
+      router.push(`/learn/${course!.slug}/${firstLesson?.slug}`);
+    } finally {
+      setEnrolling(false);
+    }
+  }
 
   return (
     <>
@@ -175,12 +194,13 @@ export default function CourseDetailPage() {
                 </>
               ) : (
                 <Button
-                  href={user ? `/learn/${course.slug}/${continueSlug}` : "/signup"}
+                  onClick={handleEnroll}
                   variant="gold"
                   size="lg"
                   className="w-full"
+                  disabled={enrolling || loading}
                 >
-                  {t("courses.enrollNow")}
+                  {enrolling || loading ? t("common.loading") : t("courses.enrollNow")}
                 </Button>
               )}
             </Card>

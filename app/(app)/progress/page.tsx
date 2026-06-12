@@ -18,10 +18,10 @@ import { useLanguage } from "@/lib/language-context";
 import {
   getCertificates,
   getCourseById,
-  getEnrollments,
   getMastery,
   getSessions,
 } from "@/lib/data";
+import { useEnrollments } from "@/lib/data/student-context";
 
 /** mastery 0..100 → heat color (surface → teal → gold at the top end) */
 function heatStyle(mastery: number): React.CSSProperties {
@@ -35,12 +35,12 @@ function heatStyle(mastery: number): React.CSSProperties {
 export default function ProgressPage() {
   const { t, loc } = useLanguage();
   const { user } = useAuth();
+  const { enrollments } = useEnrollments();
   if (!user) return null;
 
   const mastery = getMastery(user.uid);
   const sessions = getSessions(user.uid);
   const certificates = getCertificates(user.uid);
-  const enrollments = getEnrollments(user.uid);
 
   const strong = mastery.filter((m) => m.mastery >= 65).sort((a, b) => b.mastery - a.mastery);
   const weak = mastery
