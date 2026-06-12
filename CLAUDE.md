@@ -6,19 +6,32 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Miyar (معيار) — a premium Arab EdTech platform: structured learning (videos, code workspaces, references) supervised by an AI mentor. Arabic-first with RTL by default. Built in phases: **1) the site (done), 2) AI supervision (next), 3) curriculum content.** Phases 2–3 have deliberate integration points (see below) — preserve them.
 
-## Current status & next steps (updated 2026-06-12)
+## Current status & next steps (updated 2026-06-12, end of session)
 
-**Done:** Full site (8 pages) + workspace upgrade: task panels (objective/checkpoints/hint on workspace lessons), real Python execution in-browser via Pyodide (`lib/runtime.ts`), live HTML preview, English-terms content rule applied everywhere. **AI mentor backend built (2026-06-12):** `app/api/mentor/route.ts` streams Claude replies (Anthropic SDK, prompt caching on the system blocks, Arabic-first teach-don't-solve system prompt, lesson context + live code + history injection, model via `MENTOR_MODEL` env var, default `claude-opus-4-8` / `claude-haiku-4-5` for cheap dev testing); `lib/mentor.ts → getMentorReply()` now calls it with streaming UI in `MentorChat` and falls back to demo replies when no key (route returns 503).
+**Done — AI phase is LIVE and user-tested:** Full site (8 pages); task panels; real Python via Pyodide (`lib/runtime.ts`); live HTML preview. `app/api/mentor/route.ts` streams Claude replies (Arabic-first teach-don't-solve prompt, prompt caching, lesson context + live code + history; model via `MENTOR_MODEL` env var — user runs `claude-haiku-4-5` for testing, funded API key in `.env.local`, $5 credit / $10 monthly cap). `app/api/verify/route.ts` auto-grades checkpoints on every Run (structured outputs guarantee the JSON; green check / orange warning on error / empty = not yet). CodeMirror editor with syntax highlighting (`components/learn/CodeEditor.tsx`; autocomplete deliberately OFF for learners). Mentor replies + hints/checkpoints render via shared `components/learn/Markdown.tsx` (inline code stays LTR inside Arabic). User is very satisfied with the teaching behavior and auto-checklist.
 
-**Agreed plan — AI supervision comes BEFORE curriculum.** Reason: the AI defines the lesson template (checkpoints, expected outputs, common mistakes) that all future content must follow; building content first would mean rewriting it. The existing 5 Python workspace lessons are the AI testing ground.
+**Lesson template is now defined by the AI phase** (objective + plain-language checkpoints → auto-graded on Run): all future course content just needs checkpoints written this way and grading comes free. The 5 Python workspace lessons are the reference examples.
 
-**Immediate next step:** activate the mentor — user creates an Anthropic API key at console.anthropic.com (advised: add payment method, set $10/month spend cap for dev testing; raise to ~$50 when beta students arrive), pastes it into `.env.local` as `ANTHROPIC_API_KEY` (optionally `MENTOR_MODEL=claude-haiku-4-5` for cheap testing), then test the mentor against the 5 Python workspace lessons and tune the system prompt. After that: structured checkpoint verification (auto-grade on Run), per-user token budgets tied to plan tier.
+**AGREED NEXT STEP (user confirmed — resume here): Firebase persistence.** User creates a Firebase project at console.firebase.google.com (walk them through it step-by-step like the API-key flow); then wire real Auth + Firestore. The data layer is already Firestore-ready — only `lib/data/index.ts` changes; no page should import `mock.ts` directly. Without persistence beta students lose all progress on refresh, so this blocks the free beta.
+
+**Launch blockers table (path to charging money):**
+
+| Blocker | Whose work | Status |
+|---|---|---|
+| Real AI mentor + checkpoint auto-grading | Claude | ✅ done 2026-06-12 |
+| Real persistence (Firebase: accounts, saved progress) | Claude | ⏳ NEXT |
+| Remove fabricated testimonials/stats from landing page | Claude | quick, after Firebase |
+| Real about/privacy/terms pages | Claude | after that |
+| Certificate verification page `/verify/[credentialId]` | Claude | after that |
+| Real content for flagship Python course (videos + lessons) | user | user's homework — script/record against existing lesson template |
+| Payments + plan gating + per-user token budgets | Claude | after free beta validates retention |
+| Company registration + real domain | user | business side — needed for NELC and payment providers |
 
 **Business decisions discussed (2026-06-12):**
 - Unit economics: per-user token budgets tied to plan tier from day one; model tier matches plan tier (free → cheapest model, paid → better); fair-use daily ceiling on "unlimited"; average student ≈ $1–2/month in tokens vs $9 plan → healthy margin.
-- Launch readiness: site is ready to SHOW, not to SELL. Blockers before charging money: real persistence (Firebase live), real AI mentor, real content for one flagship course (Python), payments + plan gating, and **removing the fabricated testimonials/stats on the landing page** (placeholder marketing copy — must be replaced with real beta feedback before any public launch).
-- Credibility roadmap (for future "globally professional" goal): public certificate verification page (`/verify/[credentialId]`), real privacy/terms/about pages, curriculum mapped to recognized frameworks (e.g. Python Institute PCEP objectives), assessment integrity in the AI phase. Business-side (user's tasks): register a company, real domain, later approach accreditation bodies (e.g. Saudi NELC licenses e-learning platforms).
-- Strategy: free beta first to gather real testimonials and validate retention (lesson completion is the metric that matters), then charge.
+- Launch readiness: site is ready to SHOW, not to SELL — see blockers table above. The fabricated testimonials/stats on the landing page MUST be replaced with real beta feedback before any public launch.
+- Credibility ladder (user's "global recognition" goal, discussed 2026-06-12): trusted certificates → employer-verifiable certs (`/verify/[credentialId]` page) mapped to recognized frameworks (e.g. Python Institute PCEP objectives) → official approval (Saudi NELC licenses e-learning platforms; requires registered company). **Degrees are explicitly NOT the goal — recognized certificates are.** Assessment integrity in the AI phase supports this.
+- Strategy: free beta first (10–30 students; lesson-completion retention is THE metric; collect real testimonials), then charge.
 
 ## Commands
 
