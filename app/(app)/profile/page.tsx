@@ -62,18 +62,41 @@ export default function ProfilePage() {
       <h1 className="text-3xl font-bold text-ink">{t("profile.title")}</h1>
 
       {/* Identity card */}
-      <Card className="mt-8 flex flex-wrap items-center gap-5 p-6">
-        <Avatar name={user.displayName} src={user.photoURL} size="lg" />
-        <div className="min-w-0 flex-1">
-          <h2 className="text-xl font-bold text-ink">{user.displayName}</h2>
-          <p className="text-sm text-muted">{user.email}</p>
-          <p className="mt-1 text-xs text-muted">
-            {t("profile.memberSince")} {user.joinedAt}
-          </p>
+      <Card className="mt-8 overflow-hidden">
+        <div className="relative h-24 bg-gradient-to-br from-primary/40 via-primary/15 to-accent/25">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_20%,rgba(255,255,255,0.12),transparent_55%)]" />
         </div>
-        <Badge tone="gold" className="px-3 py-1">
-          ✦ {loc(planNames[user.plan])}
-        </Badge>
+        <div className="flex flex-wrap items-center gap-5 px-6 pb-6">
+          <div className="-mt-8">
+            <Avatar name={user.displayName} src={user.photoURL} size="lg" />
+          </div>
+          <div className="min-w-0 flex-1 pt-4">
+            <h2 className="text-xl font-bold text-ink">{user.displayName}</h2>
+            <p className="text-sm text-muted">{user.email}</p>
+            <p className="mt-1 text-xs text-muted">
+              {t("profile.memberSince")} {user.joinedAt}
+            </p>
+          </div>
+          <Badge tone="gold" className="px-3 py-1">
+            ✦ {loc(planNames[user.plan])}
+          </Badge>
+        </div>
+        <div className="grid grid-cols-3 divide-x divide-line/10 border-t border-line/10 rtl:divide-x-reverse">
+          <div className="px-4 py-3.5 text-center">
+            <p className="text-[11px] text-muted">{t("common.level")}</p>
+            <p className="mt-0.5 font-bold text-ink">{user.level}</p>
+          </div>
+          <div className="px-4 py-3.5 text-center">
+            <p className="text-[11px] text-muted">{t("common.xp")}</p>
+            <p className="mt-0.5 font-bold text-accent">{user.xp.toLocaleString()}</p>
+          </div>
+          <div className="px-4 py-3.5 text-center">
+            <p className="text-[11px] text-muted">{t("dashboard.streakTitle")}</p>
+            <p className="mt-0.5 font-bold text-ink">
+              {user.streakDays} <span className="text-xs font-normal text-muted">{t("common.days")}</span>
+            </p>
+          </div>
+        </div>
       </Card>
 
       {/* Language */}

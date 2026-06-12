@@ -65,6 +65,7 @@
     "how3Desc": "No attendance certificates — mastery certificates. Awarded only after passing real assessments that prove understanding, so they carry actual weight with universities and employers.",
     "catalogTitle": "Courses built to a global standard",
     "catalogSubtitle": "Deeply built curricula, not scattered videos",
+    "viewAllCourses": "Browse all tracks",
     "testimonialsTitle": "Students whose learning Miyar changed",
     "testimonialsSubtitle": "From Baghdad to Riyadh to Cairo",
     "pricingTitle": "Invest in your most valuable asset: your mind",
@@ -95,7 +96,7 @@
     "engineering": "Engineering",
     "data": "Data Science",
     "yourProgress": "Your progress",
-    "enrollNow": "Enroll now",
+    "enrollNow": "Start the track",
     "continueLearning": "Continue learning",
     "syllabus": "Syllabus",
     "outcomes": "What you'll master",
@@ -178,7 +179,10 @@
     "mastered": "topics mastered",
     "inProgress": "in progress",
     "emptyMastery": "The mentor builds your mastery map as you complete lessons — start your first lesson",
-    "emptySessions": "No recorded sessions yet"
+    "emptySessions": "No recorded sessions yet",
+    "courseProgress": "Your track progress",
+    "enrolledTracks": "enrolled tracks",
+    "completedLessons": "lessons completed"
   },
   "profile": {
     "title": "Your account & settings",

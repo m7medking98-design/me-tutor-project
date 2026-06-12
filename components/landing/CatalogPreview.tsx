@@ -15,16 +15,11 @@ export function CatalogPreview() {
   return (
     <section className="border-y border-line/10 bg-surface/40 py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <h2 className="text-3xl font-bold text-ink sm:text-4xl">
-              {t("landing.catalogTitle")}
-            </h2>
-            <p className="mt-3 text-muted">{t("landing.catalogSubtitle")}</p>
-          </div>
-          <Button href="/courses" variant="ghost">
-            {t("common.viewAll")} <Arrow className="h-4 w-4" />
-          </Button>
+        <div className="text-center sm:text-start">
+          <h2 className="text-3xl font-bold text-ink sm:text-4xl">
+            {t("landing.catalogTitle")}
+          </h2>
+          <p className="mt-3 text-muted">{t("landing.catalogSubtitle")}</p>
         </div>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -39,6 +34,13 @@ export function CatalogPreview() {
               <CourseCard course={course} />
             </motion.div>
           ))}
+        </div>
+
+        {/* Only the featured tracks are shown above — make "all of them" unmissable */}
+        <div className="mt-12 text-center">
+          <Button href="/courses" variant="outline" size="lg">
+            {t("landing.viewAllCourses")} <Arrow className="h-4 w-4" />
+          </Button>
         </div>
       </div>
     </section>

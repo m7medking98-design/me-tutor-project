@@ -78,7 +78,9 @@ export function AuthScreen({ mode }: { mode: "login" | "signup" }) {
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    if (user) router.replace("/dashboard");
+    // Land on the home page after sign-in — let students explore freely
+    // instead of being pushed straight into picking a course.
+    if (user) router.replace("/");
   }, [user, router]);
 
   const isLogin = mode === "login";

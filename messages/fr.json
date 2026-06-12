@@ -65,6 +65,7 @@
     "how3Desc": "Pas de certificats de présence — des certificats de maîtrise. Délivrés uniquement après de vraies évaluations, pour avoir un vrai poids auprès des universités et employeurs.",
     "catalogTitle": "Des parcours au standard mondial",
     "catalogSubtitle": "Des programmes construits en profondeur, pas des vidéos éparses",
+    "viewAllCourses": "Voir tous les parcours",
     "testimonialsTitle": "Des étudiants transformés par Miyar",
     "testimonialsSubtitle": "De Bagdad à Riyad au Caire",
     "pricingTitle": "Investissez dans votre bien le plus précieux : votre esprit",
@@ -95,7 +96,7 @@
     "engineering": "Ingénierie",
     "data": "Data Science",
     "yourProgress": "Votre progrès",
-    "enrollNow": "S'inscrire",
+    "enrollNow": "Commencer le parcours",
     "continueLearning": "Continuer",
     "syllabus": "Programme",
     "outcomes": "Ce que vous maîtriserez",
@@ -178,7 +179,10 @@
     "mastered": "sujets maîtrisés",
     "inProgress": "en cours",
     "emptyMastery": "Le mentor construit votre carte de maîtrise au fil des leçons — commencez votre première leçon",
-    "emptySessions": "Aucune session enregistrée pour le moment"
+    "emptySessions": "Aucune session enregistrée pour le moment",
+    "courseProgress": "Votre progression par parcours",
+    "enrolledTracks": "parcours suivis",
+    "completedLessons": "leçons terminées"
   },
   "profile": {
     "title": "Votre compte et réglages",

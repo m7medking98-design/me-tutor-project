@@ -66,14 +66,12 @@ export default function CoursesPage() {
   return (
     <>
       <main className="mx-auto min-h-[70vh] max-w-7xl px-4 py-12 sm:px-6">
-        <header>
-          <h1 className="text-3xl font-bold text-ink sm:text-4xl">{t("courses.title")}</h1>
-          <p className="mt-2 text-muted">{t("courses.subtitle")}</p>
-        </header>
-
-        {/* Search + filters */}
-        <div className="mt-8 space-y-4">
-          <div className="relative max-w-sm">
+        <header className="flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <h1 className="text-3xl font-bold text-ink sm:text-4xl">{t("courses.title")}</h1>
+            <p className="mt-2 text-muted">{t("courses.subtitle")}</p>
+          </div>
+          <div className="relative w-full sm:max-w-sm">
             <Search className="absolute start-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
             <input
               value={query}
@@ -82,7 +80,10 @@ export default function CoursesPage() {
               className="w-full rounded-xl border border-line/20 bg-surface py-2.5 pe-4 ps-10 text-sm text-ink outline-none transition-colors placeholder:text-muted focus:border-primary/60 focus:ring-2 focus:ring-primary/20"
             />
           </div>
+        </header>
 
+        {/* Filters */}
+        <div className="mt-8 space-y-3 rounded-2xl border border-line/10 bg-surface/60 p-4 sm:p-5">
           <div className="flex flex-wrap items-center gap-2">
             <span className="me-1 text-xs font-semibold uppercase tracking-wide text-muted">
               {t("courses.filterSubject")}

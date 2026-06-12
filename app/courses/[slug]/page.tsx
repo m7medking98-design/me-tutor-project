@@ -171,8 +171,8 @@ export default function CourseDetailPage() {
             </section>
           </div>
 
-          {/* Right: enroll card + mentor note */}
-          <aside className="space-y-5 lg:-mt-28">
+          {/* Right: enroll card + mentor note (sticky in view, no header overlap) */}
+          <aside className="h-fit space-y-5 lg:sticky lg:top-24">
             <Card className="p-6 shadow-xl">
               {enrollment ? (
                 <>

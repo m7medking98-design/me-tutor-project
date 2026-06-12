@@ -2,6 +2,7 @@
 
 import {
   Award,
+  BookOpen,
   Brain,
   CheckCircle2,
   Clock,
@@ -18,6 +19,7 @@ import { useLanguage } from "@/lib/language-context";
 import {
   getCertificates,
   getCourseById,
+  getLessonSequence,
   getMastery,
   getSessions,
 } from "@/lib/data";
@@ -48,6 +50,10 @@ export default function ProgressPage() {
     .sort((a, b) => a.mastery - b.mastery);
 
   const totalMinutes = sessions.reduce((acc, s) => acc + s.durationMin, 0);
+  const completedLessonsTotal = enrollments.reduce(
+    (acc, e) => acc + e.completedLessonIds.length,
+    0
+  );
   // time per course (mock: sum of session durations)
   const timePerCourse = enrollments.map((e) => {
     const course = getCourseById(e.courseId);
@@ -74,7 +80,18 @@ export default function ProgressPage() {
       </header>
 
       {/* Summary stats */}
-      <div className="mt-8 grid gap-5 sm:grid-cols-3">
+      <div className="mt-8 grid grid-cols-2 gap-5 lg:grid-cols-4">
+        <StatCard
+          icon={<BookOpen className="h-5 w-5" />}
+          label={t("progressPage.enrolledTracks")}
+          value={enrollments.length}
+        />
+        <StatCard
+          icon={<CheckCircle2 className="h-5 w-5" />}
+          label={t("progressPage.completedLessons")}
+          value={completedLessonsTotal}
+          gold
+        />
         <StatCard
           icon={<Clock className="h-5 w-5" />}
           label={t("progressPage.totalHours")}
@@ -84,14 +101,43 @@ export default function ProgressPage() {
           icon={<Brain className="h-5 w-5" />}
           label={t("progressPage.mastered")}
           value={strong.length}
-          gold
-        />
-        <StatCard
-          icon={<TrendingDown className="h-5 w-5" />}
-          label={t("progressPage.inProgress")}
-          value={weak.length}
         />
       </div>
+
+      {/* Per-track progress — real persisted data */}
+      {enrollments.length > 0 && (
+        <section className="mt-12">
+          <h2 className="text-xl font-bold text-ink">{t("progressPage.courseProgress")}</h2>
+          <div className="mt-5 grid gap-4 sm:grid-cols-2">
+            {enrollments.map((e) => {
+              const course = getCourseById(e.courseId);
+              if (!course) return null;
+              const total = getLessonSequence(course).length;
+              return (
+                <Card key={e.courseId} className="overflow-hidden p-5">
+                  <div className="flex items-center gap-3">
+                    <span
+                      className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br ${course.gradient} text-white`}
+                    >
+                      <BookOpen className="h-4 w-4" />
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <h3 className="truncate font-semibold text-ink">{loc(course.title)}</h3>
+                      <p className="text-xs text-muted">
+                        {e.completedLessonIds.length} / {total} {t("common.lessons")}
+                      </p>
+                    </div>
+                    <span className="shrink-0 text-lg font-bold text-primary dark:text-primary-strong">
+                      {e.progress}%
+                    </span>
+                  </div>
+                  <ProgressBar value={e.progress} className="mt-4" />
+                </Card>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       {/* Mastery heatmap */}
       <section className="mt-12">
