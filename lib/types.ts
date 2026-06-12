@@ -26,6 +26,14 @@ export interface Lesson {
   durationMin: number;
   /** for workspace lessons: starter code shown in the editor */
   starterCode?: string;
+  /** for workspace lessons: execution target (defaults to python) */
+  language?: "python" | "html";
+  /** for workspace lessons: what the student must achieve */
+  objective?: L10n;
+  /** for workspace lessons: self-check steps (the AI will verify these in phase 2) */
+  checkpoints?: { id: string; text: L10n }[];
+  /** for workspace lessons: revealed on demand */
+  hint?: L10n;
   /** for video lessons: chapter markers */
   chapters?: { time: string; title: L10n }[];
   /** for reference lessons: section headings (table of contents) */

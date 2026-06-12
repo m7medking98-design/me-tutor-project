@@ -21,6 +21,7 @@ import { VideoPanel } from "@/components/learn/VideoPanel";
 import { WorkspacePanel } from "@/components/learn/WorkspacePanel";
 import { ReferencePanel } from "@/components/learn/ReferencePanel";
 import { MentorChat } from "@/components/learn/MentorChat";
+import { TaskPanel } from "@/components/learn/TaskPanel";
 import { useAuth } from "@/lib/auth-context";
 import { useLanguage } from "@/lib/language-context";
 import { findLesson, getEnrollment, getLessonSequence } from "@/lib/data";
@@ -111,10 +112,11 @@ export default function LearnPage() {
       {/* Split layout */}
       <div className="mx-auto grid w-full max-w-[1700px] flex-1 lg:grid-cols-[1fr_400px]">
         {/* main panel */}
-        <main className="min-w-0 px-4 py-6 sm:px-6 lg:border-e lg:border-line/10">
+        <main className="min-w-0 space-y-5 px-4 py-6 sm:px-6 lg:border-e lg:border-line/10">
+          {lesson.type === "workspace" && <TaskPanel lesson={lesson} />}
           {lesson.type === "video" && <VideoPanel lesson={lesson} />}
           {lesson.type === "workspace" && (
-            <WorkspacePanel lesson={lesson} onCodeChange={setCode} />
+            <WorkspacePanel key={lesson.id} lesson={lesson} onCodeChange={setCode} />
           )}
           {lesson.type === "reference" && <ReferencePanel lesson={lesson} />}
         </main>
