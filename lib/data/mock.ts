@@ -17,7 +17,7 @@ export const courses: Course[] = [
     id: "c-python",
     slug: "python-foundations",
     title: {
-      ar: "أساسيات بايثون",
+      ar: "أساسيات Python",
       en: "Python Foundations",
       fr: "Fondamentaux de Python",
     },
@@ -27,7 +27,7 @@ export const courses: Course[] = [
       fr: "De zéro à de vrais programmes, avec un suivi de chaque ligne écrite.",
     },
     description: {
-      ar: "مسار متكامل لتعلم لغة بايثون من البداية. لن تشاهد فقط — ستكتب الكود بنفسك داخل بيئة العمل، والمشرف الذكي يصحح أخطاءك فور حدوثها ويشرح السبب بطريقة تناسب مستواك.",
+      ar: "مسار متكامل لتعلم لغة Python من البداية. لن تشاهد فقط — ستكتب الكود بنفسك داخل بيئة العمل، والمشرف الذكي يصحح أخطاءك فور حدوثها ويشرح السبب بطريقة تناسب مستواك. المصطلحات التقنية تبقى بالإنجليزية لتكون جاهزاً لسوق العمل العالمي.",
       en: "A complete path to learning Python from scratch. You won't just watch — you'll write code yourself in the workspace, and the AI mentor corrects your mistakes the moment they happen and explains why.",
       fr: "Un parcours complet pour apprendre Python depuis le début. Vous ne regardez pas seulement — vous écrivez le code vous-même, et le mentor IA corrige vos erreurs immédiatement.",
     },
@@ -41,12 +41,12 @@ export const courses: Course[] = [
     gradient: "from-teal-600 via-cyan-700 to-slate-800",
     outcomes: [
       {
-        ar: "كتابة برامج بايثون كاملة من الصفر",
+        ar: "كتابة برامج Python كاملة من الصفر",
         en: "Write complete Python programs from scratch",
         fr: "Écrire des programmes Python complets",
       },
       {
-        ar: "فهم المتغيرات، الشروط، الحلقات والدوال فهماً عميقاً",
+        ar: "فهم الـ variables والـ conditions والـ loops والـ functions فهماً عميقاً",
         en: "Deeply understand variables, conditions, loops and functions",
         fr: "Comprendre variables, conditions, boucles et fonctions",
       },
@@ -70,7 +70,7 @@ export const courses: Course[] = [
             chapters: [
               { time: "00:00", title: { ar: "لماذا نبرمج؟", en: "Why do we code?", fr: "Pourquoi coder ?" } },
               { time: "04:30", title: { ar: "كيف يفكر الحاسوب", en: "How computers think", fr: "Comment pense l'ordinateur" } },
-              { time: "08:15", title: { ar: "أول نظرة على بايثون", en: "First look at Python", fr: "Premier aperçu de Python" } },
+              { time: "08:15", title: { ar: "أول نظرة على Python", en: "First look at Python", fr: "Premier aperçu de Python" } },
             ],
           },
           {
@@ -79,22 +79,38 @@ export const courses: Course[] = [
             title: { ar: "برنامجك الأول", en: "Your First Program", fr: "Votre premier programme" },
             type: "workspace",
             durationMin: 20,
-            starterCode: `# اكتب برنامجك الأول هنا
-# مهمتك: اطبع التحية التالية على الشاشة
+            language: "python",
+            objective: {
+              ar: "اكتب أول برنامج Python حقيقي لك: استخدم print() لعرض نص على الشاشة — هذا الكود سيُنفَّذ فعلياً في متصفحك.",
+              en: "Write your first real Python program: use print() to display text — this code actually executes in your browser.",
+              fr: "Écrivez votre premier vrai programme Python : utilisez print() pour afficher du texte — ce code s'exécute réellement.",
+            },
+            checkpoints: [
+              { id: "cp1", text: { ar: "شغّل الكود الموجود بزر Run وشاهد النتيجة", en: "Run the existing code and see the output", fr: "Exécutez le code existant et observez le résultat" } },
+              { id: "cp2", text: { ar: "أضف سطر print() جديداً يطبع اسمك", en: "Add a new print() line that prints your name", fr: "Ajoutez une nouvelle ligne print() avec votre nom" } },
+              { id: "cp3", text: { ar: "شغّل مرة أخرى وتأكد من ظهور السطرين معاً", en: "Run again and confirm both lines appear", fr: "Réexécutez et vérifiez les deux lignes" } },
+            ],
+            hint: {
+              ar: "كل استدعاء print() يطبع سطراً مستقلاً. اكتب في سطر جديد: print(\"اسمك هنا\")",
+              en: "Each print() call outputs its own line. On a new line write: print(\"your name here\")",
+              fr: "Chaque print() affiche sa propre ligne. Sur une nouvelle ligne : print(\"votre nom\")",
+            },
+            starterCode: `# اكتب برنامجك الأول هنا — الكود يعمل فعلياً!
+# Your first program — this really runs!
 
 print("مرحباً يا معيار!")
 
-# جرّب الآن: اطبع اسمك في سطر جديد
+# جرّب الآن: اطبع اسمك في سطر جديد باستخدام print()
 `,
           },
           {
             id: "l-py-1-3",
             slug: "variables",
-            title: { ar: "المتغيرات وأنواع البيانات", en: "Variables & Data Types", fr: "Variables et types de données" },
+            title: { ar: "المتغيرات (Variables) وأنواع البيانات", en: "Variables & Data Types", fr: "Variables et types de données" },
             type: "reference",
             durationMin: 15,
             sections: [
-              { ar: "ما هو المتغير؟", en: "What is a variable?", fr: "Qu'est-ce qu'une variable ?" },
+              { ar: "ما هو الـ Variable؟", en: "What is a variable?", fr: "Qu'est-ce qu'une variable ?" },
               { ar: "الأرقام والنصوص", en: "Numbers and strings", fr: "Nombres et chaînes" },
               { ar: "قواعد التسمية", en: "Naming rules", fr: "Règles de nommage" },
               { ar: "أخطاء شائعة", en: "Common mistakes", fr: "Erreurs courantes" },
@@ -103,10 +119,26 @@ print("مرحباً يا معيار!")
           {
             id: "l-py-1-4",
             slug: "variables-practice",
-            title: { ar: "تمرين: المتغيرات", en: "Practice: Variables", fr: "Exercice : Variables" },
+            title: { ar: "تمرين: Variables", en: "Practice: Variables", fr: "Exercice : Variables" },
             type: "workspace",
             durationMin: 25,
-            starterCode: `# تمرين المتغيرات
+            language: "python",
+            objective: {
+              ar: "أنشئ متغيرين (variables) واستخدمهما معاً داخل جملة واحدة تطبعها على الشاشة.",
+              en: "Create two variables and use them together inside one printed sentence.",
+              fr: "Créez deux variables et utilisez-les ensemble dans une phrase affichée.",
+            },
+            checkpoints: [
+              { id: "cp1", text: { ar: "أنشئ متغير age يحمل عمرك", en: "Create an age variable holding your age", fr: "Créez une variable age avec votre âge" } },
+              { id: "cp2", text: { ar: "أنشئ متغير name يحمل اسمك", en: "Create a name variable holding your name", fr: "Créez une variable name avec votre nom" } },
+              { id: "cp3", text: { ar: "اطبع جملة تعريف تجمع المتغيرين معاً", en: "Print one sentence combining both variables", fr: "Affichez une phrase combinant les deux" } },
+            ],
+            hint: {
+              ar: "أسهل طريقة هي f-string: print(f\"أنا {name} وعمري {age}\")",
+              en: "The easiest way is an f-string: print(f\"I am {name} and I am {age}\")",
+              fr: "Le plus simple est une f-string : print(f\"Je suis {name}, j'ai {age} ans\")",
+            },
+            starterCode: `# تمرين الـ Variables
 # 1) أنشئ متغيراً باسم age يحمل عمرك
 # 2) أنشئ متغيراً باسم name يحمل اسمك
 # 3) اطبع جملة تعرّف عن نفسك باستخدام المتغيرين
@@ -122,7 +154,7 @@ print("مرحباً يا معيار!")
           {
             id: "l-py-2-1",
             slug: "conditions",
-            title: { ar: "الشروط واتخاذ القرار", en: "Conditions & Decisions", fr: "Conditions et décisions" },
+            title: { ar: "الشروط (if/else) واتخاذ القرار", en: "Conditions & Decisions", fr: "Conditions et décisions" },
             type: "video",
             durationMin: 18,
             chapters: [
@@ -137,6 +169,22 @@ print("مرحباً يا معيار!")
             title: { ar: "تمرين: بوابة العمر", en: "Practice: Age Gate", fr: "Exercice : Contrôle d'âge" },
             type: "workspace",
             durationMin: 25,
+            language: "python",
+            objective: {
+              ar: "اكتب شرط if/else يجعل البرنامج يتخذ قراراً مختلفاً حسب قيمة age.",
+              en: "Write an if/else condition so the program decides differently based on the age value.",
+              fr: "Écrivez une condition if/else pour que le programme décide selon la valeur de age.",
+            },
+            checkpoints: [
+              { id: "cp1", text: { ar: "اكتب if يتحقق هل age يساوي 18 أو أكثر", en: "Write an if checking whether age is 18 or more", fr: "Écrivez un if vérifiant si age ≥ 18" } },
+              { id: "cp2", text: { ar: "أضف فرع else للحالة الأخرى", en: "Add an else branch for the other case", fr: "Ajoutez une branche else" } },
+              { id: "cp3", text: { ar: "جرّب بقيمتين: 16 ثم 20 وتأكد من اختلاف النتيجة", en: "Test with 16 then 20 and confirm different outputs", fr: "Testez avec 16 puis 20" } },
+            ],
+            hint: {
+              ar: "الصيغة: if age >= 18: ثم سطر مزاح (indented) — لا تنسَ النقطتين :",
+              en: "Syntax: if age >= 18: then an indented line — don't forget the colon :",
+              fr: "Syntaxe : if age >= 18: puis une ligne indentée — n'oubliez pas le deux-points :",
+            },
             starterCode: `# تمرين: بوابة العمر
 # اكتب برنامجاً يتحقق من متغير age:
 # - إذا كان 18 أو أكثر: اطبع "مسموح بالدخول"
@@ -149,7 +197,7 @@ age = 16
           {
             id: "l-py-2-3",
             slug: "loops",
-            title: { ar: "الحلقات التكرارية", en: "Loops", fr: "Les boucles" },
+            title: { ar: "الحلقات التكرارية (Loops)", en: "Loops", fr: "Les boucles" },
             type: "video",
             durationMin: 22,
             chapters: [
@@ -164,7 +212,23 @@ age = 16
             title: { ar: "تمرين: جدول الضرب", en: "Practice: Times Table", fr: "Exercice : Table de multiplication" },
             type: "workspace",
             durationMin: 30,
-            starterCode: `# تمرين: جدول الضرب
+            language: "python",
+            objective: {
+              ar: "استخدم حلقة for مع range() لطباعة جدول ضرب الرقم 7 كاملاً — عشرة أسطر بسطر كود واحد داخل الحلقة.",
+              en: "Use a for loop with range() to print the full 7 times table — ten lines from one line of code inside the loop.",
+              fr: "Utilisez une boucle for avec range() pour afficher la table de 7 — dix lignes avec une seule ligne dans la boucle.",
+            },
+            checkpoints: [
+              { id: "cp1", text: { ar: "اكتب حلقة for تمر على الأرقام من 1 إلى 10", en: "Write a for loop over the numbers 1 to 10", fr: "Écrivez une boucle for de 1 à 10" } },
+              { id: "cp2", text: { ar: "اطبع داخل الحلقة سطراً بصيغة: 7 x 1 = 7", en: "Inside the loop print lines like: 7 x 1 = 7", fr: "Affichez des lignes comme : 7 x 1 = 7" } },
+              { id: "cp3", text: { ar: "شغّل وتأكد من ظهور 10 أسطر صحيحة", en: "Run and confirm 10 correct lines appear", fr: "Vérifiez les 10 lignes correctes" } },
+            ],
+            hint: {
+              ar: "range(1, 11) يعطيك الأرقام من 1 إلى 10. داخل الحلقة: print(f\"7 x {i} = {7*i}\")",
+              en: "range(1, 11) gives you 1 through 10. Inside the loop: print(f\"7 x {i} = {7*i}\")",
+              fr: "range(1, 11) donne 1 à 10. Dans la boucle : print(f\"7 x {i} = {7*i}\")",
+            },
+            starterCode: `# تمرين: جدول الضرب — استخدم حلقة for
 # اطبع جدول ضرب الرقم 7 من 1 إلى 10
 # الناتج المتوقع: 7 x 1 = 7 ... وهكذا
 
@@ -179,7 +243,7 @@ age = 16
           {
             id: "l-py-3-1",
             slug: "functions",
-            title: { ar: "الدوال: قوة إعادة الاستخدام", en: "Functions: The Power of Reuse", fr: "Fonctions : la réutilisation" },
+            title: { ar: "الدوال (Functions): قوة إعادة الاستخدام", en: "Functions: The Power of Reuse", fr: "Fonctions : la réutilisation" },
             type: "video",
             durationMin: 20,
             chapters: [
@@ -205,6 +269,22 @@ age = 16
             title: { ar: "المشروع الختامي: حاسبة ذكية", en: "Final Project: Smart Calculator", fr: "Projet final : Calculatrice" },
             type: "workspace",
             durationMin: 45,
+            language: "python",
+            objective: {
+              ar: "ابنِ دالة (function) باسم calculate(a, b, op) تدعم العمليات الأربع وتتعامل بأمان مع القسمة على صفر.",
+              en: "Build a function calculate(a, b, op) supporting all four operations and safely handling division by zero.",
+              fr: "Créez une fonction calculate(a, b, op) gérant les quatre opérations et la division par zéro.",
+            },
+            checkpoints: [
+              { id: "cp1", text: { ar: "ادعم العمليات الأربع: + و - و * و /", en: "Support all four operations: + - * /", fr: "Gérez les quatre opérations : + - * /" } },
+              { id: "cp2", text: { ar: "عالج حالة القسمة على صفر دون انهيار البرنامج", en: "Handle division by zero without crashing", fr: "Gérez la division par zéro sans plantage" } },
+              { id: "cp3", text: { ar: "استدعِ الدالة عدة مرات واطبع النتائج للتأكد", en: "Call the function several times and print results to verify", fr: "Appelez la fonction plusieurs fois et affichez les résultats" } },
+            ],
+            hint: {
+              ar: "استخدم if/elif على قيمة op. وقبل القسمة تحقق: if b == 0: ثم أعد رسالة بدل القسمة.",
+              en: "Use if/elif on the op value. Before dividing check: if b == 0: and return a message instead.",
+              fr: "Utilisez if/elif sur op. Avant de diviser : if b == 0: et retournez un message.",
+            },
             starterCode: `# المشروع الختامي: حاسبة ذكية
 # اكتب دالة calculate(a, b, op) تدعم: + - * /
 # تذكّر: تعامل مع القسمة على صفر!
@@ -212,6 +292,8 @@ age = 16
 def calculate(a, b, op):
     pass  # ابدأ من هنا
 
+# جرّب دالتك:
+print(calculate(6, 7, "*"))
 `,
           },
         ],
@@ -228,7 +310,7 @@ def calculate(a, b, op):
       fr: "HTML, CSS et JavaScript — créez de vrais sites dès la première semaine.",
     },
     description: {
-      ar: "تعلم بناء مواقع ويب احترافية من الصفر: هيكلة الصفحات، التنسيق المتجاوب، ثم البرمجة التفاعلية بجافاسكريبت. كل درس ينتهي بقطعة حقيقية من موقعك الخاص.",
+      ar: "تعلم بناء مواقع ويب احترافية من الصفر: هيكلة الصفحات بـ HTML، التنسيق المتجاوب بـ CSS، ثم البرمجة التفاعلية بـ JavaScript. كل درس ينتهي بقطعة حقيقية من موقعك الخاص.",
       en: "Learn to build professional websites from scratch: page structure, responsive styling, then interactive JavaScript. Every lesson ends with a real piece of your own site.",
       fr: "Apprenez à créer des sites professionnels : structure, style responsive, puis JavaScript interactif.",
     },
@@ -254,6 +336,22 @@ def calculate(a, b, op):
             id: "l-web-1-2", slug: "html-practice",
             title: { ar: "تمرين: صفحتك الأولى", en: "Practice: Your First Page", fr: "Exercice : première page" },
             type: "workspace", durationMin: 25,
+            language: "html",
+            objective: {
+              ar: "ابنِ أول صفحة HTML حقيقية: أضف عنواناً (h1) وفقرة (p) وشاهد النتيجة مباشرة في المعاينة.",
+              en: "Build your first real HTML page: add a heading (h1) and a paragraph (p) and see it live in the preview.",
+              fr: "Créez votre première vraie page HTML : un titre (h1) et un paragraphe (p), visibles dans l'aperçu.",
+            },
+            checkpoints: [
+              { id: "cp1", text: { ar: "أضف وسم <h1> بعنوان من اختيارك داخل body", en: "Add an <h1> tag with your own title inside body", fr: "Ajoutez un <h1> dans body" } },
+              { id: "cp2", text: { ar: "أضف وسم <p> بفقرة قصيرة تحته", en: "Add a <p> tag with a short paragraph below it", fr: "Ajoutez un <p> avec un court paragraphe" } },
+              { id: "cp3", text: { ar: "اضغط Run وشاهد صفحتك تظهر في المعاينة", en: "Press Run and watch your page render in the preview", fr: "Cliquez Run et observez l'aperçu" } },
+            ],
+            hint: {
+              ar: "داخل <body> اكتب: <h1>عنواني الأول</h1> ثم <p>هذه فقرتي الأولى.</p>",
+              en: "Inside <body> write: <h1>My first title</h1> then <p>This is my first paragraph.</p>",
+              fr: "Dans <body> : <h1>Mon titre</h1> puis <p>Mon premier paragraphe.</p>",
+            },
             starterCode: `<!-- اكتب صفحتك الأولى -->\n<!DOCTYPE html>\n<html dir="rtl" lang="ar">\n  <head>\n    <title>صفحتي</title>\n  </head>\n  <body>\n    <!-- أضف عنواناً وفقرة هنا -->\n  </body>\n</html>\n`,
           },
         ],
@@ -453,7 +551,7 @@ def calculate(a, b, op):
       fr: "Lisez les données comme les data scientists.",
     },
     description: {
-      ar: "من المتوسطات إلى اختبارات الفرضيات: مساق عملي بالكامل في الإحصاء يستخدم بايثون لتحليل بيانات حقيقية من المنطقة العربية.",
+      ar: "من المتوسطات إلى اختبارات الفرضيات: مساق عملي بالكامل في الإحصاء يستخدم Python لتحليل بيانات حقيقية من المنطقة العربية.",
       en: "From averages to hypothesis testing: a fully practical statistics course using Python to analyze real data from the Arab region.",
       fr: "Des moyennes aux tests d'hypothèses : un cours pratique avec Python.",
     },
@@ -466,7 +564,7 @@ def calculate(a, b, op):
     certificate: true,
     gradient: "from-rose-600 via-pink-700 to-purple-900",
     outcomes: [
-      { ar: "تحليل مجموعات بيانات حقيقية ببايثون", en: "Analyze real datasets with Python", fr: "Analyser de vraies données avec Python" },
+      { ar: "تحليل مجموعات بيانات حقيقية بـ Python", en: "Analyze real datasets with Python", fr: "Analyser de vraies données avec Python" },
     ],
     modules: [
       {
@@ -478,7 +576,23 @@ def calculate(a, b, op):
             id: "l-stat-1-2", slug: "stats-practice",
             title: { ar: "تمرين: حلل بياناتك", en: "Practice: Analyze Your Data", fr: "Exercice : analysez vos données" },
             type: "workspace", durationMin: 30,
-            starterCode: `# تمرين: حساب المتوسط والوسيط\nscores = [78, 92, 65, 88, 95, 71, 84]\n\n# 1) احسب المتوسط الحسابي\n# 2) احسب الوسيط\n# 3) أيهما يمثل البيانات أفضل؟ ولماذا؟\n\n`,
+            language: "python",
+            objective: {
+              ar: "احسب المتوسط (mean) والوسيط (median) لقائمة درجات حقيقية باستخدام Python.",
+              en: "Compute the mean and median of a real list of scores using Python.",
+              fr: "Calculez la moyenne (mean) et la médiane (median) d'une liste de notes avec Python.",
+            },
+            checkpoints: [
+              { id: "cp1", text: { ar: "احسب الـ mean باستخدام sum() و len()", en: "Compute the mean using sum() and len()", fr: "Calculez la mean avec sum() et len()" } },
+              { id: "cp2", text: { ar: "احسب الـ median بعد ترتيب القائمة بـ sorted()", en: "Compute the median after sorting with sorted()", fr: "Calculez la median après sorted()" } },
+              { id: "cp3", text: { ar: "اطبع القيمتين وقارن: أيهما يمثل البيانات أفضل؟", en: "Print both values and compare: which represents the data better?", fr: "Affichez les deux et comparez" } },
+            ],
+            hint: {
+              ar: "المتوسط: sum(scores) / len(scores). الوسيط: sorted(scores)[len(scores) // 2] لقائمة فردية الطول.",
+              en: "Mean: sum(scores) / len(scores). Median: sorted(scores)[len(scores) // 2] for an odd-length list.",
+              fr: "Mean : sum(scores) / len(scores). Median : sorted(scores)[len(scores) // 2] pour une liste impaire.",
+            },
+            starterCode: `# تمرين: حساب الـ mean والـ median\nscores = [78, 92, 65, 88, 95, 71, 84]\n\n# 1) احسب المتوسط الحسابي (mean)\n# 2) احسب الوسيط (median)\n# 3) أيهما يمثل البيانات أفضل؟ ولماذا؟\n\n`,
           },
         ],
       },
@@ -572,7 +686,7 @@ export const sessions: SessionRecord[] = [
     courseId: "c-python",
     date: "2026-06-11",
     durationMin: 52,
-    lessonTitle: { ar: "الحلقات التكرارية", en: "Loops", fr: "Les boucles" },
+    lessonTitle: { ar: "الحلقات التكرارية (Loops)", en: "Loops", fr: "Les boucles" },
     aiSummary: {
       ar: "أتقنت حلقة for بسرعة، لكنك خلطت بين break و continue ثلاث مرات. راجعنا الفرق معاً وحللت آخر تمرينين دون أخطاء.",
       en: "You mastered the for loop quickly, but mixed up break and continue three times. We reviewed the difference together and you solved the last two exercises flawlessly.",
@@ -623,19 +737,19 @@ export const sessions: SessionRecord[] = [
 
 export const mastery: MasteryRecord[] = [
   {
-    topicId: "t-py-vars", topic: { ar: "المتغيرات", en: "Variables", fr: "Variables" }, courseId: "c-python", mastery: 95,
+    topicId: "t-py-vars", topic: { ar: "المتغيرات (Variables)", en: "Variables", fr: "Variables" }, courseId: "c-python", mastery: 95,
     aiNote: { ar: "إتقان كامل — حللت كل التمارين دون مساعدة.", en: "Full mastery — solved all exercises unaided.", fr: "Maîtrise totale — tous les exercices résolus seul." },
   },
   {
-    topicId: "t-py-cond", topic: { ar: "الشروط", en: "Conditions", fr: "Conditions" }, courseId: "c-python", mastery: 88,
+    topicId: "t-py-cond", topic: { ar: "الشروط (if/else)", en: "Conditions", fr: "Conditions" }, courseId: "c-python", mastery: 88,
     aiNote: { ar: "قوي جداً، مع خطأ متكرر بسيط في عوامل المقارنة.", en: "Very strong, with a minor recurring comparison-operator slip.", fr: "Très solide, petite erreur récurrente sur les opérateurs." },
   },
   {
-    topicId: "t-py-loops", topic: { ar: "الحلقات", en: "Loops", fr: "Boucles" }, courseId: "c-python", mastery: 62,
+    topicId: "t-py-loops", topic: { ar: "الحلقات (Loops)", en: "Loops", fr: "Boucles" }, courseId: "c-python", mastery: 62,
     aiNote: { ar: "تخلط بين break و continue. تحتاج تمرينين إضافيين.", en: "You mix up break and continue. Two more exercises needed.", fr: "Confusion break/continue. Deux exercices de plus nécessaires." },
   },
   {
-    topicId: "t-py-func", topic: { ar: "الدوال", en: "Functions", fr: "Fonctions" }, courseId: "c-python", mastery: 20,
+    topicId: "t-py-func", topic: { ar: "الدوال (Functions)", en: "Functions", fr: "Fonctions" }, courseId: "c-python", mastery: 20,
     aiNote: { ar: "لم تبدأ بعد — الوحدة القادمة.", en: "Not started yet — next module.", fr: "Pas encore commencé — prochain module." },
   },
   {
@@ -663,7 +777,7 @@ export const certificates: Certificate[] = [
   {
     id: "cert-2",
     courseId: "c-python",
-    title: { ar: "شهادة أساسيات بايثون", en: "Python Foundations Certificate", fr: "Certificat Python" },
+    title: { ar: "شهادة أساسيات Python", en: "Python Foundations Certificate", fr: "Certificat Python" },
     issuedAt: null,
     credentialId: null,
   },

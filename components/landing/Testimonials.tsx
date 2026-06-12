@@ -22,7 +22,7 @@ export function Testimonials() {
       name: { ar: "عبدالله القحطاني", en: "Abdullah Al-Qahtani", fr: "Abdullah Al-Qahtani" },
       role: { ar: "موظف يتعلم البرمجة — الرياض", en: "Professional learning to code — Riyadh", fr: "Professionnel apprenant à coder — Riyad" },
       text: {
-        ar: "جربت ثلاث منصات قبل معيار. الفرق أن هنا أحد (حتى لو ذكاء اصطناعي) يقرأ كودي فعلياً ويقول لي وين الخطأ وليش. خلصت مسار بايثون كامل لأول مرة بحياتي.",
+        ar: "جربت ثلاث منصات قبل معيار. الفرق أن هنا أحد (حتى لو ذكاء اصطناعي) يقرأ كودي فعلياً ويقول لي وين الخطأ وليش. خلصت مسار Python كامل لأول مرة بحياتي.",
         en: "I tried three platforms before Miyar. The difference: here someone (even if AI) actually reads my code and tells me where and why I'm wrong. I finished a full Python track for the first time in my life.",
         fr: "J'ai essayé trois plateformes avant Miyar. La différence : ici, quelqu'un lit vraiment mon code et me dit où et pourquoi je me trompe. J'ai fini un parcours Python complet pour la première fois.",
       },
