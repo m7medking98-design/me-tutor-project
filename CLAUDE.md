@@ -10,18 +10,18 @@ Miyar (معيار) — a premium Arab EdTech platform: structured learning (vide
 
 **Done — AI phase LIVE and user-tested (2026-06-12):** Full site (8 pages); task panels; real Python via Pyodide (`lib/runtime.ts`); live HTML preview. `app/api/mentor/route.ts` streams Claude replies (Arabic-first teach-don't-solve prompt, prompt caching, lesson context + live code + history; model via `MENTOR_MODEL` env var — user runs `claude-haiku-4-5` for testing, funded API key in `.env.local`, $5 credit / $10 monthly cap). `app/api/verify/route.ts` auto-grades checkpoints on every Run. CodeMirror editor (`components/learn/CodeEditor.tsx`; autocomplete deliberately OFF). Mentor replies + hints/checkpoints render via shared `components/learn/Markdown.tsx`.
 
-**Done — Firebase persistence CODE complete (2026-06-13):** Real Auth profiles + Firestore persistence are fully wired (see "Persistence layer" under Architecture). All that remains is the user creating the Firebase project in the console and pasting the 6 config values into `.env.local` — the walkthrough is in the session notes; rules to paste are committed as `firestore.rules`. **Until then the app stays in demo mode; first Firebase-mode end-to-end test (signup → enroll → pass checkpoints → refresh) still pending.**
+**Done — Firebase persistence LIVE and user-verified (2026-06-13):** Real Auth + Firestore fully wired (see "Persistence layer" under Architecture). User created the `miyar-edu` Firebase project (Standard edition Firestore, Email/Password + Google auth, rules from `firestore.rules` published), keys live in `.env.local`. End-to-end test passed: signup → enroll → pass checkpoints → refresh → code, green checks, progress % and XP all persist. Demo mode (keys removed) still fully works for showcasing.
 
 **Lesson template is defined by the AI phase** (objective + plain-language checkpoints → auto-graded on Run): all future course content just needs checkpoints written this way and grading comes free. The 5 Python workspace lessons are the reference examples.
 
-**NEXT STEPS:** 1) User does the Firebase Console setup (guide them step-by-step), then verify Firebase mode end-to-end. 2) Remove fabricated testimonials/stats from the landing page (also the "+18K students" line on the auth brand panel). 3) about/privacy/terms pages.
+**NEXT STEP: remove fabricated testimonials/stats from the landing page** (also the "+18K students" line on the AuthScreen brand panel and the seeded `enrolledCount`/`rating` shown on course cards — decide with the user what honest alternatives look like pre-beta). Then: about/privacy/terms pages.
 
 **Launch blockers table (path to charging money):**
 
 | Blocker | Whose work | Status |
 |---|---|---|
 | Real AI mentor + checkpoint auto-grading | Claude | ✅ done 2026-06-12 |
-| Real persistence (Firebase: accounts, saved progress) | Claude + user | ✅ code done 2026-06-13 — user must create the Firebase project + paste keys |
+| Real persistence (Firebase: accounts, saved progress) | Claude + user | ✅ done & verified 2026-06-13 |
 | Remove fabricated testimonials/stats from landing page | Claude | ⏳ NEXT (quick) |
 | Real about/privacy/terms pages | Claude | after that |
 | Certificate verification page `/verify/[credentialId]` | Claude | after that |
