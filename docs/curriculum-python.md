@@ -49,14 +49,21 @@ PCEP block 1 (1.1, 1.2, 1.5). Module id `m-py-1`. 1 video + 2 workspace + 1 refe
 > `m-py-projects`. Existing polished lessons keep their ids/slugs; they were re-slotted
 > into the correct modules and get concept briefs as each module is built.
 
-### M2 — البيانات والمتغيرات (Data & Variables)
-PCEP block 1. Partially exists.
-- video: كيف يخزن البرنامج المعلومات — أنواع البيانات والمتغيرات
-- workspace: المتغيرات — إنشاء، تسمية صحيحة، إعادة الإسناد (exists: variables-playground)
-- workspace: الأرقام والعمليات الحسابية — int/float، أولويات العمليات، // % **
-- workspace: النصوص والمدخلات — input()، تحويل الأنواع int()/float()/str()، f-strings
-- workspace: آلة حاسبة صغيرة — تمرين تجميعي (مدخلات → معالجة → مخرجات)
-- reference: مرجع الأنواع الأساسية والمعاملات
+### M2 — البيانات والمتغيرات (Data & Variables) — ✅ BUILT (PCEP Block 1 complete, 2026-06-14)
+PCEP block 1 (1.3, 1.4, input side of 1.5). Module id `m-py-vars`. 1 video + 5 workspace + 2 reference.
+- video: كيف يخزن البرنامج المعلومات — int/float/str/bool، الإسناد (`how-programs-store-data`, NEW)
+- reference: المتغيرات وأنواع البيانات — literals، الأنواع، PEP-8 naming، أخطاء شائعة (`variables`, now full `body`)
+- workspace: تمرين المتغيرات — إنشاء + f-string (`variables-practice`, +concept brief)
+- workspace: الأرقام والعمليات — int/float، `// % **`، الأولوية، float accuracy، `+=` (`numbers-and-operators`, NEW)
+- workspace: أنظمة الأعداد والبتية — bin/oct/hex + `bin()/oct()/hex()`، sci-notation، bitwise `& | ^ ~ << >>` (`number-systems-and-bitwise`, NEW)
+- workspace: المدخلات والتحويل — `input()` (taught), casting `int()/float()/str()`، string `* +`، f-strings (`input-and-casting`, NEW; input simulated — sandbox auto-runs)
+- workspace: آلة حاسبة صغيرة — تمرين تجميعي (`mini-calculator`, NEW)
+- reference: الأنواع والمعاملات — جداول الأنواع/المعاملات/الأولوية/التحويل (`types-and-operators-reference`, NEW, full `body`)
+
+> Sandbox note: the Pyodide runtime has no stdin wired, and auto-verify runs code
+> on every Run — so the input lessons TEACH real `input()` syntax but SIMULATE the
+> typed value with a labeled preset string (e.g. `raw = "25"`). Casting/f-strings are
+> practiced for real and grade deterministically. Video script outline: `docs/video-scripts-python-m2.md`.
 
 ### M3 — اتخاذ القرار (Decisions)
 PCEP block 2. Exists — extend.
@@ -122,10 +129,11 @@ PCEP block 4.
 
 ### Build order (one module at a time, commit per module)
 1. ~~M5 (data collections — biggest gap, heart of the exam)~~ ✅ DONE 2026-06-14 (PCEP-complete)
-2. M7 (errors — fully new) ❷ ← NEXT
-3. M2, M3, M4, M6 extensions ❸ (close PCEP gaps — see `docs/pcep-coverage.md`)
-4. M8 capstones ❹
-5. M1 polish + all video script outlines batched for the user to record ❺
+2. ~~M1 (the right start)~~ ✅ DONE 2026-06-14
+3. ~~M2 (data & variables — Block 1 complete)~~ ✅ DONE 2026-06-14
+4. M3 (decisions) ← NEXT, then M4 (loops), M6 (functions), M7 (errors — new) ❸
+5. M8 capstones ❹
+6. All video script outlines batched for the user to record ❺
 
 **PCEP coverage tracking:** `docs/pcep-coverage.md` maps every official objective
 (1.1–4.4) to its lesson with a status — the source of truth for what's left to

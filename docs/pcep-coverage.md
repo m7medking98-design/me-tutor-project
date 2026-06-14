@@ -11,14 +11,14 @@ Exam: 30 items · pass = 70% cumulative · 4 blocks (weights below).
 
 Status legend: ✅ built · 🟡 planned (module not built yet) · ⬜ gap to schedule.
 
-## Block 1 — Fundamentals (18%)
+## Block 1 — Fundamentals (18%) — Modules 1 & 2 (BUILT)
 | Objective | Topic | Miyar lesson | Status |
 |---|---|---|---|
 | 1.1 | interpreter/compiler, lexis/syntax/semantics | M1 `what-is-programming` | ✅ |
 | 1.2 | keywords, instructions, indentation, comments | M1 `python-language-map` (ref) | ✅ |
-| 1.3 | literals, variables, numeral systems (bin/oct/hex), scientific notation, PEP-8 naming | M2 variables + numbers lessons | 🟡 (add numeral systems + sci-notation + PEP-8) |
-| 1.4 | operators (numeric/string/assignment/shortcut/**bitwise**/boolean/relational), priorities, float accuracy, type casting | M2 numbers/operators | 🟡 (add bitwise + shortcut `+=` + string `* +`) |
-| 1.5 | `print()`/`input()`, `sep=`/`end=`, `int()`/`float()` | M1 `first-program` + `print-mastery` (print/sep/end/escapes ✅); `input()`/casting → M2 | 🟡 (print side ✅; input/casting in M2) |
+| 1.3 | literals, variables, numeral systems (bin/oct/hex), scientific notation, PEP-8 naming | M2 `variables` (ref: literals/PEP-8) + `number-systems-and-bitwise` (bin/oct/hex + sci-notation) | ✅ |
+| 1.4 | operators (numeric/string/assignment/shortcut/**bitwise**/boolean/relational), priorities, float accuracy, type casting | M2 `numbers-and-operators` (arith/priority/`+=`), `number-systems-and-bitwise` (bitwise), `input-and-casting` (string `* +`/casting), `types-and-operators-reference` | ✅ (boolean/relational reinforced in M3) |
+| 1.5 | `print()`/`input()`, `sep=`/`end=`, `int()`/`float()` | M1 `first-program` + `print-mastery` (print/sep/end/escapes); M2 `input-and-casting` (`input()` taught; casting practiced — input simulated since the Pyodide sandbox auto-runs) | ✅ |
 
 ## Block 2 — Control Flow (29%)
 | Objective | Topic | Miyar lesson | Status |
@@ -44,11 +44,14 @@ Status legend: ✅ built · 🟡 planned (module not built yet) · ⬜ gap to sc
 | 4.4 | `try-except`, ordering `except` branches, propagation through functions | M7 try/except + debugging lessons | ⬜ (M7 not built) |
 
 ## Outstanding gaps to schedule (by build order)
-1. **M7 (Errors & Exceptions)** — next build target; covers all of 4.3 + 4.4.
-2. **M2 extension** — numeral systems (bin/oct/hex), scientific notation, bitwise
-   operators, shortcut operators, string `* +`, PEP-8 naming, explicit `sep=`/`end=`.
-3. **M4 extension** — `pass` instruction; explicit `for-else`/`while-else`.
-4. **M6 extension** — `None`, gentle recursion.
-5. **M1 polish** — language-map reference (keywords/indentation/comments).
+1. **M3 (Decisions)** — `if`/`elif`/`else`, multiple & nested, relational & boolean
+   operators (`== != < >`, `and`/`or`/`not`, `bool` values). Closes 2.1 and the
+   boolean/relational tail of 1.4.
+2. **M4 extension** — `pass` instruction; explicit `for-else`/`while-else`; `while`,
+   `break`/`continue`, nested loops (2.2).
+3. **M7 (Errors & Exceptions)** — covers all of 4.3 + 4.4 (new module).
+4. **M6 extension** — `None`, gentle recursion, scope/`global`, params (4.1 + 4.2).
+5. **M8 capstones + exam-prep**.
 
+✅ Done: **Block 1 (Modules 1 & 2)** and **Block 3 (Module 5)** fully cover PCEP-30-02.
 When all rows read ✅, Course 1 fully covers PCEP-30-02.
