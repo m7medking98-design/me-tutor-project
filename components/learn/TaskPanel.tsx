@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AlertTriangle, Check, Lightbulb, Loader2, Target } from "lucide-react";
+import { AlertTriangle, Check, Lightbulb, Loader2, Sparkles, Target } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { RichMarkdown } from "@/components/learn/Markdown";
 import { useLanguage } from "@/lib/language-context";
@@ -61,6 +61,18 @@ export function TaskPanel({
           </div>
         </div>
       </div>
+
+      {lesson.concept && (
+        <div className="mt-4 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3">
+          <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-primary dark:text-primary-strong">
+            <Sparkles className="h-3.5 w-3.5" />
+            {t("learn.concept")}
+          </p>
+          <div className="mt-2 text-sm leading-relaxed text-ink">
+            <RichMarkdown text={loc(lesson.concept)} />
+          </div>
+        </div>
+      )}
 
       {checkpoints.length > 0 && (
         <div className="mt-4">

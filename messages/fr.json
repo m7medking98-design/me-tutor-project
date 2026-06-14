@@ -142,6 +142,7 @@
     "runCode": "Exécuter",
     "output": "Résultat",
     "taskTitle": "Votre tâche dans cette leçon",
+    "concept": "Nouveau dans cette leçon",
     "checkpoints": "Étapes",
     "verifying": "Le mentor vérifie vos étapes…",
     "checkpointsAuto": "Vérifiées automatiquement à l'exécution",

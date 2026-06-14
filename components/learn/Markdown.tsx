@@ -15,6 +15,36 @@ export function RichMarkdown({ text }: { text: string }) {
       remarkPlugins={[remarkGfm]}
       components={{
         p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+        h2: ({ children }) => (
+          <h2 className="mb-3 mt-6 border-b border-line/15 pb-1.5 text-xl font-bold text-ink first:mt-0">
+            {children}
+          </h2>
+        ),
+        h3: ({ children }) => (
+          <h3 className="mb-2 mt-5 text-lg font-bold text-ink first:mt-0">{children}</h3>
+        ),
+        h4: ({ children }) => (
+          <h4 className="mb-2 mt-4 text-base font-bold text-ink first:mt-0">{children}</h4>
+        ),
+        blockquote: ({ children }) => (
+          <blockquote className="my-3 border-s-4 border-primary/40 bg-surface-2/50 px-4 py-2 text-muted">
+            {children}
+          </blockquote>
+        ),
+        hr: () => <hr className="my-5 border-line/15" />,
+        table: ({ children }) => (
+          <div className="my-3 overflow-x-auto">
+            <table className="w-full border-collapse text-sm">{children}</table>
+          </div>
+        ),
+        th: ({ children }) => (
+          <th className="border border-line/20 bg-surface-2 px-3 py-2 text-start font-bold text-ink">
+            {children}
+          </th>
+        ),
+        td: ({ children }) => (
+          <td className="border border-line/20 px-3 py-2 align-top">{children}</td>
+        ),
         strong: ({ children }) => (
           <strong className="font-bold text-ink">{children}</strong>
         ),

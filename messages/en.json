@@ -142,6 +142,7 @@
     "runCode": "Run",
     "output": "Output",
     "taskTitle": "Your task in this lesson",
+    "concept": "New in this lesson",
     "checkpoints": "Checkpoints",
     "verifying": "The mentor is checking your steps…",
     "checkpointsAuto": "Checked automatically when you Run",

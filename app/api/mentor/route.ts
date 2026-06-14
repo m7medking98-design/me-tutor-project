@@ -47,6 +47,7 @@ interface MentorRequestBody {
   lesson: {
     title: string;
     type: string;
+    concept?: string;
     objective?: string;
     checkpoints?: string[];
     hint?: string;
@@ -73,6 +74,7 @@ function buildLessonContext(body: MentorRequestBody): string {
     `Lesson type: ${lesson.type}`,
   ];
   if (lesson.language) parts.push(`Programming language: ${lesson.language}`);
+  if (lesson.concept) parts.push(`Concept brief shown to the student (the new syntax this lesson introduced): ${lesson.concept}`);
   if (lesson.objective) parts.push(`Objective the student must achieve: ${lesson.objective}`);
   if (lesson.checkpoints?.length) {
     parts.push(

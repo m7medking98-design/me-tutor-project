@@ -85,6 +85,7 @@ export async function getMentorReply(
           title: lesson.title[locale],
           type: lesson.type,
           language: lesson.language,
+          concept: lesson.concept?.[locale],
           objective: lesson.objective?.[locale],
           checkpoints: lesson.checkpoints?.map((c) => c.text[locale]),
           hint: lesson.hint?.[locale],

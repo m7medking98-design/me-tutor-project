@@ -69,17 +69,24 @@ PCEP block 2. Exists — extend.
 - workspace: الحلقات المتداخلة — رسم أنماط بالنجوم
 - reference: متى تستخدم for ومتى while — أنماط الحلقات الشائعة
 
-### M5 — هياكل البيانات (Data Collections) — NEW, biggest gap
-PCEP block 3 (25% of the exam).
-- video 1: القوائم Lists — لماذا نحتاج أكثر من متغير
-- workspace: القوائم — إنشاء، فهرسة، len()، append/insert/remove
-- workspace: التقطيع Slicing — [start:end:step]، فهارس سالبة، in/not in
-- workspace: القوائم والحلقات معاً — مجموع، أكبر قيمة، فلترة
-- video 2: القواميس والـ tuples — بيانات لها أسماء
-- workspace: القواميس Dictionaries — مفاتيح وقيم، إضافة وحذف، keys()/values()/items()
-- workspace: tuples والتداخل — قائمة قواميس (سجل طلاب مصغر)
-- workspace: النصوص كسلاسل — فهرسة وتقطيع النصوص، أهم methods
-- reference: مقارنة الهياكل الأربعة — متى تستخدم أيها
+### M5 — هياكل البيانات (Data Collections) — ✅ BUILT (PCEP-complete, 2026-06-14)
+PCEP block 3 (25% of the exam). Strengthened against the official PCEP-30-02
+syllabus — see `docs/pcep-coverage.md`. 2 videos + 8 workspace + 1 reference.
+- video 1: القوائم Lists — لماذا نحتاج أكثر من متغير (`lists-intro`)
+- workspace: القوائم — إنشاء، فهرسة، len()، append/insert/remove (`lists-practice`)
+- workspace: التقطيع Slicing — [start:end:step]، فهارس سالبة، in/not in (`lists-slicing`)
+- workspace: القوائم والحلقات معاً — مجموع، أكبر قيمة، فلترة، sorted() (`lists-and-loops`)
+- workspace: عمليات متقدمة — index()، del، copy vs clone (aliasing) (`lists-advanced`)
+- workspace: list comprehensions — فلترة وتحويل بسطر واحد (`list-comprehensions`)
+- video 2: القواميس والـ tuples والنصوص — بيانات لها أسماء (`dicts-tuples-intro`)
+- workspace: القواميس Dictionaries — keys/values، إضافة/حذف، key existence، items() (`dicts-practice`)
+- workspace: tuples والبنى المتداخلة — immutability، tuples vs lists، matrices + list of dicts (`tuples-nesting`)
+- workspace: النصوص كسلاسل — فهرسة/تقطيع، immutability، escaping، multi-line، methods (`strings-sequences`)
+- reference: مقارنة الهياكل الأربعة — متى تستخدم أيها (`collections-compared`, full markdown body)
+
+NOTE: video script outlines for M5 are in `docs/video-scripts-python-m5.md` (for the user to record).
+The reference lesson uses the new optional `Lesson.body` (L10n markdown), rendered by
+`ReferencePanel` via the shared `RichMarkdown` — this is now available to ALL reference lessons.
 
 ### M6 — الدوال (Functions)
 PCEP block 4. Exists — extend.
@@ -108,11 +115,15 @@ PCEP block 4.
 **Totals:** 8 modules ≈ 10 videos (user) + 27 workspace + 9 reference ≈ 46 lessons.
 
 ### Build order (one module at a time, commit per module)
-1. M5 (data collections — biggest gap, heart of the exam) ❶
-2. M7 (errors — fully new) ❷
-3. M2, M3, M4, M6 extensions ❸
+1. ~~M5 (data collections — biggest gap, heart of the exam)~~ ✅ DONE 2026-06-14 (PCEP-complete)
+2. M7 (errors — fully new) ❷ ← NEXT
+3. M2, M3, M4, M6 extensions ❸ (close PCEP gaps — see `docs/pcep-coverage.md`)
 4. M8 capstones ❹
 5. M1 polish + all video script outlines batched for the user to record ❺
+
+**PCEP coverage tracking:** `docs/pcep-coverage.md` maps every official objective
+(1.1–4.4) to its lesson with a status — the source of truth for what's left to
+make Course 1 fully cover PCEP-30-02. Block 3 (M5) is now 100% ✅.
 
 (Order rationale: build the missing material first while the existing 5 polished
 lessons carry M2–M6; extensions after.)

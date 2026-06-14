@@ -3,11 +3,24 @@
 import { FileText } from "lucide-react";
 import { useLanguage } from "@/lib/language-context";
 import type { Lesson } from "@/lib/types";
+import { RichMarkdown } from "@/components/learn/Markdown";
 
-/** Typeset reading view with a table of contents. Real curriculum content comes later. */
+/** Typeset reading view. Renders authored markdown when present, else a TOC placeholder. */
 export function ReferencePanel({ lesson }: { lesson: Lesson }) {
   const { t, loc } = useLanguage();
   const sections = lesson.sections ?? [];
+
+  // Authored curriculum content: render the full markdown body.
+  if (lesson.body) {
+    return (
+      <article className="min-w-0 max-w-3xl">
+        <h2 className="text-2xl font-bold text-ink">{loc(lesson.title)}</h2>
+        <div className="mt-6 text-[15px] leading-7 text-ink/90">
+          <RichMarkdown text={loc(lesson.body)} />
+        </div>
+      </article>
+    );
+  }
 
   return (
     <div className="grid gap-6 lg:grid-cols-[200px_1fr]">

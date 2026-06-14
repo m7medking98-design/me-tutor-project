@@ -237,6 +237,528 @@ age = 16
         ],
       },
       {
+        id: "m-py-data",
+        title: { ar: "هياكل البيانات", en: "Data Collections", fr: "Collections de données" },
+        lessons: [
+          {
+            id: "l-py-data-1",
+            slug: "lists-intro",
+            title: {
+              ar: "القوائم (Lists): لماذا نحتاج أكثر من متغير",
+              en: "Lists: Why We Need More Than One Variable",
+              fr: "Les listes : pourquoi plus d'une variable",
+            },
+            type: "video",
+            durationMin: 14,
+            chapters: [
+              { time: "00:00", title: { ar: "مشكلة المتغيرات المتعددة", en: "The many-variables problem", fr: "Le problème des variables multiples" } },
+              { time: "03:40", title: { ar: "إنشاء أول قائمة", en: "Creating your first list", fr: "Créer votre première liste" } },
+              { time: "07:50", title: { ar: "الفهرسة والوصول إلى العناصر", en: "Indexing and accessing items", fr: "Indexation et accès aux éléments" } },
+              { time: "11:20", title: { ar: "تعديل القائمة: إضافة وحذف", en: "Modifying a list: add & remove", fr: "Modifier une liste : ajout et suppression" } },
+            ],
+          },
+          {
+            id: "l-py-data-2",
+            slug: "lists-practice",
+            title: { ar: "تمرين: القوائم", en: "Practice: Lists", fr: "Exercice : les listes" },
+            type: "workspace",
+            durationMin: 30,
+            language: "python",
+            concept: {
+              ar: "القائمة `list` تخزّن عدة قيم بترتيب داخل أقواس مربعة `[...]`. نصل إلى عنصر بفهرسه `fruits[0]` (يبدأ من صفر) و`fruits[-1]` لآخر عنصر، و`len(fruits)` يعطي عددها. `append()` يضيف عنصراً، و`remove()` يحذف بالقيمة.",
+              en: "A `list` stores several ordered values inside square brackets `[...]`. Reach an item by its index `fruits[0]` (starts at zero) or `fruits[-1]` for the last, and `len(fruits)` gives the count. `append()` adds an item, `remove()` deletes by value.",
+              fr: "Une `list` stocke plusieurs valeurs ordonnées entre crochets `[...]`. On accède par index `fruits[0]` (commence à zéro) ou `fruits[-1]` pour le dernier, et `len(fruits)` donne le nombre. `append()` ajoute, `remove()` supprime par valeur.",
+            },
+            objective: {
+              ar: "أنشئ قائمة (list)، اقرأ عناصرها بالفهرسة واطبع طولها بـ len()، ثم عدّلها بإضافة عنصر وحذف آخر.",
+              en: "Create a list, read its items by index and print its length with len(), then modify it by adding and removing an item.",
+              fr: "Créez une liste, lisez ses éléments par index et affichez sa longueur avec len(), puis modifiez-la en ajoutant et supprimant un élément.",
+            },
+            checkpoints: [
+              { id: "cp1", text: { ar: "أنشئ قائمة باسم `fruits` تحتوي على 3 عناصر على الأقل", en: "Create a list named `fruits` with at least 3 items", fr: "Créez une liste `fruits` avec au moins 3 éléments" } },
+              { id: "cp2", text: { ar: "اطبع العنصر الأول والعنصر الأخير بالفهرسة، واطبع عدد العناصر بـ `len()`", en: "Print the first and last item by index, and print the count with `len()`", fr: "Affichez le premier et le dernier élément par index, et le nombre avec `len()`" } },
+              { id: "cp3", text: { ar: "أضف عنصراً بـ `append()` واحذف عنصراً بـ `remove()`، ثم شغّل وتأكد من القائمة الجديدة", en: "Add an item with `append()` and remove one with `remove()`, then run and confirm the new list", fr: "Ajoutez un élément avec `append()` et supprimez-en un avec `remove()`, puis exécutez et vérifiez" } },
+            ],
+            hint: {
+              ar: "الفهرسة تبدأ من صفر: `fruits[0]` أول عنصر و`fruits[-1]` آخر عنصر. للإضافة: `fruits.append(\"مانجو\")` وللحذف: `fruits.remove(\"تفاح\")`.",
+              en: "Indexing starts at zero: `fruits[0]` is the first item, `fruits[-1]` the last. To add: `fruits.append(\"mango\")`, to remove: `fruits.remove(\"apple\")`.",
+              fr: "L'indexation commence à zéro : `fruits[0]` est le premier, `fruits[-1]` le dernier. Ajouter : `fruits.append(\"mangue\")`, supprimer : `fruits.remove(\"pomme\")`.",
+            },
+            starterCode: `# تمرين القوائم (Lists)
+# 1) أنشئ قائمة باسم fruits فيها 3 عناصر على الأقل
+# 2) اطبع أول عنصر وآخر عنصر، واطبع عدد العناصر بـ len()
+# 3) أضف عنصراً بـ append() واحذف عنصراً بـ remove() ثم اطبع القائمة
+
+`,
+          },
+          {
+            id: "l-py-data-3",
+            slug: "lists-slicing",
+            title: { ar: "تمرين: التقطيع (Slicing)", en: "Practice: Slicing", fr: "Exercice : le découpage (slicing)" },
+            type: "workspace",
+            durationMin: 30,
+            language: "python",
+            concept: {
+              ar: "التقطيع يأخذ جزءاً من القائمة بصيغة `items[start:end:step]` (لا يشمل `end`). الفهارس السالبة تَعُدّ من النهاية: `items[-2:]` آخر عنصرين. و`x in items` تُرجع True أو False حسب وجود العنصر.",
+              en: "Slicing takes part of a list with `items[start:end:step]` (`end` is excluded). Negative indices count from the end: `items[-2:]` is the last two. And `x in items` returns True or False for membership.",
+              fr: "Le découpage prend une partie de la liste : `items[start:end:step]` (`end` exclu). Les index négatifs comptent depuis la fin : `items[-2:]` les deux derniers. Et `x in items` renvoie True ou False.",
+            },
+            objective: {
+              ar: "استخدم التقطيع (slicing) لأخذ أجزاء من قائمة بصيغة [start:end:step]، واستعمل الفهارس السالبة، وتحقق من وجود عنصر بـ in.",
+              en: "Use slicing to take parts of a list with [start:end:step], use negative indices, and check membership with in.",
+              fr: "Utilisez le découpage pour extraire des parties d'une liste avec [start:end:step], les index négatifs, et testez l'appartenance avec in.",
+            },
+            checkpoints: [
+              { id: "cp1", text: { ar: "اطبع أول ثلاثة عناصر من `numbers` باستخدام التقطيع", en: "Print the first three items of `numbers` using slicing", fr: "Affichez les trois premiers éléments de `numbers` par découpage" } },
+              { id: "cp2", text: { ar: "اطبع آخر عنصرين بفهارس سالبة، واطبع كل عنصر ثانٍ باستخدام الخطوة step", en: "Print the last two items with negative indices, and every second item using the step", fr: "Affichez les deux derniers avec des index négatifs, et un élément sur deux avec le pas (step)" } },
+              { id: "cp3", text: { ar: "تحقق هل الرقم 5 موجود في القائمة باستخدام `in` واطبع النتيجة، ثم شغّل وتأكد من المخرجات", en: "Check whether 5 is in the list using `in`, print the result, then run and confirm the output", fr: "Vérifiez si 5 est dans la liste avec `in`, affichez le résultat, puis exécutez et vérifiez" } },
+            ],
+            hint: {
+              ar: "التقطيع: `numbers[0:3]` أول ثلاثة، `numbers[-2:]` آخر اثنين، `numbers[::2]` بخطوة 2. الوجود: `5 in numbers` يعطي True أو False.",
+              en: "Slicing: `numbers[0:3]` first three, `numbers[-2:]` last two, `numbers[::2]` step of 2. Membership: `5 in numbers` gives True or False.",
+              fr: "Découpage : `numbers[0:3]` les trois premiers, `numbers[-2:]` les deux derniers, `numbers[::2]` pas de 2. Appartenance : `5 in numbers` donne True ou False.",
+            },
+            starterCode: `# تمرين التقطيع (Slicing)
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+# 1) اطبع أول ثلاثة عناصر
+# 2) اطبع آخر عنصرين باستخدام فهارس سالبة
+# 3) اطبع كل عنصر ثانٍ (الخطوة step)
+# 4) تحقق: هل الرقم 5 موجود في القائمة؟ اطبع النتيجة
+
+`,
+          },
+          {
+            id: "l-py-data-4",
+            slug: "lists-and-loops",
+            title: { ar: "تمرين: القوائم والحلقات معاً", en: "Practice: Lists & Loops Together", fr: "Exercice : listes et boucles" },
+            type: "workspace",
+            durationMin: 30,
+            language: "python",
+            concept: {
+              ar: "نمرّ على عناصر القائمة بحلقة `for x in items:`. لتجميع قيمة نبدأ بمتغير مثل `total = 0` ثم نحدّثه داخل الحلقة `total += x`. و`sorted(items)` يُرجع نسخة مرتبة دون تغيير الأصل.",
+              en: "Loop over a list with `for x in items:`. To accumulate, start a variable like `total = 0` and update it inside the loop with `total += x`. And `sorted(items)` returns a sorted copy without changing the original.",
+              fr: "On parcourt une liste avec `for x in items:`. Pour cumuler, partez d'une variable `total = 0` puis `total += x` dans la boucle. Et `sorted(items)` renvoie une copie triée sans modifier l'original.",
+            },
+            objective: {
+              ar: "مُرّ على قائمة بحلقة for لتحسب المجموع وأكبر قيمة بنفسك، ثم كوّن قائمة جديدة بالقيم التي تحقق شرطاً ورتّبها بـ sorted().",
+              en: "Iterate a list with a for loop to compute the sum and max yourself, then build a new list of values meeting a condition and sort it with sorted().",
+              fr: "Parcourez une liste avec une boucle for pour calculer la somme et le maximum vous-même, puis construisez une nouvelle liste filtrée et triez-la avec sorted().",
+            },
+            checkpoints: [
+              { id: "cp1", text: { ar: "احسب مجموع عناصر `scores` بحلقة `for` (دون استخدام `sum()` مباشرة) واطبعه", en: "Compute the sum of `scores` with a `for` loop (without using `sum()` directly) and print it", fr: "Calculez la somme de `scores` avec une boucle `for` (sans `sum()`) et affichez-la" } },
+              { id: "cp2", text: { ar: "جد أكبر قيمة في `scores` بالمرور عليها بحلقة، واطبعها", en: "Find the largest value in `scores` by looping over it, and print it", fr: "Trouvez la plus grande valeur de `scores` en bouclant, et affichez-la" } },
+              { id: "cp3", text: { ar: "كوّن قائمة `passed` بالدرجات ≥ 60 فقط، اطبعها مرتبة تصاعدياً بـ `sorted()`، ثم شغّل وتأكد", en: "Build a list `passed` with only scores ≥ 60, print it sorted ascending with `sorted()`, then run and confirm", fr: "Construisez `passed` avec les notes ≥ 60, affichez-la triée avec `sorted()`, puis exécutez" } },
+            ],
+            hint: {
+              ar: "للمجموع: ابدأ بـ `total = 0` ثم `total += s` داخل الحلقة. لأكبر قيمة: ابدأ بأول عنصر وقارن كل عنصر به. للفلترة: داخل الحلقة `if s >= 60: passed.append(s)` ثم `print(sorted(passed))`.",
+              en: "Sum: start `total = 0`, then `total += s` inside the loop. Max: start with the first item and compare each. Filter: inside the loop `if s >= 60: passed.append(s)`, then `print(sorted(passed))`.",
+              fr: "Somme : `total = 0` puis `total += s`. Max : partez du premier et comparez. Filtre : `if s >= 60: passed.append(s)` puis `print(sorted(passed))`.",
+            },
+            starterCode: `# تمرين: القوائم والحلقات معاً
+scores = [72, 45, 90, 88, 53, 67, 100, 39]
+
+# 1) احسب مجموع الدرجات بحلقة for (بدون استخدام sum مباشرة)
+# 2) جد أكبر درجة بالمرور على القائمة
+# 3) كوّن قائمة passed بالدرجات 60 فأكثر، واطبعها مرتبة بـ sorted()
+
+`,
+          },
+          {
+            id: "l-py-data-5",
+            slug: "lists-advanced",
+            title: { ar: "تمرين: عمليات متقدمة على القوائم", en: "Practice: Advanced List Operations", fr: "Exercice : opérations avancées sur les listes" },
+            type: "workspace",
+            durationMin: 30,
+            language: "python",
+            concept: {
+              ar: "`items.index(x)` يعطي موضع أول ظهور لعنصر، و`del items[i]` يحذف بالموضع. تنبيه مهم: `b = items` لا يَنسخ بل يجعلهما القائمة نفسها فيتغيّران معاً — للنسخة المستقلة استخدم `items[:]` أو `list(items)`.",
+              en: "`items.index(x)` gives the position of an item's first occurrence, and `del items[i]` deletes by position. Important: `b = items` does NOT copy — it makes them the same list (both change together). For an independent copy use `items[:]` or `list(items)`.",
+              fr: "`items.index(x)` donne la position de la première occurrence, et `del items[i]` supprime par position. Attention : `b = items` ne copie pas — c'est la même liste (les deux changent). Pour une vraie copie : `items[:]` ou `list(items)`.",
+            },
+            objective: {
+              ar: "استخدم index() لإيجاد موضع عنصر، واحذف عنصراً بـ del حسب موضعه، واكتشف الفرق الخطير بين نسخ القائمة (clone) وإسنادها (alias).",
+              en: "Use index() to find an item's position, delete by position with del, and discover the dangerous difference between cloning a list and aliasing it.",
+              fr: "Utilisez index() pour trouver une position, supprimez par position avec del, et découvrez la différence cruciale entre cloner une liste et l'aliaser.",
+            },
+            checkpoints: [
+              { id: "cp1", text: { ar: "استخدم `index()` لإيجاد موضع القيمة \"موز\" في `items` واطبعه", en: "Use `index()` to find the position of \"موز\" in `items` and print it", fr: "Utilisez `index()` pour trouver la position de \"موز\" dans `items` et affichez-la" } },
+              { id: "cp2", text: { ar: "احذف العنصر في الموضع 0 باستخدام `del`، واطبع القائمة بعد الحذف", en: "Delete the item at position 0 with `del`, and print the list afterward", fr: "Supprimez l'élément en position 0 avec `del`, et affichez la liste" } },
+              { id: "cp3", text: { ar: "انسخ القائمة نسخة مستقلة بـ `list()` أو `[:]`، عدّل النسخة فقط، ثم اطبع الأصل والنسخة لتُثبت أنهما مختلفان، وشغّل", en: "Copy the list independently with `list()` or `[:]`, modify only the copy, then print both original and copy to prove they differ, and run", fr: "Copiez la liste avec `list()` ou `[:]`, modifiez seulement la copie, puis affichez l'original et la copie pour prouver qu'ils diffèrent" } },
+            ],
+            hint: {
+              ar: "`items.index(\"موز\")` يعطي الموضع. `del items[0]` يحذف بالموضع. الفخّ: `b = items` يجعلهما نفس القائمة فيتغيران معاً! النسخة الحقيقية: `b = items[:]` أو `b = list(items)`.",
+              en: "`items.index(\"موز\")` gives the position. `del items[0]` deletes by position. The trap: `b = items` makes them the SAME list (both change together)! A real copy: `b = items[:]` or `b = list(items)`.",
+              fr: "`items.index(\"موز\")` donne la position. `del items[0]` supprime par position. Le piège : `b = items` en fait la MÊME liste ! Vraie copie : `b = items[:]` ou `b = list(items)`.",
+            },
+            starterCode: `# تمرين: عمليات متقدمة على القوائم
+items = ["تفاح", "موز", "عنب", "تمر"]
+
+# 1) جد موضع "موز" باستخدام index() واطبعه
+# 2) احذف أول عنصر باستخدام del واطبع القائمة
+# 3) انسخ القائمة نسخة مستقلة، عدّل النسخة فقط، واطبع الأصل والنسخة
+
+`,
+          },
+          {
+            id: "l-py-data-6",
+            slug: "list-comprehensions",
+            title: { ar: "تمرين: الاختصار الذكي (List Comprehensions)", en: "Practice: List Comprehensions", fr: "Exercice : list comprehensions" },
+            type: "workspace",
+            durationMin: 30,
+            language: "python",
+            concept: {
+              ar: "الـ list comprehension تبني قائمة بسطر واحد بدل حلقة كاملة، بالصيغة `[expression for x in iterable]`. ويمكن إضافة شرط للفلترة: `[x for x in nums if x > 0]`.",
+              en: "A list comprehension builds a list in one line instead of a whole loop, with the form `[expression for x in iterable]`. You can add a filter condition: `[x for x in nums if x > 0]`.",
+              fr: "Une list comprehension construit une liste en une ligne au lieu d'une boucle : `[expression for x in iterable]`. On peut ajouter un filtre : `[x for x in nums if x > 0]`.",
+            },
+            objective: {
+              ar: "حوّل حلقة for التي تبني قائمة إلى list comprehension من سطر واحد — مرة بسيطة ومرة مع شرط فلترة if.",
+              en: "Turn a for loop that builds a list into a one-line list comprehension — once plainly, and once with an if filter.",
+              fr: "Transformez une boucle for qui construit une liste en une list comprehension d'une ligne — simple, puis avec un filtre if.",
+            },
+            checkpoints: [
+              { id: "cp1", text: { ar: "كوّن قائمة `squares` فيها مربعات الأرقام 1..10 باستخدام list comprehension", en: "Build a list `squares` of the squares of 1..10 using a list comprehension", fr: "Construisez `squares` avec les carrés de 1 à 10 via une list comprehension" } },
+              { id: "cp2", text: { ar: "كوّن قائمة `evens` فيها الأرقام الزوجية فقط من 1..20 باستخدام comprehension مع `if`", en: "Build a list `evens` of only the even numbers from 1..20 using a comprehension with `if`", fr: "Construisez `evens` avec seulement les pairs de 1 à 20 via une comprehension avec `if`" } },
+              { id: "cp3", text: { ar: "اطبع القائمتين وتأكد من صحتهما بعد التشغيل", en: "Print both lists and confirm they are correct after running", fr: "Affichez les deux listes et vérifiez après exécution" } },
+            ],
+            hint: {
+              ar: "الصيغة: `[expression for item in iterable]`. للمربعات: `[n**2 for n in range(1, 11)]`. مع فلترة: `[x for x in range(1, 21) if x % 2 == 0]`.",
+              en: "Form: `[expression for item in iterable]`. Squares: `[n**2 for n in range(1, 11)]`. With filter: `[x for x in range(1, 21) if x % 2 == 0]`.",
+              fr: "Forme : `[expression for item in iterable]`. Carrés : `[n**2 for n in range(1, 11)]`. Avec filtre : `[x for x in range(1, 21) if x % 2 == 0]`.",
+            },
+            starterCode: `# تمرين: List Comprehensions — بناء قائمة بسطر واحد
+# 1) squares = مربعات الأرقام من 1 إلى 10
+# 2) evens = الأرقام الزوجية من 1 إلى 20 (استخدم if داخل الـ comprehension)
+# 3) اطبع القائمتين
+
+`,
+          },
+          {
+            id: "l-py-data-7",
+            slug: "dicts-tuples-intro",
+            title: { ar: "القواميس والـ tuples والنصوص: بيانات لها أسماء", en: "Dicts, Tuples & Strings: Named & Fixed Data", fr: "Dictionnaires, tuples et chaînes : données nommées" },
+            type: "video",
+            durationMin: 16,
+            chapters: [
+              { time: "00:00", title: { ar: "حدود القوائم: لماذا الفهرس الرقمي لا يكفي", en: "Limits of lists: when a number index isn't enough", fr: "Limites des listes : quand l'index numérique ne suffit pas" } },
+              { time: "03:30", title: { ar: "القواميس Dictionaries: مفتاح وقيمة", en: "Dictionaries: key and value", fr: "Dictionnaires : clé et valeur" } },
+              { time: "08:00", title: { ar: "الـ tuples: قائمة لا تتغير (immutability)", en: "Tuples: a list that can't change (immutability)", fr: "Tuples : une liste figée (immutabilité)" } },
+              { time: "12:00", title: { ar: "النصوص كسلسلة من الأحرف", en: "Strings as a sequence of characters", fr: "Les chaînes comme suite de caractères" } },
+            ],
+          },
+          {
+            id: "l-py-data-8",
+            slug: "dicts-practice",
+            title: { ar: "تمرين: القواميس (Dictionaries)", en: "Practice: Dictionaries", fr: "Exercice : les dictionnaires" },
+            type: "workspace",
+            durationMin: 30,
+            language: "python",
+            concept: {
+              ar: "القاموس `dict` يخزّن أزواج مفتاح/قيمة مثل `{'name': 'سارة', 'age': 20}`. نصل ونضيف بالمفتاح `student['grade'] = 'A'`، و`'email' in student` تتحقق من وجود مفتاح، و`student.items()` للمرور على كل زوج.",
+              en: "A `dict` stores key/value pairs like `{'name': 'Sara', 'age': 20}`. You read and add by key `student['grade'] = 'A'`, `'email' in student` checks if a key exists, and `student.items()` iterates each pair.",
+              fr: "Un `dict` stocke des paires clé/valeur comme `{'name': 'Sara', 'age': 20}`. On lit et ajoute par clé `student['grade'] = 'A'`, `'email' in student` teste l'existence d'une clé, et `student.items()` parcourt chaque paire.",
+            },
+            objective: {
+              ar: "أنشئ قاموساً (dictionary) بمفاتيح وقيم، أضف وعدّل واحذف مفتاحاً، وتحقق من وجود مفتاح، ثم مُرّ على عناصره بـ items().",
+              en: "Create a dictionary of keys and values, add/edit/remove a key, check whether a key exists, then iterate its items with items().",
+              fr: "Créez un dictionnaire clés/valeurs, ajoutez/modifiez/supprimez une clé, testez l'existence d'une clé, puis parcourez-le avec items().",
+            },
+            checkpoints: [
+              { id: "cp1", text: { ar: "أنشئ قاموس `student` فيه المفاتيح \"name\" و\"age\" و\"grade\" بقيمها", en: "Create a dictionary `student` with the keys \"name\", \"age\", \"grade\" and their values", fr: "Créez un dictionnaire `student` avec les clés \"name\", \"age\", \"grade\"" } },
+              { id: "cp2", text: { ar: "أضف مفتاحاً جديداً، عدّل قيمة مفتاح موجود، وتحقق هل \"email\" موجود باستخدام `in` واطبع النتيجة", en: "Add a new key, change an existing value, and check whether \"email\" exists using `in`, printing the result", fr: "Ajoutez une clé, modifiez une valeur, et testez si \"email\" existe avec `in`" } },
+              { id: "cp3", text: { ar: "مُرّ على القاموس بـ `.items()` واطبع كل مفتاح مع قيمته، ثم شغّل وتأكد", en: "Iterate the dictionary with `.items()` and print each key with its value, then run and confirm", fr: "Parcourez le dictionnaire avec `.items()` et affichez chaque clé et sa valeur" } },
+            ],
+            hint: {
+              ar: "الإنشاء: `student = {\"name\": \"...\", \"age\": 20}`. الإضافة/التعديل: `student[\"grade\"] = \"A\"`. الوجود: `\"email\" in student`. المرور: `for k, v in student.items():`.",
+              en: "Create: `student = {\"name\": \"...\", \"age\": 20}`. Add/edit: `student[\"grade\"] = \"A\"`. Exists: `\"email\" in student`. Iterate: `for k, v in student.items():`.",
+              fr: "Créer : `student = {\"name\": \"...\", \"age\": 20}`. Ajouter : `student[\"grade\"] = \"A\"`. Existe : `\"email\" in student`. Parcourir : `for k, v in student.items():`.",
+            },
+            starterCode: `# تمرين: القواميس (Dictionaries)
+# 1) أنشئ قاموس student فيه name و age و grade
+# 2) أضف مفتاحاً جديداً، عدّل قيمة، وتحقق هل "email" موجود
+# 3) مُرّ على القاموس بـ items() واطبع كل مفتاح وقيمته
+
+`,
+          },
+          {
+            id: "l-py-data-9",
+            slug: "tuples-nesting",
+            title: { ar: "تمرين: الـ tuples والبنى المتداخلة", en: "Practice: Tuples & Nested Structures", fr: "Exercice : tuples et structures imbriquées" },
+            type: "workspace",
+            durationMin: 35,
+            language: "python",
+            concept: {
+              ar: "الـ tuple مثل القائمة لكنه غير قابل للتعديل ويُكتب بأقواس عادية: `point = (3, 5)`. والبنى المتداخلة تجمع الهياكل داخل بعضها: قائمة قواميس `students[0]['name']`، أو قائمة داخل قائمة (مصفوفة) `matrix[0][1]`.",
+              en: "A `tuple` is like a list but cannot be changed, written with round brackets: `point = (3, 5)`. Nested structures put collections inside each other: a list of dicts `students[0]['name']`, or a list inside a list (matrix) `matrix[0][1]`.",
+              fr: "Un `tuple` est comme une liste mais non modifiable, avec des parenthèses : `point = (3, 5)`. Les structures imbriquées emboîtent les collections : liste de dicts `students[0]['name']`, ou liste dans une liste (matrice) `matrix[0][1]`.",
+            },
+            objective: {
+              ar: "أنشئ tuple وأثبت أنه غير قابل للتعديل (immutable)، ثم ابنِ بنى متداخلة: قائمة قواميس تمثل سجل طلاب، ومصفوفة (قائمة داخل قائمة).",
+              en: "Create a tuple and show it is immutable, then build nested structures: a list of dictionaries (a mini student record) and a matrix (a list inside a list).",
+              fr: "Créez un tuple et montrez son immutabilité, puis construisez des structures imbriquées : une liste de dictionnaires et une matrice (liste dans une liste).",
+            },
+            checkpoints: [
+              { id: "cp1", text: { ar: "أنشئ tuple باسم `point` فيه إحداثيان (x, y)، واطبع عنصراً منه بالفهرسة", en: "Create a tuple `point` with two coordinates (x, y) and print one element by index", fr: "Créez un tuple `point` avec deux coordonnées (x, y) et affichez un élément par index" } },
+              { id: "cp2", text: { ar: "أنشئ `students` كقائمة فيها قاموسان على الأقل (كل طالب: name وgrade)، واطبع اسم الطالب الأول", en: "Create `students` as a list of at least two dictionaries (each: name and grade), and print the first student's name", fr: "Créez `students` comme liste d'au moins deux dictionnaires (name et grade), et affichez le nom du premier" } },
+              { id: "cp3", text: { ar: "أنشئ مصفوفة `matrix` (قائمة داخل قائمة)، واطبع عنصراً بفهرسة مزدوجة مثل `matrix[0][1]`، ثم شغّل", en: "Create a `matrix` (a list of lists) and print an element with double indexing like `matrix[0][1]`, then run", fr: "Créez une `matrix` (liste de listes) et affichez un élément avec double index comme `matrix[0][1]`" } },
+            ],
+            hint: {
+              ar: "الـ tuple: `point = (3, 5)` — ومحاولة `point[0] = 9` تعطي خطأ لأنه immutable. الوصول المتداخل: `students[0][\"name\"]` و`matrix[0][1]`.",
+              en: "Tuple: `point = (3, 5)` — trying `point[0] = 9` raises an error because it's immutable. Nested access: `students[0][\"name\"]` and `matrix[0][1]`.",
+              fr: "Tuple : `point = (3, 5)` — `point[0] = 9` lève une erreur (immutable). Accès imbriqué : `students[0][\"name\"]` et `matrix[0][1]`.",
+            },
+            starterCode: `# تمرين: tuples والبنى المتداخلة
+# 1) أنشئ tuple باسم point فيه إحداثيان (x, y) واطبع أحد عنصريه
+# 2) أنشئ students = قائمة فيها قاموسان (name و grade)، اطبع اسم الأول
+# 3) أنشئ matrix = قائمة داخل قائمة، واطبع matrix[0][1]
+
+`,
+          },
+          {
+            id: "l-py-data-10",
+            slug: "strings-sequences",
+            title: { ar: "تمرين: النصوص كسلاسل (Strings)", en: "Practice: Strings as Sequences", fr: "Exercice : les chaînes comme séquences" },
+            type: "workspace",
+            durationMin: 30,
+            language: "python",
+            concept: {
+              ar: "النص سلسلة من الأحرف نفهرسها ونقطّعها كالقائمة: `text[0]` و`text[:5]`. وهو غير قابل للتعديل، لذا الـ methods تُرجع نصاً جديداً ولا تغيّر الأصل: `text.upper()` و`text.replace(a, b)` و`text.split()`. والنص متعدد الأسطر يُكتب بين ثلاث علامات اقتباس.",
+              en: "A string is a sequence of characters you index and slice like a list: `text[0]`, `text[:5]`. It is immutable, so methods return a NEW string instead of changing the original: `text.upper()`, `text.replace(a, b)`, `text.split()`. A multi-line string sits between triple quotes.",
+              fr: "Une chaîne est une suite de caractères qu'on indexe et découpe comme une liste : `text[0]`, `text[:5]`. Elle est immuable : les méthodes renvoient une NOUVELLE chaîne sans changer l'originale : `text.upper()`, `text.replace(a, b)`, `text.split()`. Une chaîne multi-lignes s'écrit entre triple guillemets.",
+            },
+            objective: {
+              ar: "تعامل مع النص كسلسلة من الأحرف: افهرسه وقطّعه، أنشئ نصاً متعدد الأسطر، وأثبت أنه غير قابل للتعديل (immutable) باستخدام string methods.",
+              en: "Treat a string as a sequence of characters: index and slice it, build a multi-line string, and show it is immutable using string methods.",
+              fr: "Traitez une chaîne comme une suite de caractères : indexez/découpez, créez une chaîne multi-lignes, et montrez son immutabilité via des méthodes.",
+            },
+            checkpoints: [
+              { id: "cp1", text: { ar: "من النص `text` اطبع أول حرف وآخر حرف بالفهرسة، وأول 5 أحرف بالتقطيع", en: "From `text`, print the first and last character by index, and the first 5 characters by slicing", fr: "De `text`, affichez le premier et dernier caractère par index, et les 5 premiers par découpage" } },
+              { id: "cp2", text: { ar: "أنشئ نصاً متعدد الأسطر بثلاث علامات اقتباس `\"\"\"...\"\"\"` يحوي بداخله علامة اقتباس، واطبعه", en: "Create a multi-line string with triple quotes `\"\"\"...\"\"\"` that contains a quote inside it, and print it", fr: "Créez une chaîne multi-lignes avec `\"\"\"...\"\"\"` contenant un guillemet, et affichez-la" } },
+              { id: "cp3", text: { ar: "استخدم `.upper()` و`.replace()`؛ ولأن النص immutable خزّن الناتج في متغير جديد واطبعه، ثم شغّل", en: "Use `.upper()` and `.replace()`; since strings are immutable, store the result in a new variable and print it, then run", fr: "Utilisez `.upper()` et `.replace()` ; la chaîne étant immutable, stockez le résultat dans une nouvelle variable" } },
+            ],
+            hint: {
+              ar: "الفهرسة كالقوائم: `text[0]` و`text[-1]` و`text[:5]`. النص متعدد الأسطر بين `\"\"\"...\"\"\"` ويمكن أن يحوي \" أو ' بحرية. الـ methods تُرجع نصاً جديداً ولا تغيّر الأصل: `new = text.upper()`.",
+              en: "Index like lists: `text[0]`, `text[-1]`, `text[:5]`. A multi-line string sits between `\"\"\"...\"\"\"` and may contain \" or ' freely. Methods return a NEW string, leaving the original unchanged: `new = text.upper()`.",
+              fr: "Indexez comme les listes : `text[0]`, `text[-1]`, `text[:5]`. Une chaîne multi-lignes est entre `\"\"\"...\"\"\"`. Les méthodes renvoient une NOUVELLE chaîne : `new = text.upper()`.",
+            },
+            starterCode: `# تمرين: النصوص كسلاسل (Strings)
+text = "Miyar Python Course"
+
+# 1) اطبع أول حرف وآخر حرف، وأول 5 أحرف بالتقطيع
+# 2) أنشئ نصاً متعدد الأسطر بـ """...""" يحوي علامة اقتباس بداخله، واطبعه
+# 3) استخدم upper() و replace()، وخزّن الناتج في متغير جديد (النص immutable)
+
+`,
+          },
+          {
+            id: "l-py-data-11",
+            slug: "collections-compared",
+            title: { ar: "مرجع: مقارنة الهياكل الأربعة", en: "Reference: The Four Collections Compared", fr: "Référence : comparaison des quatre collections" },
+            type: "reference",
+            durationMin: 14,
+            sections: [
+              { ar: "list — القائمة", en: "list", fr: "list" },
+              { ar: "tuple — الصف الثابت", en: "tuple", fr: "tuple" },
+              { ar: "dictionary — القاموس", en: "dictionary", fr: "dictionary" },
+              { ar: "string — النص", en: "string", fr: "string" },
+              { ar: "جدول المقارنة", en: "Comparison table", fr: "Tableau comparatif" },
+            ],
+            body: {
+              ar: [
+                "## الفكرة الكبرى",
+                "",
+                "تعلّمت الآن أربع طرق لتخزين البيانات في Python: **list** و**tuple** و**dictionary** و**string**. كل واحدة وُجدت لحالة مختلفة، واختيار المناسبة منها هو نصف حل المشكلة. هذا المرجع يجمعها لتقارن بينها بسرعة.",
+                "",
+                "## list — القائمة",
+                "",
+                "مجموعة **مرتبة** و**قابلة للتعديل** (mutable)، نصل إلى عناصرها برقم الفهرس. استخدمها عندما تكون لديك مجموعة عناصر قد تتغير والترتيب مهم — مثل قائمة طلاب أو سلة مشتريات.",
+                "",
+                "```python",
+                "fruits = ['تفاح', 'موز', 'عنب']",
+                "fruits.append('مانجو')   # قابلة للتعديل",
+                "print(fruits[0])         # الوصول بالفهرس",
+                "```",
+                "",
+                "## tuple — الصف الثابت",
+                "",
+                "مثل الـ list لكنها **غير قابلة للتعديل** (immutable): بمجرد إنشائها لا تتغير. استخدمها للبيانات التي يجب أن تبقى ثابتة مثل الإحداثيات، وهي أسرع قليلاً وآمنة لتكون key في الـ dictionary.",
+                "",
+                "```python",
+                "point = (3, 5)",
+                "# point[0] = 9  خطأ! tuple غير قابل للتعديل",
+                "print(point[1])",
+                "```",
+                "",
+                "## dictionary — القاموس",
+                "",
+                "مجموعة من أزواج **مفتاح/قيمة** (key/value). لا تصل بالرقم بل **بالمفتاح**. مثالية عندما يكون لكل قيمة اسم، وتريد بحثاً سريعاً به — مثل بيانات طالب أو إعدادات برنامج.",
+                "",
+                "```python",
+                "student = {'name': 'سارة', 'age': 20}",
+                "student['grade'] = 'A'      # إضافة بالمفتاح",
+                "print(student['name'])",
+                "```",
+                "",
+                "## string — النص",
+                "",
+                "سلسلة **مرتبة** من الأحرف، و**غير قابلة للتعديل** (immutable). تتعامل معها غالباً كأنها list من الأحرف: فهرسة وتقطيع. وكل method تُرجع نصاً جديداً ولا تغيّر الأصل.",
+                "",
+                "```python",
+                "text = 'Miyar'",
+                "print(text[0])      # M",
+                "print(text[:3])     # Miy",
+                "upper = text.upper()   # نص جديد",
+                "```",
+                "",
+                "## جدول المقارنة السريع",
+                "",
+                "| الهيكل | مرتب؟ | قابل للتعديل؟ | الوصول عبر | الصيغة |",
+                "|---|---|---|---|---|",
+                "| **list** | نعم | نعم | فهرس رقمي | `[ ]` |",
+                "| **tuple** | نعم | لا | فهرس رقمي | `( )` |",
+                "| **dictionary** | نعم | نعم | مفتاح | `{ key: value }` |",
+                "| **string** | نعم | لا | فهرس رقمي | `' '` |",
+                "",
+                "## كيف تختار في ثانية",
+                "",
+                "1. هل البيانات **أزواج مفتاح/قيمة**؟ استخدم **dictionary**.",
+                "2. هل هي **نص**؟ استخدم **string**.",
+                "3. هل تحتاج تعديلها لاحقاً؟ **list**، وإلا فـ **tuple**.",
+                "",
+                "> القاعدة الذهبية: ابدأ بـ list إن شككت، وانتقل إلى tuple عندما تريد الحماية من التعديل، وإلى dictionary عندما يصبح «الاسم» أهم من «الترتيب».",
+              ].join("\n"),
+              en: [
+                "## The big picture",
+                "",
+                "You now know four ways to store data in Python: **list**, **tuple**, **dictionary**, and **string**. Each exists for a different situation, and picking the right one is half of solving the problem. This reference puts them side by side.",
+                "",
+                "## list",
+                "",
+                "An **ordered**, **mutable** collection accessed by a numeric index. Use it when you have a group of items that may change and order matters — like a list of students or a shopping cart.",
+                "",
+                "```python",
+                "fruits = ['apple', 'banana', 'grape']",
+                "fruits.append('mango')   # mutable",
+                "print(fruits[0])         # access by index",
+                "```",
+                "",
+                "## tuple",
+                "",
+                "Like a list but **immutable**: once created it cannot change. Use it for data that must stay fixed (like coordinates); it is slightly faster and safe to use as a dictionary key.",
+                "",
+                "```python",
+                "point = (3, 5)",
+                "# point[0] = 9  error! a tuple is immutable",
+                "print(point[1])",
+                "```",
+                "",
+                "## dictionary",
+                "",
+                "A collection of **key/value** pairs. You access values by **key**, not by number. Ideal when every value has a name and you want fast lookup — like a student record or settings.",
+                "",
+                "```python",
+                "student = {'name': 'Sara', 'age': 20}",
+                "student['grade'] = 'A'      # add by key",
+                "print(student['name'])",
+                "```",
+                "",
+                "## string",
+                "",
+                "An **ordered**, **immutable** sequence of characters. You often treat it like a list of characters (indexing and slicing), and every method returns a NEW string without changing the original.",
+                "",
+                "```python",
+                "text = 'Miyar'",
+                "print(text[0])      # M",
+                "print(text[:3])     # Miy",
+                "upper = text.upper()   # a new string",
+                "```",
+                "",
+                "## Quick comparison table",
+                "",
+                "| Structure | Ordered? | Mutable? | Accessed by | Syntax |",
+                "|---|---|---|---|---|",
+                "| **list** | yes | yes | numeric index | `[ ]` |",
+                "| **tuple** | yes | no | numeric index | `( )` |",
+                "| **dictionary** | yes | yes | key | `{ key: value }` |",
+                "| **string** | yes | no | numeric index | `' '` |",
+                "",
+                "## How to choose in one second",
+                "",
+                "1. Is the data **key/value pairs**? Use a **dictionary**.",
+                "2. Is it **text**? Use a **string**.",
+                "3. Will you need to change it later? **list**; otherwise **tuple**.",
+                "",
+                "> Golden rule: start with a list when in doubt, switch to a tuple when you want protection from edits, and to a dictionary when the name matters more than the order.",
+              ].join("\n"),
+              fr: [
+                "## L'idée générale",
+                "",
+                "Vous connaissez maintenant quatre façons de stocker des données en Python : **list**, **tuple**, **dictionary** et **string**. Chacune existe pour une situation différente, et choisir la bonne, c'est déjà résoudre la moitié du problème.",
+                "",
+                "## list",
+                "",
+                "Une collection **ordonnée** et **modifiable** (mutable), accessible par un index numérique. Utilisez-la pour un groupe d'éléments susceptibles de changer quand l'ordre compte.",
+                "",
+                "```python",
+                "fruits = ['pomme', 'banane', 'raisin']",
+                "fruits.append('mangue')   # mutable",
+                "print(fruits[0])          # accès par index",
+                "```",
+                "",
+                "## tuple",
+                "",
+                "Comme une list mais **immuable** : une fois créé, il ne change pas. Utilisez-le pour des données fixes (coordonnées) ; il est un peu plus rapide et utilisable comme clé de dictionnaire.",
+                "",
+                "```python",
+                "point = (3, 5)",
+                "# point[0] = 9  erreur ! un tuple est immuable",
+                "print(point[1])",
+                "```",
+                "",
+                "## dictionary",
+                "",
+                "Une collection de paires **clé/valeur**. On accède aux valeurs par **clé**, pas par numéro. Idéal quand chaque valeur a un nom et qu'on veut une recherche rapide.",
+                "",
+                "```python",
+                "student = {'name': 'Sara', 'age': 20}",
+                "student['grade'] = 'A'      # ajout par clé",
+                "print(student['name'])",
+                "```",
+                "",
+                "## string",
+                "",
+                "Une suite **ordonnée** et **immuable** de caractères. On la manipule souvent comme une list de caractères (indexation, découpage), et chaque méthode renvoie une NOUVELLE chaîne.",
+                "",
+                "```python",
+                "text = 'Miyar'",
+                "print(text[0])      # M",
+                "print(text[:3])     # Miy",
+                "upper = text.upper()   # une nouvelle chaîne",
+                "```",
+                "",
+                "## Tableau comparatif rapide",
+                "",
+                "| Structure | Ordonnée ? | Modifiable ? | Accès par | Syntaxe |",
+                "|---|---|---|---|---|",
+                "| **list** | oui | oui | index numérique | `[ ]` |",
+                "| **tuple** | oui | non | index numérique | `( )` |",
+                "| **dictionary** | oui | oui | clé | `{ key: value }` |",
+                "| **string** | oui | non | index numérique | `' '` |",
+                "",
+                "## Comment choisir en une seconde",
+                "",
+                "1. Des paires **clé/valeur** ? Un **dictionary**.",
+                "2. Du **texte** ? Une **string**.",
+                "3. Besoin de la modifier ensuite ? **list** ; sinon **tuple**.",
+                "",
+                "> Règle d'or : commencez par une list en cas de doute, passez au tuple pour protéger des modifications, et au dictionary quand le nom compte plus que l'ordre.",
+              ].join("\n"),
+            },
+          },
+        ],
+      },
+      {
         id: "m-py-3",
         title: { ar: "الدوال وتنظيم الكود", en: "Functions & Clean Code", fr: "Fonctions et code propre" },
         lessons: [

@@ -28,6 +28,9 @@ export interface Lesson {
   starterCode?: string;
   /** for workspace lessons: execution target (defaults to python) */
   language?: "python" | "html";
+  /** for workspace lessons: short markdown intro to the new syntax/functions this
+   *  lesson uses — shown above the objective; the video carries the deeper teaching */
+  concept?: L10n;
   /** for workspace lessons: what the student must achieve */
   objective?: L10n;
   /** for workspace lessons: self-check steps (the AI will verify these in phase 2) */
@@ -38,6 +41,8 @@ export interface Lesson {
   chapters?: { time: string; title: L10n }[];
   /** for reference lessons: section headings (table of contents) */
   sections?: L10n[];
+  /** for reference lessons: full markdown body, rendered via RichMarkdown */
+  body?: L10n;
 }
 
 export interface Module {
