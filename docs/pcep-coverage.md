@@ -14,11 +14,11 @@ Status legend: ✅ built · 🟡 planned (module not built yet) · ⬜ gap to sc
 ## Block 1 — Fundamentals (18%)
 | Objective | Topic | Miyar lesson | Status |
 |---|---|---|---|
-| 1.1 | interpreter/compiler, lexis/syntax/semantics | M1 video `what-is-programming` | ✅ |
-| 1.2 | keywords, instructions, indentation, comments | M1 reference (Python language map) | 🟡 |
+| 1.1 | interpreter/compiler, lexis/syntax/semantics | M1 `what-is-programming` | ✅ |
+| 1.2 | keywords, instructions, indentation, comments | M1 `python-language-map` (ref) | ✅ |
 | 1.3 | literals, variables, numeral systems (bin/oct/hex), scientific notation, PEP-8 naming | M2 variables + numbers lessons | 🟡 (add numeral systems + sci-notation + PEP-8) |
-| 1.4 | operators (numeric/string/assignment/shortcut/**bitwise**/boolean/relational), priorities, float accuracy, type casting | M2 numbers/operators + M3 comparisons | 🟡 (add bitwise + shortcut `+=` + string `* +`) |
-| 1.5 | `print()`/`input()`, `sep=`/`end=`, `int()`/`float()` | M1 print lesson + M2 input lesson | 🟡 (make `sep=`/`end=` explicit) |
+| 1.4 | operators (numeric/string/assignment/shortcut/**bitwise**/boolean/relational), priorities, float accuracy, type casting | M2 numbers/operators | 🟡 (add bitwise + shortcut `+=` + string `* +`) |
+| 1.5 | `print()`/`input()`, `sep=`/`end=`, `int()`/`float()` | M1 `first-program` + `print-mastery` (print/sep/end/escapes ✅); `input()`/casting → M2 | 🟡 (print side ✅; input/casting in M2) |
 
 ## Block 2 — Control Flow (29%)
 | Objective | Topic | Miyar lesson | Status |

@@ -36,12 +36,18 @@ PCEP-30-02 exam blocks and weights, for coverage checking:
 Per module: 1–2 videos (USER records; Claude writes script outlines) + 3–5 auto-graded
 workspace lessons (Claude) + 1 reference lesson (Claude). User reviews all Arabic text.
 
-### M1 — البداية الصحيحة (The Right Start)
-PCEP block 1. Mostly exists today — extend.
-- video: ما هي البرمجة؟ كيف يفكر الحاسوب، compiler vs interpreter، لماذا Python
-- workspace: برنامجك الأول — print()، أول تشغيل حقيقي
-- workspace: التعامل مع النصوص في print — quotes، escape `\n`، فواصل المعاملات
-- reference: خريطة لغة Python — keywords، بنية الجملة، التعليقات `#`
+### M1 — البداية الصحيحة (The Right Start) — ✅ BUILT (2026-06-14)
+PCEP block 1 (1.1, 1.2, 1.5). Module id `m-py-1`. 1 video + 2 workspace + 1 reference.
+- video: ما هي البرمجة؟ كيف يفكر الحاسوب، compiler vs interpreter، لماذا Python (`what-is-programming`)
+- workspace: برنامجك الأول — print()، أول تشغيل حقيقي (`first-program`, +concept brief)
+- workspace: إتقان print — عدة معاملات، `sep=`، `end=`، الهروب `\n`/`\t`، الاقتباس (`print-mastery`, NEW)
+- reference: خريطة لغة Python — keywords، التعليقات `#`، indentation، بنية الجملة، حساسية الأحرف (`python-language-map`, NEW, full `body`)
+
+> **Course structure adopted (2026-06-14):** the course is now the real 8-module PCEP
+> skeleton, built top-down. Module ids: `m-py-1`, `m-py-vars`, `m-py-decisions`,
+> `m-py-loops`, `m-py-data` (M5 ✅), `m-py-functions`, *(m-py-errors — added when built)*,
+> `m-py-projects`. Existing polished lessons keep their ids/slugs; they were re-slotted
+> into the correct modules and get concept briefs as each module is built.
 
 ### M2 — البيانات والمتغيرات (Data & Variables)
 PCEP block 1. Partially exists.
